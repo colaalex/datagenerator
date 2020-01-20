@@ -6,7 +6,7 @@ class FileManager:
     def __init__(self, filename):
         
         #DIRECTORY PATH HERE
-        self.path = os.path.dirname(os.path.abspath(__file__)) + "\\Tables\\"
+        self.path = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/') + "/Tables/"
         self.filename = filename
 
         try:
@@ -23,18 +23,18 @@ class FileManager:
         self.params = None
         self.rows_per_iter = None 
         
-    def set_values(self, headers, types, params):
+    def set_values(self, headers, types, params, chunk_size):
         self.headers = headers
         self.types = types
         self.params = params
-        self.DG = DataGenerator(types, params)
+        self.chunk_size = chunk_size
+        self.DG = DataGenerator(types, params, chunk_size)
 
     def write_headers(self):
         self.writer.writerow(self.headers)
 
-    ### WIP
     def write(self):
-        self.writer.writerow(self.DG.count())
+        self.writer.writerows(self.DG.count())
 
     # PRINT WIP #############    
 
