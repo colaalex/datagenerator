@@ -2,11 +2,15 @@ import os
 import csv
 from .datagen import DataGenerator
 
+from pathlib import Path
+
 class FileManager:
     def __init__(self, filename):
         
         #DIRECTORY PATH HERE
-        self.path = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/') + "/Tables/"
+        # self.path = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/') + "/Tables/"
+        self.path = str(Path(os.path.abspath(__file__)).parent.parent.parent.parent.parent) + '/Tables/'
+        
         self.filename = filename
 
         try:
