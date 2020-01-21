@@ -18,6 +18,8 @@ def mainf(filename, rows, headers, types, params, chunk_size):
     csvfile.write()
     csvfile.close_file()
 
+    return csvfile
+
     print("Time: ", time.time() - start_time)
 
 

@@ -44,3 +44,7 @@ class FileManager:
 
     def close_file(self):
         self.file.close()
+    
+    def out_file(self):
+        with open(self.path+self.filename+".csv", 'r', newline="") as f:
+            return f.read()

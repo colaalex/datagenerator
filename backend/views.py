@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.http import require_GET
 
+import csv
 import json
 
 from .externals.libs.datagenerator import main as dg
@@ -20,5 +21,11 @@ def generate(request, *args):
     types = request.GET.getlist('type', ['normal', 'triangular', 'beta'])
     params = json.loads(request.GET.get('params', '[[0, 12], [5, 10, 15], [10, 20]]'))
     chunk_size = int(request.GET.get('chunk_size', 10))
-    dg.mainf(filename, rows, headers, types, params, chunk_size)
-    return HttpResponse('OK')
+
+    outfile = dg.mainf(filename, rows, headers, types, params, chunk_size)
+    response = outfile.out_file()
+    # outfile.close_file()
+
+    return HttpResponse(response)
+    # with open(outfile, 'r') as f:
+    #     return HttpResponse(f.read())
