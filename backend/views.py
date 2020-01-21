@@ -24,8 +24,5 @@ def generate(request, *args):
 
     outfile = dg.mainf(filename, rows, headers, types, params, chunk_size)
     response = outfile.out_file()
-    # outfile.close_file()
 
     return HttpResponse(response)
-    # with open(outfile, 'r') as f:
-    #     return HttpResponse(f.read())
