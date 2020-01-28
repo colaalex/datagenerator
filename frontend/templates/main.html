@@ -22,12 +22,13 @@
                 <form onsubmit="return onSubmit(this)">
                     <button type="sumbit" class="button">Сгенерировать</button>
                     <div class="floating-label">      
-                        <input class="floating-input" type="text" placeholder=" ">
+                        <input class="floating-input" type="text" placeholder=" " name="rows" required>
                         <label>Количество строк</label>
                     </div>
             
                     <div class="floating-label">
-                        <select class="floating-select" name="selectform" onclick="this.setAttribute('value', this.value);" value="">
+                        <select class="floating-select" name="selectform" id="selectform">
+{#                            onchange="this.setAttribute('value', this.value);"#}
                             <option value=""></option>
                             <option value="form-1">Бета-распределение</option>
                             <option value="form-2">Биномиальное распределение</option>
@@ -62,6 +63,7 @@
                                         </span>
                                     </p>
                                 </summary>
+                                <input type="hidden" name="selected" value="beta">
                                 <div class="floating-label2">      
                                     <input class="floating-input" type="text" placeholder=" " name="a">
                                     <label>Введите первое число</label>
@@ -82,12 +84,13 @@
                                         </span>
                                     </h4>
                                 </summary>
+                                <input type="hidden" name="selected" value="binomial">
                                 <div class="floating-label2">      
-                                    <input class="floating-input" type="text" placeholder=" ">
+                                    <input class="floating-input" type="text" placeholder=" " name="n">
                                     <label>Введите первое число</label>
                                 </div>
                                 <div class="floating-label2">      
-                                    <input class="floating-input" type="text" placeholder=" ">
+                                    <input class="floating-input" type="text" placeholder=" " name="p">
                                     <label>Введите второе число</label>
                                 </div>
                             </details>
@@ -313,10 +316,12 @@
                     <div class="tabs-content">
                         
                         <div id="tab-1">
+                            <div id="result-plot"></div>
                         </div>
                     
                         <div id="tab-2">
-                            <h4>Тест</h4>
+{#                            <h4>Тест</h4>#}
+                            <div id="result-table"></div>
                         </div>
                     </div>
                 </div>

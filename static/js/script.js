@@ -36,11 +36,52 @@ jQuery(document).ready(function(){
     });
 });
 
+function makeChart(data) {
+
+}
+
 function onSubmit( form ){
     var data = JSON.stringify( $(form).serializeArray() ); //  <-----------
-  
+
     console.log( data );
+
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        function callback(responseText) {
+            var data = responseText.split(/\r?\n|\r/);
+            var table_data = '<table>';
+            for (var count = 0; count < data.length; count++) {
+                var cell_data = data[count].split(",");
+                table_data += '<tr>';
+                for (var cell_count = 0; cell_count < cell_data.length; cell_count++) {
+                    if (count === 0) {
+                        table_data += '<th>'+cell_data[cell_count]+'</th>';
+                    } else {
+                        table_data += '<td>'+cell_data[cell_count]+'</td>';
+                    }
+                }
+                table_data += '</tr>';
+            }
+            table_data += '</table>';
+            $('#result-table').html(table_data);
+            $('#result-plot').html('<img src="/static/img/plot.png" alt="plot" width="500"/>')
+        }
+
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
+            callback(xmlHttp.responseText);
+    };
+    xmlHttp.open("GET", "/api/generate?data=" + data, true);
+    xmlHttp.send(null);
+    console.log(xmlHttp);
+
     return false; //don't submit
-  }
+}
+
+function selectElement(id, valueToSelect) {
+    console.log("selected");
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
+
 
   

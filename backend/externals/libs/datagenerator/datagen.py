@@ -2,6 +2,7 @@ from numpy import random as r
 import numpy as np
 from faker import Faker
 from sklearn.datasets import make_classification, make_regression
+import matplotlib.pyplot as plt
 
 class DataGenerator():
     def __init__(self, types, params, size=1000):
@@ -30,7 +31,11 @@ class DataGenerator():
         Parameters:\n
         a: float. b: float.
         '''
-        return r.beta(a, b, self.size)
+        data = r.beta(a, b, self.size)
+        plt.scatter(np.linspace(0, 1, self.size), data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def binomial(self, n, p):
         '''
