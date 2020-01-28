@@ -1,0 +1,417 @@
+body {
+  background: rgb(247,247,250) !important;
+}
+
+/* Главные блоки */
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+.flex-item {
+  background: white;
+  border-radius: 5px 5px 5px 5px;
+  width: 620px;
+  min-height: 964px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  overflow-x: hidden;
+}
+
+h1 {
+  color: #2E3944;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 32px;
+  letter-spacing: 0.02em;
+  text-align: left;
+  
+  position: relative;
+  left: 40px;
+  top: 20px;
+}
+
+h4 {
+  color: #2E3944;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: 0.02em;
+  text-align: left;
+
+  margin: 0;
+  position: relative;
+  left: 20px;
+  top: 20px;
+}
+
+p {
+  color: #2E3944;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: 0.02em;
+  text-align: left;
+
+  position: relative;
+  left: 50px; 
+}
+
+/* Кнопка "Сгенерировать" */
+.button {
+  background-color:#2E3944;
+  border-radius: 5px;
+  border: none;
+  
+  color: #fff;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.04em;
+  
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  height: 60px;
+  width: 287px;
+  
+  position: relative;
+  left: 40px;
+  top: 40px;
+}
+
+.button:hover, .button:focus {
+  background-color: #1A2026;
+}
+
+/* Это для анимаций select, text label, etc */
+.floating-label {
+  width: 287px;
+  height: auto;
+
+  position: relative;
+  left: 40px;
+  top: 50px;
+  margin-top: 30px;
+}
+
+.floating-label2 {
+  width: 295px;
+  height: auto;
+
+  position: relative;
+  left: 20px;
+  margin-top: 30px;
+  }
+
+.floating-input, .floating-select {
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 2px, 0px;
+  display: block;
+  width: 280px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #2E3944;
+  }
+
+
+.floating-input:focus , .floating-select:focus {
+  outline: none;
+  border-bottom: 2px solid #2E3944;
+  }
+  
+label {
+  color: #2E3944;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 16px;
+  position: absolute;
+  pointer-events: none;
+  left: 0px;
+  top: 5px;
+  transition: 0.2s ease all; 
+  -moz-transition: 0.2s ease all; 
+  -webkit-transition: 0.2s ease all;
+  }
+  
+.floating-input:focus ~ label, .floating-input:not(:placeholder-shown) ~ label {
+  top: -18px;
+  font-size: 16px;
+  color:#2E3944;
+  }
+
+.floating-input:focus ~ .bar:before, .floating-input:focus ~ .bar:after, .floating-select:focus ~ .bar:before, .floating-select:focus ~ .bar:after {
+  width: 50%;
+  }
+
+.floating-select:focus ~ label , .floating-select:not([value=""]):valid ~ label {
+  top:-18px;
+  font-size: 16px;
+  color:#2E3944;  
+  }
+ 
+
+/* Кнопка "Добавить столбец" */
+.button2 {
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid #D5D7DA;
+  
+  color: #2E3944;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.04em;
+  
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  
+  height: 60px;
+  width: 540px;
+  
+  position: relative;
+  left: 40px;
+  bottom: -600px;
+  }
+
+.button2:hover, .button2:focus {
+    background-color: rgb(247,247,250);
+}
+
+.dynamicSelect-form {
+  margin-bottom: 10px;
+  background: #FFFFFF;
+  border: 1px solid #D5D7DA;
+  box-sizing: content-box;
+  border-radius: 5px;
+  width: 540px;
+  height: 100%;
+  position: relative;
+  left: 40px;
+}
+
+#templates-container{
+  display: none;
+}
+
+.form-visible {
+  display: block;
+}
+
+.container {
+  position: relative;
+  top: 80px;
+}
+
+/* Подсказка */
+.tooltip-toggle {
+  user-select: none;
+  cursor: pointer;
+  position: relative;
+  left: 5px;
+}
+.tooltip-toggle svg {
+  height: 15px;
+  width: 15px;
+}
+.tooltip-toggle::before {
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  background-color: #2E3944;
+  border-radius: 5px;
+  color: #fff;
+  content: attr(aria-label);
+  justify-content: center;
+  padding: 1rem;
+  text-transform: none;
+  transition: all 0.5s ease;
+  width: auto;
+  white-space: nowrap;
+  z-index: 99999999;
+}
+.tooltip-toggle::after {
+  position: absolute;
+  top: -12px;
+  left: 9px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #2E3944;
+  content: " ";
+  font-size: 0;
+  line-height: 0;
+  margin-left: -5px;
+  width: 0;
+}
+.tooltip-toggle::before, .tooltip-toggle::after {
+  color: white;
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  opacity: 0;
+  pointer-events: none;
+  text-align: center;
+}
+.tooltip-toggle:focus::before, .tooltip-toggle:focus::after, .tooltip-toggle:hover::before, .tooltip-toggle:hover::after {
+  opacity: 1;
+  transition: all 0.75s ease;
+}
+
+/* Вкладки */
+div.detail{
+  width: 540px;
+  margin: auto;
+  background: #fff;
+  padding-top: 20px;
+}
+
+div.detail > h1{
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.tabs-control a{
+  display: inline-block;
+  padding: 10px 20px;
+  border: 1px solid transparent;
+  border-bottom: none;
+  margin-bottom: -2px;
+  text-decoration: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  color: #2E3944;
+}
+
+.tabs-control a.current{
+  border-color: #D5D7DA;
+  border-top: 2px solid #2E3944;
+  background: #fff;
+}
+
+.tabs-content{
+  border: 1px solid #D5D7DA;
+  padding: 10px;
+  height: 770px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.tabs-content > div{
+  display: none;
+}
+
+.tabs-content > div:first-child{
+  display: block;
+}
+
+/* Расширяющийся блок */
+summary::-webkit-details-marker{display:none;}
+summary::-moz-list-bullet{list-style-type:none;}
+summary::marker{display:none;} 
+summary {
+  display:inline-block;
+  font-size:1.4em;
+  cursor: pointer;
+  position: relative;
+}
+summary:before {  
+  left: .9em;
+  top: .9em;
+  color: transparent;
+  background: url("data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjM0IiB2aWV3Qm94PSIwIDAgMjQgMjQiIHdpZHRoPSIzNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNOC41OSAxNi4zNGw0LjU4LTQuNTktNC41OC00LjU5TDEwIDUuNzVsNiA2LTYgNnoiLz48L3N2Zz4=") no-repeat 50% 50% / 1em 1em;
+  width: 1em;
+  height: 1em;  
+  content: "";
+  position: absolute;
+  transition: transform .5s;
+}
+details[open] > summary:before {
+  transform: rotateZ(90deg);
+}
+
+details[open] summary ~ *{ 
+  animation: sweep .5s ease-in-out;
+}
+
+details[open] {
+  padding-bottom: 20px; 
+}
+
+@keyframes sweep {
+  0%    {opacity: 0;}
+  100%  {opacity: 1;}
+}
+summary:focus {
+  outline:0;
+}
+details{
+  display:block;
+  width: 85%;
+}
+
+/* Кнопка удаления */
+.removebutton {
+  font-size: 20px;
+  color: #2E3944;
+
+  position: relative;
+  top: 45px;
+  left: 90%;
+  margin: 0;
+  padding: 0;
+
+  width: 20px;
+  height: 20px;
+}
+
+.removebutton:hover, .removebutton:focus {
+  color: #1A2026; 
+}
+
+table {
+  display: block;
+  max-height: 700px;
+  overflow: auto;
+}
