@@ -48,6 +48,7 @@ function onSubmit( form ){
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         function callback(responseText) {
+            $('#result-plot').html('');
             var data = responseText.split(/\r?\n|\r/);
             var table_data = '<table>';
             for (var count = 0; count < data.length; count++) {
@@ -64,7 +65,7 @@ function onSubmit( form ){
             }
             table_data += '</table>';
             $('#result-table').html(table_data);
-            $('#result-plot').html('<img src="/static/img/plot.png" alt="plot" width="500"/>')
+            $('#result-plot').html('<img src="/static/img/plot.png" alt="plot" width="500"/>');
         }
 
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)

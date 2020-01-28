@@ -409,3 +409,9 @@ details{
 .removebutton:hover, .removebutton:focus {
   color: #1A2026; 
 }
+
+table {
+  display: block;
+  max-height: 700px;
+  overflow: auto;
+}

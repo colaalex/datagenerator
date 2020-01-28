@@ -32,7 +32,7 @@ class DataGenerator():
         a: float. b: float.
         '''
         data = r.beta(a, b, self.size)
-        plt.scatter(np.linspace(0, 1, self.size), data)
+        plt.hist(data)
         plt.savefig('/code/static/img/plot.png')
         plt.clf()
         return data
@@ -42,7 +42,11 @@ class DataGenerator():
         Parameters:\n
         n: integer, >=0 . p: float, >=0.
         '''
-        return r.binomial(n, p, self.size)
+        data = r.binomial(n, p, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def exponential(self, scale):
         '''
@@ -56,7 +60,11 @@ class DataGenerator():
         Parameters:\n
         k: float, >=0 . theta: float, >=0.
         '''
-        return r.gamma(k, theta, self.size)
+        data = r.gamma(k, theta, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def geometric(self, p):
         '''
@@ -77,21 +85,33 @@ class DataGenerator():
         '''Parameters:\n
         mean: float. scale: float, >=0.
         '''
-        return r.laplace(mean, scale, self.size)
+        data = r.laplace(mean, scale, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def logistic(self, mean, scale):
         '''
         Parameters:\n
         mean: float. scale: float, >=0.
         '''
-        return r.logistic(mean, scale, self.size)
+        data = r.logistic(mean, scale, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def lognormal(self, mean, std):
         '''
         Parameters:\n
         mean: float. std: float, >=0.
         '''
-        return r.lognormal(mean, std, self.size)
+        data = r.lognormal(mean, std, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def logarithmic(self, p):
         '''
@@ -113,14 +133,22 @@ class DataGenerator():
         Parameters:\n
         n: int, >0. p: float in range [0, 1].
         '''
-        return r.negative_binomial(n, p, self.size)
+        data = r.negative_binomial(n, p, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def normal(self, mean, std):
         '''
         Parameters:\n
         mean: float. std: float >=0.
         '''
-        return r.normal(mean, std, self.size)
+        data = r.normal(mean, std, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def poisson(self, lam):
         '''
@@ -144,7 +172,11 @@ class DataGenerator():
         left: float.\n
         right: float, must be >left.
         '''
-        return r.uniform(left, right, self.size)
+        data = r.uniform(left, right, self.size)
+        plt.hist(data)
+        plt.savefig('/code/static/img/plot.png')
+        plt.clf()
+        return data
 
     def weibull(self, a):
         '''
