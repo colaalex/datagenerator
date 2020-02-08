@@ -27,24 +27,23 @@
                     </div>
             
                     <div class="floating-label">
-                        <select class="floating-select" name="selectform" id="selectform">
-{#                            onchange="this.setAttribute('value', this.value);"#}
+                        <select class="floating-select" name="selectform" onclick="this.setAttribute('value', this.value);" value="" id="selectform">
                             <option value=""></option>
                             <option value="form-1">Бета-распределение</option>
                             <option value="form-2">Биномиальное распределение</option>
-{#                            <option value="form-3">Экспоненциальное распределение</option>#}
-{#                            <option value="form-4">Гамма-распределение</option>#}
-{#                            <option value="form-5">Геометрическое распределение</option>#}
-{#                            <option value="form-6">Гипергеометрическое распределение</option>#}
-{#                            <option value="form-7">Распределение Лапласа</option>#}
-{#                            <option value="form-8">Логистическое распределение</option>#}
-{#                            <option value="form-9">Логнормальное распределение</option>#}
-{#                            <option value="form-10">Логарифмическое распределение</option>#}
-{#                            <option value="form-11">Мультиномиальное распределение</option>#}
-{#                            <option value="form-12">Отрицательное биномиальное распределение</option>#}
-{#                            <option value="form-13">Треугольное распределение</option>#}
-{#                            <option value="form-14">Нормальное распределение</option>#}
-{#                            <option value="form-15">Распределение Пуассона</option>#}
+                            <option value="form-3">Экспоненциальное распределение</option>
+                            <option value="form-4">Гамма-распределение</option>
+                            <option value="form-5">Геометрическое распределение</option>
+                            <option value="form-6">Гипергеометрическое распределение</option>
+                            <option value="form-7">Распределение Лапласа</option>
+                            <option value="form-8">Логистическое распределение</option>
+                            <option value="form-9">Логнормальное распределение</option>
+                            <option value="form-10">Логарифмическое распределение</option>
+                            <option value="form-11">Мультиномиальное распределение</option>
+                            <option value="form-12">Отрицательное биномиальное распределение</option>
+                            <option value="form-13">Треугольное распределение</option>
+                            <option value="form-14">Нормальное распределение</option>
+                            <option value="form-15">Распределение Пуассона</option>
                         </select>
                         <label>Распределение</label>
                         
@@ -52,99 +51,136 @@
                     
                     <div id="container" class="container"></div>
 
-                    <div id="templates-container">         
+                </form>
+
+
+                    <div id="templates-container"> 
+                        
                         <div class="form-1 dynamicSelect-form">
-                            <span class="removebutton" onclick="deleteBox(this)"><i class="fas fa-times"></i></span>
-                            <details open>
-                                <summary>
-                                    <p>Бета-распределение
-                                        <span class="tooltip-toggle" aria-label="a: float; b: float." tabindex="0">
-                                            <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
-                                        </span>
-                                    </p>
-                                </summary>
-                                <input type="hidden" name="selected" value="beta">
-                                <div class="floating-label2">      
+                            <span class="removebutton" onclick="deleteBox(this)">
+                                <i class="fas fa-times" style="cursor: pointer;"></i>
+                            </span>
+                                <details open>
+                                    <summary>
+                                        <p>Бета-распределение
+                                            <span class="tooltip-toggle" aria-label="a: float; b: float." tabindex="0">
+                                            <i class="far fa-question-circle" style="font-size: 15px; cursor: pointer;"></i>  
+                                            </span>
+                                        </p>
+                                    </summary>
+                                    <input type="hidden" name="selected" value="beta">
+                                    <div class="floating-label2">      
                                     <input class="floating-input" type="text" placeholder=" " name="a">
-                                    <label>Введите первое число</label>
-                                </div>
-                                <div class="floating-label2">      
+                                        <label>Введите первое число</label>
+                                    </div>
+                                    <div class="floating-label2">      
                                     <input class="floating-input" type="text" placeholder=" " name="b">
-                                    <label>Введите второе число</label>
-                                </div>
-                            </details>
-                        </div>
+                                        <label>Введите второе число</label>
+                                    </div>
+                                </details>
+                            </div>
+                        
                     
                         <div class="form-2 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
                             <details open>
                                 <summary>
-                                    <h4>Биномиальное распределение
+                                <p>Биномиальное распределение
                                         <span class="tooltip-toggle" aria-label="n: integer, >=0; p: float, >=0." tabindex="0">
-                                            <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                         </span>
-                                    </h4>
+                                </p>
                                 </summary>
                                 <input type="hidden" name="selected" value="binomial">
                                 <div class="floating-label2">      
-                                    <input class="floating-input" type="text" placeholder=" " name="n">
+                                <input class="floating-input" type="text" placeholder=" " name="n">
                                     <label>Введите первое число</label>
                                 </div>
                                 <div class="floating-label2">      
-                                    <input class="floating-input" type="text" placeholder=" " name="p">
+                                <input class="floating-input" type="text" placeholder=" " name="p">
                                     <label>Введите второе число</label>
                                 </div>
                             </details>
                         </div>
 
-                        <div id="form-3" class="dynamicSelect-form">
-                            <h4>Экспоненциальное распределение
+                    <div class="form-3 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Экспоненциальное распределение
                                 <span class="tooltip-toggle" aria-label="scale: float >=0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
+                        </details>
                         </div>
 
-                        <div id="form-4" class="dynamicSelect-form">
+                    <div class="form-4 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
                             <details open>
-                                <h4>Гамма-распределение
+                            <summary>
+                                <p>Гамма-распределение
                                     <span class="tooltip-toggle" aria-label="k: float, >=0; theta: float, >=0." tabindex="0">
-                                        <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                     </span>
-                                </h4>
-                                <input type="hidden" name="selected" value="gamma">
+                                </p>
+                            </summary>
                                 <div class="floating-label2">
-                                    <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                     <label>Введите первое число</label>
                                 </div>
                                 <div class="floating-label2">
-                                    <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                     <label>Введите второе число</label>
                                 </div>
                             </details>
                         </div>
 
-                        <div id="form-5" class="dynamicSelect-form">
-                            <h4>Геометрическое распределение
+                    <div class="form-5 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Геометрическое распределение
                                 <span class="tooltip-toggle" aria-label="p: float, >=0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
+                        </details>
                         </div>
 
-                        <div id="form-6" class="dynamicSelect-form">
-                            <h4>Гипергеометрическое распределение
-                                <span class="tooltip-toggle" aria-label="ngood: integer, >=0; nbad: integer, >=0; nall: integer, >=1 and <=ngood+nbad." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                    <div class="form-6 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
                                 </span>
-                            </h4>
+                        <details open>
+                            <summary>
+                                <p>Гипергеометрическое распределение
+                                    <span class="tooltip-toggle" aria-label="ngood: integer, >=0; 
+nbad: integer, >=0; 
+nall: integer, >=1 and 
+<=ngood+nbad." tabindex="0">
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
+                                    </span>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
@@ -157,106 +193,159 @@
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите третье число</label>
                             </div>
+                        </details>
                         </div>
 
-                        <div id="form-7" class="dynamicSelect-form">
-                            <h4>Распределение Лапласа
+                    <div class="form-7 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Распределение Лапласа
                                 <span class="tooltip-toggle" aria-label="mean: float; scale: float, >=0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
+                        </details>                
                         </div>
 
-                        <div id="form-8" class="dynamicSelect-form">
-                            <h4>Логистическое распределение
+                    <div class="form-8 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Логистическое распределение
                                 <span class="tooltip-toggle" aria-label="mean: float; scale: float, >=0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
+                        </details>
                         </div>
                         
-                        <div id="form-9" class="dynamicSelect-form">
-                            <h4>Логнормальное распределение
+                    <div class="form-9 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Логнормальное распределение
                                 <span class="tooltip-toggle" aria-label="mean: float; std: float, >=0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
+                        </details>
                         </div>
 
-                        <div id="form-10" class="dynamicSelect-form">
-                            <h4>Логарифмическое распределение
-                                <span class="tooltip-toggle" aria-label="p: float, must be in range (0, 1)." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                    <div class="form-10 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Логарифмическое распределение
+                                    <span class="tooltip-toggle" aria-label="p: float in range (0, 1)." tabindex="0">
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
+                        </details>
                         </div>
 
-                        <div id="form-11" class="dynamicSelect-form">
-                            <h4>Мультиномиальное распределение
-                                <span class="tooltip-toggle" aria-label="n: int, >=0; pr_of_vals: list of float probabilities, sum must be = 1." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                    <div class="form-11 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Мультиномиальное распределение
+                                    <span class="tooltip-toggle" aria-label="n: int, >=0; 
+pr_of_vals: list of float probabilities,
+sum must be = 1." tabindex="0">
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
+                        </details>
                         </div>
 
-                        <div id="form-12" class="dynamicSelect-form">
-                            <h4>Отрицательное биномиальное распределение
+                    <div class="form-12 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Отр. биномиальное распределение
                                 <span class="tooltip-toggle" aria-label="n: int, >0; p: float in range [0, 1]." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
+                        </details>
                         </div>
                         
-                        <div id="form-13" class="dynamicSelect-form">
-                            <h4>Треугольное распределение
-                                <span class="tooltip-toggle" aria-label="left: float; top: float, must be >= left; right: float, must be >= top." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                    <div class="form-13 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Треугольное распределение
+                                    <span class="tooltip-toggle" aria-label="left: float; 
+top: float, must be >= left; 
+right: float, must be >= top." tabindex="0">
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
@@ -269,41 +358,52 @@
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите третье число</label>
                             </div>
+                        </details>                        
                         </div>
 
-                        <div id="form-14" class="dynamicSelect-form">
-                            <h4>Нормальное распределение
+                    <div class="form-14 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Нормальное распределение
                                 <span class="tooltip-toggle" aria-label="mean: float; std: float >=0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="b">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
+                        </details>                        
                         </div>
 
-                        <div id="form-15" class="dynamicSelect-form">
-                            <h4>Распределение Пуассона
+                    <div class="form-15 dynamicSelect-form">
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
+                        <details open>
+                            <summary>
+                                <p>Распределение Пуассона
                                 <span class="tooltip-toggle" aria-label="lam: float, >0." tabindex="0">
-                                    <svg viewBox="0 0 27 27" xmlns="http://www.w3.org/2000/svg"><g fill="#2E3944" fill-rule="evenodd"><path d="M13.5 27C20.956 27 27 20.956 27 13.5S20.956 0 13.5 0 0 6.044 0 13.5 6.044 27 13.5 27zm0-2C7.15 25 2 19.85 2 13.5S7.15 2 13.5 2 25 7.15 25 13.5 19.85 25 13.5 25z"/><path d="M12.05 7.64c0-.228.04-.423.12-.585.077-.163.185-.295.32-.397.138-.102.298-.177.48-.227.184-.048.383-.073.598-.073.203 0 .398.025.584.074.186.05.35.126.488.228.14.102.252.234.336.397.084.162.127.357.127.584 0 .22-.043.412-.127.574-.084.163-.196.297-.336.4-.14.106-.302.185-.488.237-.186.053-.38.08-.584.08-.215 0-.414-.027-.597-.08-.182-.05-.342-.13-.48-.235-.135-.104-.243-.238-.32-.4-.08-.163-.12-.355-.12-.576zm-1.02 11.517c.134 0 .275-.013.424-.04.148-.025.284-.08.41-.16.124-.082.23-.198.313-.35.085-.15.127-.354.127-.61v-5.423c0-.238-.042-.43-.127-.57-.084-.144-.19-.254-.318-.332-.13-.08-.267-.13-.415-.153-.148-.024-.286-.036-.414-.036h-.21v-.95h4.195v7.463c0 .256.043.46.127.61.084.152.19.268.314.35.125.08.263.135.414.16.15.027.29.04.418.04h.21v.95H10.82v-.95h.21z"/></g></svg>
+                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
                                 </span>
-                            </h4>
+                                </p>
+                            </summary>
                             <div class="floating-label2">      
                                 <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
+                        </details> 
                         </div>
                     </div>
 
-
-                    
-                </form>
-                    
             </li>
 
 
@@ -323,7 +423,6 @@
                         </div>
                     
                         <div id="tab-2">
-{#                            <h4>Тест</h4>#}
                             <div id="result-table"></div>
                         </div>
                     </div>
