@@ -22,6 +22,8 @@ def generate(request, *args):
     data = request.GET.get('data', None)
     if data is not None:
         data = json.loads(data)
+        with open('plog.log', 'a') as f:
+            f.write(str(data)+'\n')
         pre_params = []  # этот список используется для перечисления параметров отдельного распределения до его
         # добавления в итоговый список, в целях валидации
         for p in enumerate(data):
@@ -42,7 +44,7 @@ def generate(request, *args):
                 if len(pre_params) > 0:
                     headers.append(f'Столбец {len(headers) + 1}')
                     types.append(p[1]['value'])
-                    params.append(pre_params)
+                    params.append(pre_params.copy())
                 # # пока работает только для распределний из двух параметров
                 # if data[p[0]+1]['value'] != '':
                 #     headers.append(f'Столбец {len(headers)+1}')
@@ -55,6 +57,9 @@ def generate(request, *args):
         params = json.loads(request.GET.get('params', '[[0, 12], [5, 10, 15], [10, 20]]'))
     # chunk_size = int(request.GET.get('chunk_size', 10))
     chunk_size = 100
+
+    with open('plog.log', 'a') as f:
+        f.write(str(params)+'\n')
 
     outfile = dg.mainf(filename, rows, headers, types, params, chunk_size)
     response = outfile.out_file()
