@@ -43,11 +43,6 @@ def generate(request, *args):
                     headers.append(f'Столбец {len(headers) + 1}')
                     types.append(p[1]['value'])
                     params.append(pre_params.copy())
-                # # пока работает только для распределний из двух параметров
-                # if data[p[0]+1]['value'] != '':
-                #     headers.append(f'Столбец {len(headers)+1}')
-                #     types.append(p[1]['value'])
-                #     params.append([float(data[p[0]+1]['value']), float(data[p[0]+2]['value'])])
     else:
         rows = int(request.GET.get('rows', 10))
         headers = request.GET.getlist('header', ['h1, h2', 'h3'])
