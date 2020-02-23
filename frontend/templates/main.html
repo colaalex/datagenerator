@@ -6,7 +6,7 @@
     <title>Система генерации данных</title>
     <link rel="stylesheet" href="/static/fonts/awesome/css/all.css" type="text/css">
 	<link rel="stylesheet" href="/static/css/styles2.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap&subset=cyrillic,cyrillic-ext,latin-ext" rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/static/js/script.js"></script>
 
@@ -44,8 +44,6 @@
                             <option value="form-13">Треугольное распределение</option>
                             <option value="form-14">Нормальное распределение</option>
                             <option value="form-15">Распределение Пуассона</option>
-                            <option value="form-16">Непрерывное равномерное распределение</option>
-                            <option value="form-17">Распределение Вейбулла</option>
                         </select>
                         <label>Распределение</label>
                         
@@ -86,9 +84,9 @@
                         
                     
                         <div class="form-2 dynamicSelect-form">
-                            <span class="removebutton" onclick="deleteBox(this)">
-                                <i class="fas fa-times" style="cursor: pointer;"></i>
-                            </span>
+                        <span class="removebutton" onclick="deleteBox(this)">
+                            <i class="fas fa-times" style="cursor: pointer;"></i>
+                        </span>
                             <details open>
                                 <summary>
                                 <p>Биномиальное распределение
@@ -121,9 +119,8 @@
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="exponential">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="scale">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
                         </details>
@@ -141,15 +138,14 @@
                                     </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="gamma">
-                            <div class="floating-label2">
-                            <input class="floating-input" type="text" placeholder=" " name="k">
-                                <label>Введите первое число</label>
-                            </div>
-                            <div class="floating-label2">
-                            <input class="floating-input" type="text" placeholder=" " name="theta">
-                                <label>Введите второе число</label>
-                            </div>
+                                <div class="floating-label2">
+                                <input class="floating-input" type="text" placeholder=" ">
+                                    <label>Введите первое число</label>
+                                </div>
+                                <div class="floating-label2">
+                                <input class="floating-input" type="text" placeholder=" ">
+                                    <label>Введите второе число</label>
+                                </div>
                             </details>
                         </div>
 
@@ -165,9 +161,8 @@
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="geometric">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="p">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
                         </details>
@@ -190,15 +185,15 @@ nall: integer, >=1 and
                             </summary>
                             <input type="hidden" name="selected" value="hypergeometric">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="ngood">
+                                <input class="floating-input" type="text" placeholder=" " name="a">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="nbad">
+                                <input class="floating-input" type="text" placeholder=" " name="b">
                                 <label>Введите второе число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="nall">
+                                <input class="floating-input" type="text" placeholder=" " name="c">
                                 <label>Введите третье число</label>
                             </div>
                         </details>
@@ -216,13 +211,12 @@ nall: integer, >=1 and
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="laplace">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="mean">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="scale">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                         </details>                
@@ -240,13 +234,12 @@ nall: integer, >=1 and
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="logistic">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="mean">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="scale">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                         </details>
@@ -264,13 +257,12 @@ nall: integer, >=1 and
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="lognormal">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="mean">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="std">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                         </details>
@@ -288,9 +280,8 @@ nall: integer, >=1 and
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="logarithmic">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="p">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
                         </details>
@@ -310,13 +301,12 @@ sum must be = 1." tabindex="0">
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="multinomial">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="n">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="m">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                         </details>
@@ -334,13 +324,12 @@ sum must be = 1." tabindex="0">
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="negative_binomial">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="n">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="p">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                         </details>
@@ -360,17 +349,16 @@ right: float, must be >= top." tabindex="0">
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="triangular">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="left">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="top">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="right">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите третье число</label>
                             </div>
                         </details>                        
@@ -388,13 +376,12 @@ right: float, must be >= top." tabindex="0">
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="normal">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="mean">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите первое число</label>
                             </div>
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="std">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите второе число</label>
                             </div>
                         </details>                        
@@ -412,55 +399,8 @@ right: float, must be >= top." tabindex="0">
                                 </span>
                                 </p>
                             </summary>
-                            <input type="hidden" name="selected" value="poisson">
                             <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="lam">
-                                <label>Введите число</label>
-                            </div>
-                        </details> 
-                        </div>
-                    </div>
-
-                    <div class="form-16 dynamicSelect-form">
-                        <span class="removebutton" onclick="deleteBox(this)">
-                            <i class="fas fa-times" style="cursor: pointer;"></i>
-                        </span>
-                        <details open>
-                            <summary>
-                                <p>Непрерывное равномерное распределение
-                                <span class="tooltip-toggle" aria-label="left: float; right: float > left." tabindex="0">
-                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
-                                </span>
-                                </p>
-                            </summary>
-                            <input type="hidden" name="selected" value="uniform">
-                            <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="left">
-                                <label>Введите первое число</label>
-                            </div>
-                            <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="right">
-                                <label>Введите второе число</label>
-                            </div>
-                        </details> 
-                        </div>
-                    </div>
-
-                    <div class="form-17 dynamicSelect-form">
-                        <span class="removebutton" onclick="deleteBox(this)">
-                            <i class="fas fa-times" style="cursor: pointer;"></i>
-                        </span>
-                        <details open>
-                            <summary>
-                                <p>Распределение Вейбулла
-                                <span class="tooltip-toggle" aria-label="a: float >= 0." tabindex="0">
-                                        <i class="far fa-question-circle" style="font-size: 15px;"></i>  
-                                </span>
-                                </p>
-                            </summary>
-                            <input type="hidden" name="selected" value="weibull">
-                            <div class="floating-label2">      
-                                <input class="floating-input" type="text" placeholder=" " name="a">
+                                <input class="floating-input" type="text" placeholder=" ">
                                 <label>Введите число</label>
                             </div>
                         </details> 
