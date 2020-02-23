@@ -246,10 +246,7 @@ label {
   cursor: pointer;
   position: relative;
   left: 5px;
-}
-.tooltip-toggle svg {
-  height: 15px;
-  width: 15px;
+  z-index: 99999;
 }
 .tooltip-toggle::before {
   position: absolute;
@@ -264,8 +261,7 @@ label {
   text-transform: none;
   transition: all 0.5s ease;
   width: auto;
-  white-space: nowrap;
-  z-index: 99999999;
+  white-space: pre;
 }
 .tooltip-toggle::after {
   position: absolute;
@@ -356,7 +352,7 @@ summary {
   cursor: pointer;
   position: relative;
 }
-summary:before {  
+summary:before {
   left: .9em;
   top: .9em;
   color: transparent;
@@ -408,10 +404,4 @@ details{
 
 .removebutton:hover, .removebutton:focus {
   color: #1A2026; 
-}
-
-table {
-  display: block;
-  max-height: 700px;
-  overflow: auto;
 }

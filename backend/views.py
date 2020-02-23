@@ -1,12 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.http import require_GET
 
-import csv
 import json
 
-import matplotlib.pyplot as plt
-import numpy as np
 from .externals.libs.datagenerator import main as dg
 
 
@@ -26,16 +22,27 @@ def generate(request, *args):
     data = request.GET.get('data', None)
     if data is not None:
         data = json.loads(data)
+        pre_params = []  # этот список используется для перечисления параметров отдельного распределения до его
+        # добавления в итоговый список, в целях валидации
         for p in enumerate(data):
             if p[1]['name'] == 'rows':
                 rows = int(p[1]['value'])
             elif p[1]['name'] == 'selected':
-                # пока работает только для распределний из двух параметров
-                # TODO: исправить фронт, чтобы можно было парсить без костылей
-                if data[p[0]+1]['value'] != '':
-                    headers.append(f'Столбец {len(headers)+1}')
+                i = 1
+                pre_params.clear()
+                try:
+                    while data[p[0]+i]['name'] != 'selected':
+                        if data[p[0]+i]['value'] != '':
+                            pre_params.append(float(data[p[0]+i]['value']))
+                            i += 1
+                        else:
+                            break
+                except IndexError:
+                    pass
+                if len(pre_params) > 0:
+                    headers.append(f'Столбец {len(headers) + 1}')
                     types.append(p[1]['value'])
-                    params.append([float(data[p[0]+1]['value']), float(data[p[0]+2]['value'])])
+                    params.append(pre_params.copy())
     else:
         rows = int(request.GET.get('rows', 10))
         headers = request.GET.getlist('header', ['h1, h2', 'h3'])
