@@ -328,7 +328,7 @@ div.detail > h1{
 .tabs-content{
   border: 1px solid #D5D7DA;
   padding: 10px;
-  height: 770px;
+  min-height: 770px;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
