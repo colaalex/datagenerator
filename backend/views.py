@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.views.decorators.http import require_GET, require_POST
 from django.conf import settings
 from django.contrib.auth import login
@@ -10,7 +10,8 @@ from google.auth.transport import requests
 import json
 
 from .externals.libs.datagenerator import main as dg
-from .models import User
+from .models import User, Project
+from .forms import ProjectCreateForm
 
 
 def test(request, *args, **kwargs):
@@ -92,3 +93,29 @@ def generate(request, *args):
     response = outfile.out_file()
 
     return HttpResponse(response)
+
+
+@require_POST
+def create_project(request, *args):
+    # form = ProjectCreateForm(request.POST)
+    # if form.is_valid():
+    user = request.user
+    name = request.POST.get('project-name')
+    description = request.POST.get('project-text')
+    project = Project(project_name=name, project_description=description, project_owner=user)
+    project.save()
+
+    return HttpResponseRedirect('/')
+    # else:
+    #     return HttpResponseBadRequest()
+
+
+def delete_project(request, p_id, *args):
+    user = request.user
+    project = Project.objects.get(pk=p_id)
+    if project.project_owner == user:
+        project.delete()
+        return HttpResponseRedirect('/')
+    else:
+        return HttpResponseForbidden()
+
