@@ -132,7 +132,7 @@
             {% else %}
                 <div id="project-header">
                 <div class="project mt-5 mb-4">
-                    <!-- <h3 class="h3 unselectable" style="display: inline-block;">Проект 1</h3> -->
+                    <h3 class="h3 unselectable" style="display: inline-block;">{{ project.project_name }}</h3>
                     <div style="float: right">
                         <a class="mr-2" href="#" style="text-decoration: none;">
                             <i class="far fa-edit" style="color: #C2CFE0; border: 0; font-size: 22px"></i>
@@ -143,9 +143,7 @@
                     </div>
                 </div>
 
-                <!-- <span class="span1 unselectable">Описание проекта
-                <br>В две строчки
-                </span> -->
+                <span class="span1 unselectable">{{ project.project_description }}</span>
                 </div>
 
                 <div class="row ml-0 my-5 w-100">
