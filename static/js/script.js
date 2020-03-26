@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#1').on('click', function(){
+    $('#show-sensors').on('click', function(){
         $('.box').addClass('open');
     });
     $('#2').on('click', function(){
@@ -133,7 +133,7 @@ function signOut() {
     auth2.signOut().then(function () {
       console.log('User signed out.');
     });
-    window.location.replace("logout/");
+    window.location.replace("/logout/");
   }
 
 /* $(document).ready(function() {

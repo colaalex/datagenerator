@@ -10,7 +10,7 @@ from google.auth.transport import requests
 import json
 
 from .externals.libs.datagenerator import main as dg
-from .models import User, Project
+from .models import User, Project, Device
 from .forms import ProjectCreateForm
 
 
@@ -119,3 +119,22 @@ def delete_project(request, p_id, *args):
     else:
         return HttpResponseForbidden()
 
+
+def create_device(request, p_id, *args):
+    project = Project.objects.get(pk=p_id)
+    if request.user != project.project_owner:
+        return HttpResponseForbidden()
+    device_name = request.POST.get('device-name')
+    device_text = request.POST.get('device-text')
+    device = Device(device_name=device_name, device_description=device_text, device_project=project)
+    device.save()
+    return HttpResponseRedirect(f'/project/{p_id}')
+
+
+def delete_device(request, d_id, *args):
+    device = Device.objects.get(pk=d_id)
+    project = device.device_project
+    if request.user != project.project_owner:
+        return HttpResponseForbidden()
+    device.delete()
+    return HttpResponseRedirect(f'/project/{project.id}')
