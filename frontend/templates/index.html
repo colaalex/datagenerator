@@ -162,15 +162,15 @@
                               <a class="mr-1" href="#" style="text-decoration: none;">
                                 <i class="far fa-edit text-muted" style="color: #6C757D; border: 0;"></i>
                               </a>
-                              <a href="#" style="text-decoration: none;">
+                              <a href="/api/delete_device/{{ device.id }}/" style="text-decoration: none;">
                                 <i class="far fa-trash-alt text-muted" style="color: #6C757D; border: 0;"></i>
                               </a>
                             </div>
                           </div>
-                          <h4 class="h4 mb-3 unselectable">{{ device.device_description }}</h4>                    
+                          <h4 class="h4 mb-3 unselectable">{{ device.device_name }}</h4>
                           <span class="span1 unselectable" style="display: block;">{{ device.device_description }}</span>
                           <div class="text-right">
-                            <a href="#" style="text-decoration: none;">
+                            <a class="show-sensors" style="text-decoration: none;">
                               <i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i>
                             </a>
                           </div>

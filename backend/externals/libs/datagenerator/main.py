@@ -1,7 +1,7 @@
 import time
 import csv
 
-from makefile import FileManager as fm
+from .makefile import FileManager as fm
 import datetime as dt
 #import takeinput
 

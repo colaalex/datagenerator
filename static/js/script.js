@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $('#show-sensors').on('click', function(){
+    $('.show-sensors').on('click', function(){
         $('.box').addClass('open');
     });
     $('#2').on('click', function(){

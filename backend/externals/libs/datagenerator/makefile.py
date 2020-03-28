@@ -1,6 +1,6 @@
 import os
 import csv
-from datagen import DataGenerator
+from .datagen import DataGenerator
 
 from pathlib import Path
 
