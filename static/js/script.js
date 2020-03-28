@@ -41,6 +41,11 @@ $(document).ready(function() {
                 $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
                 }
             }
+        else if ($('#inputdistribution').val() == 'geodata') {
+            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Широта:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Долгота:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Радиус:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+            }
         });
 });
 
