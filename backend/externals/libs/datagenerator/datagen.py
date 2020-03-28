@@ -3,14 +3,21 @@ import numpy as np
 from faker import Faker
 from sklearn.datasets import make_classification, make_regression
 import matplotlib.pyplot as plt
+import datetime as dt
 
 class DataGenerator():
-    def __init__(self, types, params, size=1000):
+    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None):
         self.funcs = types
         self.args = params
-        self.size = size
+        self.size = size        
+        self.time_marker = 0        
+        self.curr_time = None
+        self.period = None
         self.ru = Faker('ru_RU')
         self.en = Faker('en_US')
+
+    def change_size(self, size):
+        self.size = size      
     
     def count(self):
         list_of_ML = ["classification", "regression"]
@@ -25,6 +32,18 @@ class DataGenerator():
                 li.append(y)
         return np.array(li).T.tolist()
 
+    ### DATE COLUMN ###
+    def daterow(self, st_time, period):
+        if self.curr_time is None:
+            self.curr_time = st_time
+        data = np.array([self.curr_time + period*i for i in range(self.size)])
+        self.curr_time = self.curr_time + period * self.size
+        return data
+
+    ### GEO DATA ###
+    def location(self, lat, long, radius=0.001):        
+        return np.array([ (Faker.coordinate(center=lat, radius=radius), Faker.coordinate(center=long, radius=radius)) for _ in range(self.size) ])
+        
     ### DISTRIBUTIONS ###
     def beta(self, a, b):
         '''
@@ -232,7 +251,7 @@ class DataGenerator():
 
         return X.T, y
    
-    def regression(self, n_features, n_informative, noise, bias, n_outliers):
+    def regression(self, n_features, n_informative, noise=0, bias=0, n_outliers=0):
         '''
         # n_infomative must be <= n_features \n
         # noise: float >=0. default: 0 \n
@@ -243,15 +262,16 @@ class DataGenerator():
 
         #Makes outliers using spherical coordinates
         X_distance_max = np.max(np.ptp(X)/2) #radius of n-dim sphere which includes all X data
-        X_distances = r.random(n_outliers) * X_distance_max * 1.5
+        X_distances = r.random(n_outliers)  * X_distance_max * 1.5
         alphas = r.random(n_outliers) * 2 * np.pi
         betas = r.random((n_outliers, n_features-2)) * np.pi
-        angles = np.concatenate((np.array([alphas]).T, betas), axis=1)
+        angles = np.concatenate((alphas.T, betas), axis=1)
 
         #Trasforms spherical coordinates into Euclidian
         li = []
         length = angles.shape[1]
         i = length
+        coords = 1
         while i >= 0:
             if i > 0:
                 coords *= np.prod(np.sin(angles[:,length-i:]), axis=1)
@@ -266,7 +286,7 @@ class DataGenerator():
         y_outliers = (y_distance + (y_distance * r.random(n_outliers) * 2)) * r.choice((-1, 1), n_outliers) + bias
         
         #Adds outliers into existing data
-        indices = r.choice(n_samples, n_outliers)
+        indices = r.choice(self.size, n_outliers)
         y[indices] = y_outliers
         X[indices] = X_outliers
 
@@ -277,61 +297,58 @@ class DataGenerator():
         y = a[:, -1]
 
         return X.T, y
+    
 
-    #TEXT GENERATORS
+    ### TEXT GENERATORS
     def address_ru(self):
-        return [self.ru.address() for _ in range(self.size)]
+        return np.array([self.ru.address() for _ in range(self.size)])
 
     def address_en(self):
-        return [self.en.address() for _ in range(self.size)]
+        return np.array([self.en.address() for _ in range(self.size)])
 
     def name_ru(self):
-        return [self.ru.name() for _ in range(self.size)]
+        return np.array([self.ru.name() for _ in range(self.size)])
 
     def name_en(self):
-        return [self.en.name() for _ in range(self.size)]
+        return np.array([self.en.name() for _ in range(self.size)])
 
     def random_word(self, words):
         '''words: list of strings'''
-        return [self.ru.random_element(words) for _ in range(self.size)]
+        return np.array([self.ru.random_element(words) for _ in range(self.size)])
 
     def date(self, end_datetime=None):
-        return [self.ru.date(pattern="%d-%m-%Y", end_datetime=end_datetime) for _ in range(self.size)]
+        return np.array([self.ru.date(pattern="%d-%m-%Y", end_datetime=end_datetime) for _ in range(self.size)])
 
     def time(self):
-        return [self.ru.time(pattern='%H:%M:%S') for _ in range(self.size)]
-
-    def location(self):
-        return [(float(self.ru.latlng()[0]), float(self.ru.latlng()[1])) for _ in range(self.size)]
+        return np.array([self.ru.time(pattern='%H:%M:%S') for _ in range(self.size)])
 
     def ip(self):
-        return [self.ru.ipv4() for _ in range(self.size)]
+        return np.array([self.ru.ipv4() for _ in range(self.size)])
 
     def isbn10(self):
-        return [self.ru.isbn10() for _ in range(self.size)]
+        return np.array([self.ru.isbn10() for _ in range(self.size)])
 
     def isbn13(self):
-        return [self.ru.isbn13() for _ in range(self.size)]
+        return np.array([self.ru.isbn13() for _ in range(self.size)])
 
     def password(self):
-        return [self.ru.password() for _ in range(self.size)]
+        return np.array([self.ru.password() for _ in range(self.size)])
 
     def phone_number_ru(self):
-        return [self.ru.phone_number() for _ in range(self.size)]
+        return np.array([self.ru.phone_number() for _ in range(self.size)])
 
     def phone_number_en(self):
-        return [self.en.phone_number() for _ in range(self.size)]
+        return np.array([self.en.phone_number() for _ in range(self.size)])
 
     def sentence_en(self, n_words):
-        return [self.en.sentence(n_words) for _ in range(self.size)]
+        return np.array([self.en.sentence(n_words) for _ in range(self.size)])
 
     def text_en(self, chars):
-        return [self.en.text(chars) for _ in range(self.size)]
+        return np.array([self.en.text(chars) for _ in range(self.size)])
 
     def sentence_ru(self, n_words):
-        return [self.ru.sentence(n_words) for _ in range(self.size)]
+        return np.array([self.ru.sentence(n_words) for _ in range(self.size)])
 
     def text_ru(self, chars):
-        return [self.ru.text(chars) for _ in range(self.size)]
-    
+        return np.array([self.ru.text(chars) for _ in range(self.size)])
 
