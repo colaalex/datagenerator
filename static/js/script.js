@@ -144,3 +144,11 @@ function signOut() {
 
 /* $(document).ready(function() {
     $('#project-edit, #device-edit').one("click", function() {; */
+
+
+
+$(function () {
+                $('#datetimepicker2').datetimepicker({
+                    locale: 'ru'
+                });
+            });
