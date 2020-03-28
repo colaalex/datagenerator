@@ -25,14 +25,18 @@ class FileManager:
         self.headers = None
         self.types = None
         self.params = None
-        self.rows_per_iter = None 
+        self.size = None
         
-    def set_values(self, headers, types, params, chunk_size):
+    def set_values(self, headers, types, params, size):
         self.headers = headers
         self.types = types
         self.params = params
-        self.chunk_size = chunk_size
-        self.DG = DataGenerator(types, params, chunk_size)
+        self.size = size
+        self.DG = DataGenerator(types, params, size)
+    
+    def reset_rows(self, size):
+        self.size = size
+        self.DG.change_size(size)
 
     def write_headers(self):
         self.writer.writerow(self.headers)
