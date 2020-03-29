@@ -67,22 +67,22 @@ $(document).ready(function() {
     $('#inputdistribution').change(function() {
         $('#numberinput').empty();
         if ($('#inputdistribution').val() == 'exponential' || $('#inputdistribution').val() == 'geometric' || $('#inputdistribution').val() == 'logarithmic' || $('#inputdistribution').val() == 'poisson' || $('#inputdistribution').val() == 'weibull') {
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='text' class='form-control bg-white text-dark'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
             }
         else if  ($('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'multinomial' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
             for (let i = 0; i < 2; i++) {
-                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark'></div>");
+                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
                 }
             }
         else if ($('#inputdistribution').val() == 'hypergeometric' || $('#inputdistribution').val() == 'triangular') {
             for (let i = 0; i < 3; i++) {
-                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark'></div>");
+                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
                 }
             }
         else if ($('#inputdistribution').val() == 'geodata') {
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Широта:</label><input type='text' class='form-control bg-white text-dark'></div>");
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Долгота:</label><input type='text' class='form-control bg-white text-dark'></div>");
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Радиус:</label><input type='text' class='form-control bg-white text-dark'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Широта:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Долгота:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-2' name='distribution-param-2'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Радиус:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-3' name='distribution-param-3'></div>");
             $('#outliers-form').empty();
             }
         });
@@ -92,12 +92,20 @@ $(document).ready(function() {
     $('input[name="Radio"]').on('click', function() {
         $('#radioinput').empty();
         if ($('input[name="Radio"]:checked').val() == 1) {
-            $('#radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark'></div>");
+            $('#radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' id='sensor-create-lines'></div>");
             $('#datetime-picker').css('display', 'none');
+            document.getElementById("sensor-create-time-start").required = false;
+            document.getElementById("sensor-create-time-stop").required = false;
+            document.getElementById("sensor-create-time-period-days").required = false;
+            document.getElementById("sensor-create-time-period-time").required = false;
         }
         else if ($('input[name="Radio"]:checked').val() == 2) {
             // $('#radioinput').append('<div class="form-row mt-1"><div class="form-group col-md-4"><div class="form-group"><label class="col-form-label text-muted unselectable">Начало:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Конец:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Период:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div>');
             $('#datetime-picker').css('display', 'flex');
+            document.getElementById("sensor-create-time-start").required = true;
+            document.getElementById("sensor-create-time-stop").required = true;
+            document.getElementById("sensor-create-time-period-days").required = true;
+            document.getElementById("sensor-create-time-period-time").required = true;
         }
     });
 });
@@ -217,12 +225,36 @@ function showSensors(device_id, device_name) {
         additionalHtml += "</div>";
         additionalHtml += "</div>";
         $('#sensors-box').append(additionalHtml);
+
+        $('#sensor-submit').on('click',function(){
+            addSensor(device_id, device_name);
+        });
     };
     xhr.send();
 
 
     $('#sensors-device-name').html(device_name);
 
+
+}
+
+function addSensor(device_id, device_name) {
+    var xhr = new XMLHttpRequest();
+
+    var values = {};
+    $.each($('#sensor-form').serializeArray(), function(i, field) {
+        values[field.name] = field.value;
+    });
+
+    console.log(JSON.stringify(values));
+
+    xhr.open('POST', 'http://localhost:1337/api/create_sensor/'+device_id+'/');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        showSensors(device_id, device_name);
+        $('#togglemodal3').modal('hide');
+    };
+    xhr.send(JSON.stringify(values));
 
 }
 

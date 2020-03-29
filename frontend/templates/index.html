@@ -267,15 +267,15 @@
                             </button>
                         </div>
                         <div class="modal-body py-0 mt-2">
-                            <form>
+                            <form id="sensor-form" method="post">
                                 <div class="form-group">
                                     <label class="col-form-label text-muted unselectable">Название датчика:</label>
-                                    <input type="text" class="form-control bg-white text-dark">
+                                    <input type="text" class="form-control bg-white text-dark" id="sensor-create-name" name="sensor-create-name">
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="inputState" class="col-form-label text-muted unselectable">Тип датчика:</label>
-                                        <select id="inputState" class="form-control">
+                                        <select id="inputState" class="form-control" name="inputState">
                                             <option selected>Выберите...</option>
                                             <option value="1">Термометр</option>
                                             <option value="2">Датчик влажности воздуха</option>
@@ -299,8 +299,8 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputState" class="col-form-label text-muted unselectable">Тип распределения:</label>
-                                        <select id="inputdistribution" class="form-control">
+                                        <label for="inputdistribution" class="col-form-label text-muted unselectable">Тип распределения:</label>
+                                        <select id="inputdistribution" class="form-control" name="inputdistribution">
                                             <option selected>Выберите...</option>
                                             <option value="beta">Бета</option>
                                             <option value="binomial">Биномиальное</option>
@@ -328,7 +328,7 @@
                                 <div class="form-row" id="outliers-form">
                                     <div class="form-group col-md-12">
                                         <label class="col-form-label text-muted unselectable" id="outliers">Количество выбросов:</label>
-                                        <input type="numer" class="form-control bg-white text-dark" required>
+                                        <input type="numer" class="form-control bg-white text-dark" id="sensor-create-outlier" name="sensor-create-outlier">
                                     </div>
                                 </div>  
                                 <div class="form-check">
@@ -349,7 +349,7 @@
                                     <div class="form-group col-md-4">
                                       <label class="col-form-label text-muted unselectable">Начало:</label>
                                       <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" id="sensor-create-time-start" name="sensor-create-time-start" />
                                         <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -358,7 +358,7 @@
                                     <div class="form-group col-md-4">
                                       <label class="col-form-label text-muted unselectable">Конец:</label>
                                       <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" />
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="sensor-create-time-stop" />
                                         <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -369,12 +369,12 @@
                                       <div class="row">
                                         <div class="form-group col-md-5 pr-1">
                                           <div class="form-group">
-                                            <input type="number" class="form-control bg-white text-dark" placeholder="Дней">
+                                            <input type="number" class="form-control bg-white text-dark" id="sensor-create-time-period-days" name="sensor-create-time-period-days" placeholder="Дней">
                                           </div>
                                         </div>
                                         <div class="col-md-7 pl-1">
                                           <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
-                                            <input type="text" class="form-control datetimepicker-input"
+                                            <input type="text" class="form-control datetimepicker-input" id="sensor-create-time-period-time" name="sensor-create-time-period-time"
                                               data-target="#datetimepicker3" />
                                             <div class="input-group-append" data-target="#datetimepicker3" data-toggle="datetimepicker">
                                               <div class="input-group-text"><i class="fas fa-clock"></i></div>
@@ -385,7 +385,7 @@
                                 </div>
                                 </div>
                                 <div class="modal-footer mt-3 py-0" style="border: none;">
-                                    <button type="submit" class="btn btn-warning" id="1" style="min-width: 159px; min-height: 42px;">Создать</button>
+                                    <button type="button" class="btn btn-warning" id="sensor-submit" style="min-width: 159px; min-height: 42px;">Создать</button>
                                 </div>
                             </form>
                         </div>

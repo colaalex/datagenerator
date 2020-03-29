@@ -10,5 +10,6 @@ urlpatterns = [
     path('delete_project/<int:p_id>/', delete_project),
     path('create_device/<int:p_id>/', create_device),
     path('delete_device/<int:d_id>/', delete_device),
-    path('get_sensors/<int:d_id>/', get_sensors)
+    path('get_sensors/<int:d_id>/', get_sensors),
+    path('create_sensor/<int:d_id>/', create_sensor)
 ]

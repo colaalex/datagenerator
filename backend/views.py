@@ -9,10 +9,14 @@ from google.auth.transport import requests
 # import requests
 
 import json
+import logging
 
 from .externals.libs.datagenerator import main as dg
-from .models import User, Project, Device, Sensor
+from .models import User, Project, Device, Sensor, DistributionParameters, Distribution
 from .forms import ProjectCreateForm
+
+
+logger = logging.getLogger(__name__)
 
 
 def test(request, *args, **kwargs):
@@ -121,6 +125,7 @@ def delete_project(request, p_id, *args):
         return HttpResponseForbidden()
 
 
+@require_POST
 def create_device(request, p_id, *args):
     project = Project.objects.get(pk=p_id)
     if request.user != project.project_owner:
@@ -145,3 +150,37 @@ def get_sensors(request, d_id, *args):
     sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
     data = serializers.serialize('json', sensors)
     return JsonResponse(data, safe=False)
+
+
+@require_POST
+def create_sensor(request, d_id, *args):
+    parameters = json.loads(list(request.POST.dict().keys())[0])
+    logger.error(parameters)
+    name = parameters.get('sensor-create-name')
+    sensor_type = int(parameters.get('inputState', 0))
+    sensor_distribution = Distribution.objects.filter(code=parameters.get('inputdistribution')).get()
+    sensor_outlier = parameters.get('sensor-create-outlier')
+    sensor_lines = parameters.get('sensor-create-lines', None)
+    sensor_time_start = parameters.get('sensor-create-time-start', None)
+    sensor_time_start = None if sensor_time_start == "" else sensor_time_start
+    sensor_time_stop = parameters.get('sensor-create-time-stop', None)
+    sensor_time_stop = None if sensor_time_stop == "" else sensor_time_stop
+    sensor_time_period_days = parameters.get('sensor-create-time-period-days', None)
+    sensor_time_period_time = parameters.get('sensor-create-time-period-time', None)
+    try:
+        period = sensor_time_period_days + ' ' + sensor_time_period_time
+    except TypeError:
+        period = None
+    if period == "":
+        period = None
+    sensor = Sensor(sensor_device_id=d_id, sensor_name=name, sensor_type_id=sensor_type, sensor_distribution=sensor_distribution, outliers_amount=sensor_outlier, lines_amount=sensor_lines, start_time=sensor_time_start, end_time=sensor_time_stop, period=period)
+    sensor.save()
+    param1 = parameters.get('distribution-param-1')
+    param2 = parameters.get('distribution-param-2', None)
+    param3 = parameters.get('distribution-param-3', None)
+    DistributionParameters(sensor=sensor, value=param1).save()
+    if param2 is not None:
+        DistributionParameters(sensor=sensor, value=param2).save()
+    if param3 is not None:
+        DistributionParameters(sensor=sensor, value=param3).save()
+    return get_sensors(request, d_id)

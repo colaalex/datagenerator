@@ -31,6 +31,7 @@ class Distribution(models.Model):
         return self.distribution
 
     distribution = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, default='NA')
 
 
 class Sensor(models.Model):
