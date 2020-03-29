@@ -26,6 +26,7 @@ class FileManager:
         self.types = None
         self.params = None
         self.size = None
+        self.reset_marker = 0
         
     def set_values(self, headers, types, params, size):
         self.headers = headers
@@ -34,9 +35,14 @@ class FileManager:
         self.size = size
         self.DG = DataGenerator(types, params, size)
     
-    def reset_rows(self, size):
+    def change_rows(self, size):
         self.size = size
         self.DG.change_size(size)
+
+    def reset_outliers(self):
+        if not self.reset_marker:
+            self.DG.reset_outliers()
+            self.reset_marker = 1
 
     def write_headers(self):
         self.writer.writerow(self.headers)
