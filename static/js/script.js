@@ -1,3 +1,5 @@
+moment().format();
+
 $(document).ready(function(){
     $('.show-sensors').on('click', function(){
         $('.box').addClass('open');
@@ -6,6 +8,29 @@ $(document).ready(function(){
         $('.box').removeClass('open');
     });
 });
+
+$(function () {
+    $('#datetimepicker3').datetimepicker({
+        locale: 'ru',
+        format: 'HH mm ss'
+    });
+    $('#datetimepicker1').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru'
+    }
+    );
+    $('#datetimepicker2').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru',
+        useCurrent: false
+    });
+    $("#datetimepicker1").on("change.datetimepicker", function (e) {
+        $('#datetimepicker2').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker2").on("change.datetimepicker", function (e) {
+        $('#datetimepicker1').datetimepicker('maxDate', e.date);
+    });
+});         
 
 /* beta(a: float, b: float)
 binomial(n: int >= 0, p: float >= 0)
@@ -29,22 +54,22 @@ $(document).ready(function() {
     $('#inputdistribution').change(function() {
         $('#numberinput').empty();
         if ($('#inputdistribution').val() == 'exponential' || $('#inputdistribution').val() == 'geometric' || $('#inputdistribution').val() == 'logarithmic' || $('#inputdistribution').val() == 'poisson' || $('#inputdistribution').val() == 'weibull') {
-            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Введите число:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='text' class='form-control bg-white text-dark'></div>");
             }
         else if  ($('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'multinomial' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
             for (let i = 0; i < 2; i++) {
-                $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark'></div>");
                 }
             }
         else if ($('#inputdistribution').val() == 'hypergeometric' || $('#inputdistribution').val() == 'triangular') {
             for (let i = 0; i < 3; i++) {
-                $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark'></div>");
                 }
             }
         else if ($('#inputdistribution').val() == 'geodata') {
-            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Широта:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
-            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Долгота:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
-            $('#numberinput').append("<div class='form-group'><label for='name' class='col-form-label text-muted unselectable'>Радиус:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Широта:</label><input type='text' class='form-control bg-white text-dark'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Долгота:</label><input type='text' class='form-control bg-white text-dark'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Радиус:</label><input type='text' class='form-control bg-white text-dark'></div>");
             $('#outliers-form').empty();
             }
         });
@@ -54,10 +79,10 @@ $(document).ready(function() {
     $('input[name="Radio"]').on('click', function() {
         $('#radioinput').empty();
         if ($('input[name="Radio"]:checked').val() == 1) {
-            $('#radioinput').append("<div class='form-group mt-1'><label for='name' class='col-form-label text-muted unselectable'>Количество строк:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
+            $('#radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark'></div>");
         }
         else if ($('input[name="Radio"]:checked').val() == 2) {
-            $('#radioinput').append('<div class="form-row mt-1"><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Начало:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Конец:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Период:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div>');
+            $('#radioinput').append('<div class="form-row mt-1"><div class="form-group col-md-4"><div class="form-group"><label class="col-form-label text-muted unselectable">Начало:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Конец:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Период:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div>');
         }
     });
 });
@@ -145,10 +170,3 @@ function signOut() {
 /* $(document).ready(function() {
     $('#project-edit, #device-edit').one("click", function() {; */
 
-
-
-$(function () {
-                $('#datetimepicker2').datetimepicker({
-                    locale: 'ru'
-                });
-            });
