@@ -1,7 +1,8 @@
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_GET, require_POST
 from django.conf import settings
 from django.contrib.auth import login
+from django.core import serializers
 from django.views.decorators.csrf import csrf_protect
 from google.oauth2 import id_token
 from google.auth.transport import requests
@@ -10,7 +11,7 @@ from google.auth.transport import requests
 import json
 
 from .externals.libs.datagenerator import main as dg
-from .models import User, Project, Device
+from .models import User, Project, Device, Sensor
 from .forms import ProjectCreateForm
 
 
@@ -138,3 +139,9 @@ def delete_device(request, d_id, *args):
         return HttpResponseForbidden()
     device.delete()
     return HttpResponseRedirect(f'/project/{project.id}')
+
+
+def get_sensors(request, d_id, *args):
+    sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
+    data = serializers.serialize('json', sensors)
+    return JsonResponse(data, safe=False)

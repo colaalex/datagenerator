@@ -180,7 +180,51 @@ function signOut() {
       console.log('User signed out.');
     });
     window.location.replace("/logout/");
-  }
+}
+
+function showSensors(device_id, device_name) {
+    var xhr = new XMLHttpRequest();
+    $('#sensors-box').empty();
+
+    xhr.open('GET', 'http://localhost:1337/api/get_sensors/' + device_id);
+    xhr.onload = function () {
+        var data = JSON.parse(JSON.parse(xhr.response));
+        var additionalHtml = "";
+
+        for (var i = 0; i < data.length; i++) {
+            additionalHtml += "<div class=\"div-sensor mr-3 mb-3 px-3 pt-4 pb-3\">";
+            additionalHtml += "<div>";
+            additionalHtml += "<span class=\"col-form-label text-muted unselectable\">Датчик</span>";
+            additionalHtml += "<div style=\"float: right\">";
+            additionalHtml += "<a class=\"mr-1\" href=\"#\" style=\"text-decoration: none;\">";
+            additionalHtml += "<i class=\"far fa-edit text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
+            additionalHtml += "</a>";
+            additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\">";
+            additionalHtml += "<i class=\"far fa-trash-alt text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
+            additionalHtml += "</a>";
+            additionalHtml += "</div>";
+            additionalHtml += "</div>";
+            additionalHtml += "<h4 class=\"h4 mt-1 mb-5 unselectable\">" + data[i]['fields']['sensor_name'] +"</h4>";
+            additionalHtml += "<div class=\"text-right mt-5\">";
+            additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\">";
+            additionalHtml += "<i class=\"fas fa-arrow-circle-right\" style=\"color: rgb(255, 255, 255); border: 0; font-size: 32px;\"></i>";
+            additionalHtml += "</a>";
+            additionalHtml += "</div>";
+            additionalHtml += "</div>";
+            // additionalHtml += "";
+        }
+
+        additionalHtml += "</div>";
+        additionalHtml += "</div>";
+        $('#sensors-box').append(additionalHtml);
+    };
+    xhr.send();
+
+
+    $('#sensors-device-name').html(device_name);
+
+
+}
 
 /* $(document).ready(function() {
     $('#project-edit, #device-edit').one("click", function() {; */
