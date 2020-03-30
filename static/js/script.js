@@ -165,7 +165,7 @@ function onSignIn(googleUser) {
         console.log(csrftoken);
         var xhr = new XMLHttpRequest();
 
-        xhr.open('POST', 'http://localhost:1337/api/tokensign/');
+        xhr.open('POST', '/api/tokensign/');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader('x-csrf-token', csrftoken);
         xhr.onload = function () {
@@ -194,7 +194,7 @@ function showSensors(device_id, device_name) {
     var xhr = new XMLHttpRequest();
     $('#sensors-box').empty();
 
-    xhr.open('GET', 'http://localhost:1337/api/get_sensors/' + device_id);
+    xhr.open('GET', '/api/get_sensors/' + device_id);
     xhr.onload = function () {
         var data = JSON.parse(JSON.parse(xhr.response));
         var additionalHtml = "";
@@ -258,7 +258,7 @@ function addSensor(device_id, device_name) {
 
     console.log(JSON.stringify(values));
 
-    xhr.open('POST', 'http://localhost:1337/api/create_sensor/'+device_id+'/');
+    xhr.open('POST', '/api/create_sensor/'+device_id+'/');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         showSensors(device_id, device_name);

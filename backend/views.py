@@ -64,8 +64,11 @@ def generate(request, s_id, *args):
     dist_params = DistributionParameters.objects.filter(sensor=sensor).all()
     params = [[float(i.value) for i in dist_params]]
     rows = sensor.lines_amount
-    time_start = sensor.start_time.strftime('%Y-%m-%d %H:%M:%S')
-    time_end = sensor.end_time.strftime('%Y-%m-%d %H:%M:%S')
+    try:
+        time_start = sensor.start_time.strftime('%Y-%m-%d %H:%M:%S')
+        time_end = sensor.end_time.strftime('%Y-%m-%d %H:%M:%S')
+    except AttributeError:
+        time_start, time_end = None, None
     period = sensor.period
 
     dg.mainf(filename=filename, headers=headers, types=types, params=params, rows=rows, time_start=time_start, time_end=time_end, period=period)
