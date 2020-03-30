@@ -207,7 +207,7 @@ function showSensors(device_id, device_name) {
             additionalHtml += "<a class=\"mr-1\" href=\"#\" style=\"text-decoration: none;\">";
             additionalHtml += "<i class=\"far fa-edit text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
             additionalHtml += "</a>";
-            additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\">";
+            additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\" onclick='deleteSensor(" + data[i]['pk'] + ", " + device_id + ", \"" + device_name + "\")'>";
             additionalHtml += "<i class=\"far fa-trash-alt text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
             additionalHtml += "</a>";
             additionalHtml += "</div>";
@@ -236,6 +236,15 @@ function showSensors(device_id, device_name) {
     $('#sensors-device-name').html(device_name);
 
 
+}
+
+function deleteSensor(sensor_id, device_id, device_name) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/api/delete_sensor/'+sensor_id);
+    xhr.onload = function () {
+        showSensors(device_id, device_name);
+    };
+    xhr.send();
 }
 
 function generate(sensor_id) {

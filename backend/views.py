@@ -160,3 +160,11 @@ def create_sensor(request, d_id, *args):
     if param3 is not None:
         DistributionParameters(sensor=sensor, value=param3).save()
     return get_sensors(request, d_id)
+
+
+def delete_sensor(request, s_id, *args):
+    sensor = Sensor.objects.get(pk=s_id)
+    if sensor.sensor_device.device_project.project_owner != request.user:
+        return HttpResponseForbidden()
+    sensor.delete()
+    return HttpResponse('OK')
