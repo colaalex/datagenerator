@@ -67,22 +67,22 @@ $(document).ready(function() {
     $('#inputdistribution').change(function() {
         $('#numberinput').empty();
         if ($('#inputdistribution').val() == 'exponential' || $('#inputdistribution').val() == 'geometric' || $('#inputdistribution').val() == 'poisson') {
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
             }
         else if  ($('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
             for (let i = 0; i < 2; i++) {
-                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
+                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
                 }
             }
         else if ($('#inputdistribution').val() == 'hypergeometric' || $('#inputdistribution').val() == 'triangular') {
             for (let i = 0; i < 3; i++) {
-                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
+                $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
                 }
             }
         else if ($('#inputdistribution').val() == 'geodata') {
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Широта:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Долгота:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-2' name='distribution-param-2'></div>");
-            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Радиус:</label><input type='text' class='form-control bg-white text-dark' id='distribution-param-3' name='distribution-param-3'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Широта:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Долгота:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-2' name='distribution-param-2'></div>");
+            $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Радиус:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-3' name='distribution-param-3'></div>");
             $('#outliers-form').empty();
             }
         });
