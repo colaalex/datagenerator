@@ -9,7 +9,7 @@ class FileManager:
         
         #DIRECTORY PATH HERE
         # self.path = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/') + "/Tables/"
-        self.path = str(Path(os.path.abspath(__file__)).parent.parent.parent.parent.parent) + '/Tables/'
+        self.path = str(Path(os.path.abspath(__file__)).parent.parent.parent.parent.parent) + '/static/userfiles/'
         
         self.filename = filename
 

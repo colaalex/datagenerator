@@ -10,6 +10,7 @@ from google.auth.transport import requests
 
 import json
 import logging
+from uuid import uuid1
 
 from .externals.libs.datagenerator import main as dg
 from .models import User, Project, Device, Sensor, DistributionParameters, Distribution
@@ -55,47 +56,20 @@ def tokensign(request, *args):
 
 
 @require_GET
-def generate(request, *args):
-    filename = 'test'
-    rows = 10
-    headers = []
-    types = []
-    params = []
+def generate(request, s_id, *args):
+    filename = f'data_{s_id}_{uuid1()}'
+    sensor = Sensor.objects.get(pk=s_id)
+    headers = [sensor.sensor_name]
+    types = [sensor.sensor_distribution.code]
+    dist_params = DistributionParameters.objects.filter(sensor=sensor).all()
+    params = [[float(i.value) for i in dist_params]]
+    rows = sensor.lines_amount
+    time_start = sensor.start_time.strftime('%Y-%m-%d %H:%M:%S')
+    time_end = sensor.end_time.strftime('%Y-%m-%d %H:%M:%S')
+    period = sensor.period
 
-    data = request.GET.get('data', None)
-    if data is not None:
-        data = json.loads(data)
-        pre_params = []  # этот список используется для перечисления параметров отдельного распределения до его
-        # добавления в итоговый список, в целях валидации
-        for p in enumerate(data):
-            if p[1]['name'] == 'rows':
-                rows = int(p[1]['value'])
-            elif p[1]['name'] == 'selected':
-                i = 1
-                pre_params.clear()
-                try:
-                    while data[p[0]+i]['name'] != 'selected':
-                        if data[p[0]+i]['value'] != '':
-                            pre_params.append(float(data[p[0]+i]['value']))
-                            i += 1
-                        else:
-                            break
-                except IndexError:
-                    pass
-                if len(pre_params) > 0:
-                    headers.append(f'Столбец {len(headers) + 1}')
-                    types.append(p[1]['value'])
-                    params.append(pre_params.copy())
-    else:
-        rows = int(request.GET.get('rows', 10))
-        headers = request.GET.getlist('header', ['h1, h2', 'h3'])
-        types = request.GET.getlist('type', ['normal', 'triangular', 'beta'])
-        params = json.loads(request.GET.get('params', '[[0, 12], [5, 10, 15], [10, 20]]'))
-    # chunk_size = int(request.GET.get('chunk_size', 10))
-    chunk_size = 100
-
-    outfile = dg.mainf(filename, rows, headers, types, params, chunk_size)
-    response = outfile.out_file()
+    dg.mainf(filename=filename, headers=headers, types=types, params=params, rows=rows, time_start=time_start, time_end=time_end, period=period)
+    response = '/static/userfiles/' + filename + '.csv'
 
     return HttpResponse(response)
 

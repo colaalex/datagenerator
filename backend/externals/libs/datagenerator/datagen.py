@@ -3,7 +3,7 @@ import numpy as np
 from faker import Faker
 from sklearn.datasets import make_classification, make_regression
 import matplotlib.pyplot as plt
-import datetime as dt
+import datetime
 
 class DataGenerator():
     def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None):

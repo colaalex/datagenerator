@@ -15,7 +15,7 @@ class Project(models.Model):
 
 class Device(models.Model):
     device_name = models.CharField(max_length=50)
-    device_description = models.TextField(null=True)
+    device_description = models.TextField(null=True, blank=True)
     device_project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
 
@@ -40,10 +40,10 @@ class Sensor(models.Model):
     sensor_type = models.ForeignKey(SensorType, on_delete=models.CASCADE)
     sensor_distribution = models.ForeignKey(Distribution, on_delete=models.CASCADE)
     outliers_amount = models.IntegerField(default=0)
-    lines_amount = models.IntegerField(null=True)
-    start_time = models.DateTimeField(null=True)
-    end_time = models.DateTimeField(null=True)
-    period = models.CharField(max_length=20)
+    lines_amount = models.IntegerField(null=True, blank=True)
+    start_time = models.DateTimeField(null=True, blank=True)
+    end_time = models.DateTimeField(null=True, blank=True)
+    period = models.CharField(max_length=20, null=True, blank=True)
 
 
 class DistributionParameters(models.Model):

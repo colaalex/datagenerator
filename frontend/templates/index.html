@@ -355,7 +355,7 @@
                                     <div class="form-group col-md-4">
                                       <label class="col-form-label text-muted unselectable">Конец:</label>
                                       <div class="input-group date" id="datetimepicker2" data-target-input="nearest">
-                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="sensor-create-time-stop" />
+                                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker2" id="sensor-create-time-stop" name="sensor-create-time-stop" />
                                         <div class="input-group-append" data-target="#datetimepicker2" data-toggle="datetimepicker">
                                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -404,7 +404,9 @@
                             </button>
                         </div>
                         <div class="modal-body py-0 mt-2">
-                            
+                            <div class="modal-footer mt-3 py-0" style="border: none;">
+                                <a id="download-data-csv" class="btn btn-warning disabled" href="" style="min-width: 159px; min-height: 42px;" download>Загрузить файл</a>
+                            </div>
                         </div>
                     </div>
                 </div>
