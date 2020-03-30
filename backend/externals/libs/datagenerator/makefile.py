@@ -9,7 +9,7 @@ class FileManager:
         
         #DIRECTORY PATH HERE
         # self.path = os.path.dirname(os.path.abspath(__file__)).replace('\\', '/') + "/Tables/"
-        self.path = str(Path(os.path.abspath(__file__)).parent.parent.parent.parent.parent) + '/Tables/'
+        self.path = str(Path(os.path.abspath(__file__)).parent.parent.parent.parent.parent) + '/static/userfiles/'
         
         self.filename = filename
 
@@ -25,14 +25,24 @@ class FileManager:
         self.headers = None
         self.types = None
         self.params = None
-        self.rows_per_iter = None 
+        self.size = None
+        self.reset_marker = 0
         
-    def set_values(self, headers, types, params, chunk_size):
+    def set_values(self, headers, types, params, size):
         self.headers = headers
         self.types = types
         self.params = params
-        self.chunk_size = chunk_size
-        self.DG = DataGenerator(types, params, chunk_size)
+        self.size = size
+        self.DG = DataGenerator(types, params, size, filename=self.filename)
+    
+    def change_rows(self, size):
+        self.size = size
+        self.DG.change_size(size)
+
+    def reset_outliers(self):
+        if not self.reset_marker:
+            self.DG.reset_outliers()
+            self.reset_marker = 1
 
     def write_headers(self):
         self.writer.writerow(self.headers)
