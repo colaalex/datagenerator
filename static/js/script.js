@@ -92,7 +92,7 @@ $(document).ready(function() {
     $('input[name="Radio"]').on('click', function() {
         $('#radioinput').empty();
         if ($('input[name="Radio"]:checked').val() == 1) {
-            $('#radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' id='sensor-create-lines'></div>");
+            $('#radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' name='sensor-create-lines' id='sensor-create-lines'></div>");
             $('#datetime-picker').css('display', 'none');
             document.getElementById("sensor-create-time-start").required = false;
             document.getElementById("sensor-create-time-stop").required = false;
