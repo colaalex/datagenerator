@@ -33,7 +33,7 @@ class FileManager:
         self.types = types
         self.params = params
         self.size = size
-        self.DG = DataGenerator(types, params, size)
+        self.DG = DataGenerator(types, params, size, filename=self.filename)
     
     def change_rows(self, size):
         self.size = size

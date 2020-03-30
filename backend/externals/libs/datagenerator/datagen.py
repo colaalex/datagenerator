@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import datetime
 
 class DataGenerator():
-    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None):
+    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None, filename=None):
         self.funcs = types
         self.args = params
         self.size = size        
@@ -16,6 +16,7 @@ class DataGenerator():
         self.ru = Faker('ru_RU')
         self.en = Faker('en_US')
         self.std_value = 1
+        self.filename = filename
 
     def change_size(self, size):
         self.size = size
@@ -62,6 +63,9 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.normal(0.8, 1, outliers_n)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def binomial(self, n, p, outliers_n=0):
@@ -76,6 +80,9 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.binomial(n*2, p+(1-p)/2, outliers_n)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def exponential(self, scale, outliers_n=0):
@@ -90,6 +97,9 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.normal(np.max(data), self.std_value, outliers_n)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def gamma(self, k, theta, outliers_n=0):
@@ -104,6 +114,9 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.normal(np.max(data), self.std_value, outliers_n)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def geometric(self, p, outliers_n=0):
@@ -120,6 +133,9 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def hypergeometric(self, ngood, nbad, nall, outliers_n=0):
@@ -137,6 +153,9 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def laplace(self, mean, scale, outliers_n=0):
@@ -152,6 +171,9 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def logistic(self, mean, scale, outliers_n=0):
@@ -168,6 +190,9 @@ class DataGenerator():
             randmult = r.choice([1, -1], outliers_n)
             outliers *= randmult
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def lognormal(self, mean, std, outliers_n=0):
@@ -182,6 +207,9 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.lognormal(mean+mean/2, self.std_value, outliers_n)
             data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     # def logarithmic(self, p):
@@ -213,6 +241,9 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def normal(self, mean, std, outliers_n=0):
@@ -229,6 +260,9 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def poisson(self, lam, outliers_n=0):
@@ -245,6 +279,9 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def triangular(self, left, top, right, outliers_n=0):
@@ -263,6 +300,9 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     def uniform(self, left, right, outliers_n=0):
@@ -280,6 +320,9 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
         return data
 
     # def weibull(self, a):

@@ -242,7 +242,8 @@ function generate(sensor_id) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/generate/' + sensor_id);
     xhr.onload = function () {
-        $('#download-data-csv').removeClass('disabled').attr('href', xhr.responseText);
+        $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
+        $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png');
         // $('#download-data-csv').href(xhr.responseText);
     };
     xhr.send();

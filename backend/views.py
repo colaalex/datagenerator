@@ -72,9 +72,8 @@ def generate(request, s_id, *args):
     period = sensor.period
 
     dg.mainf(filename=filename, headers=headers, types=types, params=params, rows=rows, time_start=time_start, time_end=time_end, period=period)
-    response = '/static/userfiles/' + filename + '.csv'
 
-    return HttpResponse(response)
+    return HttpResponse(filename)
 
 
 @require_POST
