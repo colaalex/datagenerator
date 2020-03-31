@@ -248,14 +248,24 @@ function deleteSensor(sensor_id, device_id, device_name) {
 }
 
 function generate(sensor_id) {
+    // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/generate/' + sensor_id);
     xhr.onload = function () {
-        $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
-        $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png');
+        $("#modal-plot").css('display', 'none');
+        $("#loader").fadeOut(1000, function () {
+            $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
+            $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
+        });
         // $('#download-data-csv').href(xhr.responseText);
     };
     xhr.send();
+}
+
+function closeModalSensor() {
+    $("#loader").fadeIn();
+    $('#download-data-csv').addClass('disabled').attr('href', '#');
+    $('#modal-plot').attr('src', '...');
 }
 
 function addSensor(device_id, device_name) {

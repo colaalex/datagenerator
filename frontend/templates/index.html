@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/static/css/dashboard.css">
 
 
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
@@ -397,13 +397,14 @@
                     <div class="modal-content px-3 py-3">
                         <div class="modal-header" style="border: none;">
                             <h5 class="title unselectable" id="staticBackdropLabel">Сгенерированные данные</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                            <button type="button" onclick="closeModalSensor()" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
                                 <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M23.75 8.0125L21.9875 6.25L15 13.2375L8.0125 6.25L6.25 8.0125L13.2375 15L6.25 21.9875L8.0125 23.75L15 16.7625L21.9875 23.75L23.75 21.9875L16.7625 15L23.75 8.0125Z" fill="#ced4da"/>
                                 </svg>
                             </button>
                         </div>
                         <div class="modal-body py-0 mt-2">
+                            <div class="mx-auto" id="loader"></div>
                             <img id="modal-plot" style="display: block; margin:0 auto;"/>
                             <div class="modal-footer mt-3 py-0" style="border: none;">
                                 <a id="download-data-csv" class="btn btn-warning disabled" href="" style="min-width: 159px; min-height: 42px;" download>Загрузить файл</a>
