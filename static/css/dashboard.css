@@ -222,7 +222,7 @@ body {
   bottom: 0;
   z-index: 999;
 
-  min-height: 110vh;
+  min-height: 85vh;
   min-width: 420px;
   max-width: 420px;
 
@@ -319,4 +319,27 @@ body {
   margin: auto;
   margin-top: 50px;
   margin-bottom: 32px;
+}
+
+/* Center the loader */
+#loader {
+  z-index: 1;
+  border: 10px solid #eee;
+  border-radius: 50%;
+  border-top: 10px solid #FFC107;
+  width: 80px;
+  height: 80px;
+  vertical-align: middle;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

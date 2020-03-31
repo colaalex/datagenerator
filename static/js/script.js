@@ -43,7 +43,30 @@ $(function () {
     $("#datetimepicker2").on("change.datetimepicker", function (e) {
         $('#datetimepicker1').datetimepicker('maxDate', e.date);
     });
-});         
+});
+
+$(function () {
+    $('#datetimepicker6').datetimepicker({
+        locale: 'ru',
+        format: 'HH mm ss'
+    });
+    $('#datetimepicker4').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru'
+    }
+    );
+    $('#datetimepicker5').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru',
+        useCurrent: false
+    });
+    $("#datetimepicker4").on("change.datetimepicker", function (e) {
+        $('#datetimepicker5').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker5").on("change.datetimepicker", function (e) {
+        $('#datetimepicker4').datetimepicker('maxDate', e.date);
+    });
+});
 
 /* beta(a: float, b: float)
 binomial(n: int >= 0, p: float >= 0)
@@ -111,28 +134,49 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
-    $('#project-sumbit').on("click", function() {
-        $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');
-        $('#project-header').append('<span class="span1 unselectable">' + $("#project-text").val() + '</span>');
-        $('#togglemodal1').modal('hide');
-        $('#togglemodal1').on('hidden.bs.modal', function () {
-            $(this).find("input,textarea").val('').end();
-        });
-        });
+    $('input[name="Radio2"]').on('click', function() {
+        $('#radioinput2').empty();
+        if ($('input[name="Radio2"]:checked').val() == 3) {
+            $('#radioinput2').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' name='sensor-create-lines' id='sensor-create-lines'></div>");
+            $('#datetime-picker2').css('display', 'none');
+            document.getElementById("sensor-create-time-start").required = false;
+            document.getElementById("sensor-create-time-stop").required = false;
+            document.getElementById("sensor-create-time-period-days").required = false;
+            document.getElementById("sensor-create-time-period-time").required = false;
+        }
+        else if ($('input[name="Radio2"]:checked').val() == 4) {
+            $('#datetime-picker2').css('display', 'flex');
+            document.getElementById("sensor-create-time-start").required = true;
+            document.getElementById("sensor-create-time-stop").required = true;
+            document.getElementById("sensor-create-time-period-days").required = true;
+            document.getElementById("sensor-create-time-period-time").required = true;
+        }
+    });
 });
+
+// $(document).ready(function() {
+//     $('#project-sumbit').on("click", function() {
+//         $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');
+//         $('#project-header').append('<span class="span1 unselectable">' + $("#project-text").val() + '</span>');
+//         $('#togglemodal1').modal('hide');
+//         $('#togglemodal1').on('hidden.bs.modal', function () {
+//             $(this).find("input,textarea").val('').end();
+//         });
+//         });
+// });
 
 /* + document.forms["deviceform"].elements["devicename"].value + */
 
-$(document).ready(function() {
-    $('#device-sumbit').on("click", function() {
-        $('.div-device').append('<h4 class="h4 mb-3 unselectable">' + $("#device-name").val() + '</h4><span class="span1 unselectable" style="display: block;">'  + $("#device-text").val() +  '</span>');
-        $('.div-device').append('<div class="text-right"><a href="#" style="text-decoration: none;"><i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i></a></div>');
-        $('#togglemodal2').modal('hide');
-        $('#togglemodal2').on('hidden.bs.modal', function () {
-            $(this).find("input,textarea").val('').end();
-        });
-        });
-});
+// $(document).ready(function() {
+//     $('#device-sumbit').on("click", function() {
+//         $('.div-device').append('<h4 class="h4 mb-3 unselectable">' + $("#device-name").val() + '</h4><span class="span1 unselectable" style="display: block;">'  + $("#device-text").val() +  '</span>');
+//         $('.div-device').append('<div class="text-right"><a href="#" style="text-decoration: none;"><i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i></a></div>');
+//         $('#togglemodal2').modal('hide');
+//         $('#togglemodal2').on('hidden.bs.modal', function () {
+//             $(this).find("input,textarea").val('').end();
+//         });
+//         });
+// });
 
 function getCookie(name) {
     var cookieValue = null;
@@ -226,9 +270,10 @@ function showSensors(device_id, device_name) {
         additionalHtml += "</div>";
         $('#sensors-box').append(additionalHtml);
 
-        $('#sensor-submit').on('click',function(){
-            addSensor(device_id, device_name);
-        });
+        // $('#sensor-submit').on('click',function(){
+        //     addSensor(device_id, device_name);
+        // });
+        $('#sensor-submit').unbind('click').click(function(){addSensor(device_id, device_name);});
     };
     xhr.send();
 
@@ -248,14 +293,25 @@ function deleteSensor(sensor_id, device_id, device_name) {
 }
 
 function generate(sensor_id) {
+    // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/generate/' + sensor_id);
     xhr.onload = function () {
-        $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
-        $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png');
+        $("#modal-plot").css('display', 'none');
+        $("#loader").fadeOut(1000, function () {
+            $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
+            $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
+        });
         // $('#download-data-csv').href(xhr.responseText);
     };
     xhr.send();
+}
+
+function closeModalSensor() {
+    console.log('a');
+    $("#loader").fadeIn();
+    $('#download-data-csv').addClass('disabled').attr('href', '#');
+    $('#modal-plot').css('display', 'none');
 }
 
 function addSensor(device_id, device_name) {
@@ -276,6 +332,31 @@ function addSensor(device_id, device_name) {
     };
     xhr.send(JSON.stringify(values));
 
+}
+
+function modalGenerateDeviceData(device_id) {
+    $('#generate-device-data-csv').on('click', function () {
+        $("#download-device-csv").text("Ждите");
+        $("#generate-device-data-csv").addClass('disabled');
+
+        var xhr = new XMLHttpRequest();
+        var values = {};
+        $.each($('#generator-device-form').serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+        console.log(values);
+        xhr.open('POST', '/api/generate_device/'+device_id+'/');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            $("#download-device-csv").attr('href', '/static/userfiles/'+xhr.responseText+'.csv').removeClass('disabled').text('Загрузить файл');
+        };
+        xhr.send(JSON.stringify(values));
+    })
+}
+
+function closeModalGenerateDeviceData() {
+    $("#generate-device-data-csv").removeClass('disabled');
+    $("#download-device-csv").addClass('disabled');
 }
 
 /* $(document).ready(function() {
