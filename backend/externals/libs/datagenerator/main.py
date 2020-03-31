@@ -10,16 +10,17 @@ def mainf(filename, headers, types, params, rows=None, time_start=None, time_end
     ### CREATES FILE AND GENERATES DATA
 
     csvfile  = fm(filename)
-    if rows is None:
+    if time_start is not None:
         rows, start, period = time_to_rows(time_start, time_end, period)
         headers.insert(0, "Time")
-        types.insert("daterow")
-        params.insert([start, period]) # rethink?
+        types.insert(0, "daterow")
+        params.insert(0, [start, period, 0])
         csvfile.set_values(headers, types, params, chunk_size)
         csvfile.write_headers()
         for _ in range(rows//chunk_size):
             csvfile.write()
-        csvfile.reset_rows(rows%chunk_size)
+            csvfile.reset_outliers
+        csvfile.change_rows(rows%chunk_size)
         csvfile.write()
         csvfile.close_file()
     else:
@@ -27,7 +28,8 @@ def mainf(filename, headers, types, params, rows=None, time_start=None, time_end
         csvfile.write_headers()
         for _ in range(rows//chunk_size):
             csvfile.write()
-        csvfile.reset_rows(rows%chunk_size)
+            csvfile.reset_outliers
+        csvfile.change_rows(rows%chunk_size)
         csvfile.write()
         csvfile.close_file()
 
@@ -60,16 +62,14 @@ def time_to_rows(start_str, end_str, period):
 
 
 if __name__ == '__main__':
-    #rows = takeinput.take_number_of_records()
-    #headers, types = takeinput.take_columns()
-    #filename = takeinput.take_file_name()
-
     filename = "test"
-    rows = 1000000
-    size = 10000
-    headers = ["name1", "name2", "name3", "1", "2", "3", "4", "out"]
-    types = ["normal", "triangular", "beta", "classification"]
-    params = [[0, 12], [5, 10, 15], [10, 20], [4, 2, 1, 3, ["f", "s", "t"]]]
+    rows = 10000000
+    chunk_size = 10000
+    # headers = ["name1", "name2", "name3"]
+    # types = ["normal", "triangular", "beta"]
+    # params = [[0, 3, 5000], [5, 10, 15], [10, 20]]
+    headers = ["NORM",]
+    types = ["normal",]
+    params = [[0, 3, 10000],]
 
-    
-    mainf(filename, rows, headers, types, params, size)
+    mainf(filename, headers, types, params, rows)

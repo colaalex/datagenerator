@@ -222,8 +222,9 @@ body {
   bottom: 0;
   z-index: 999;
 
-  height: 100vh;
-  min-width: 368px;
+  min-height: 85vh;
+  min-width: 420px;
+  max-width: 420px;
 
   background-color: white; 
   box-shadow: 0px 0px +1px rgba(0,0,0,.2);
@@ -268,7 +269,7 @@ body {
  */
 
  .btn.button-sensor {
-  width: 163px;
+  width: 344px;
   height: 180px;
 
   padding: 0;
@@ -318,4 +319,27 @@ body {
   margin: auto;
   margin-top: 50px;
   margin-bottom: 32px;
+}
+
+/* Center the loader */
+#loader {
+  z-index: 1;
+  border: 10px solid #eee;
+  border-radius: 50%;
+  border-top: 10px solid #FFC107;
+  width: 80px;
+  height: 80px;
+  vertical-align: middle;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -23,7 +23,3 @@ def show_project(request, p_id, *args):
             'client': CLIENT_ID, 'projects': projects, 'project': project, 'devices': devices})
     else:
         return HttpResponseForbidden()
-
-
-def generator(request, *args):
-    return render(request, 'main.html')

@@ -3,10 +3,10 @@ import numpy as np
 from faker import Faker
 from sklearn.datasets import make_classification, make_regression
 import matplotlib.pyplot as plt
-import datetime as dt
+import datetime
 
 class DataGenerator():
-    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None):
+    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None, filename=None):
         self.funcs = types
         self.args = params
         self.size = size        
@@ -15,9 +15,15 @@ class DataGenerator():
         self.period = None
         self.ru = Faker('ru_RU')
         self.en = Faker('en_US')
+        self.std_value = 1
+        self.filename = filename
 
     def change_size(self, size):
-        self.size = size      
+        self.size = size
+    
+    def reset_outliers(self):
+        for args_list in self.args:
+            args_list[-1] = 0
     
     def count(self):
         list_of_ML = ["classification", "regression"]
@@ -33,7 +39,7 @@ class DataGenerator():
         return np.array(li).T.tolist()
 
     ### DATE COLUMN ###
-    def daterow(self, st_time, period):
+    def daterow(self, st_time, period, outliers_n=0):
         if self.curr_time is None:
             self.curr_time = st_time
         data = np.array([self.curr_time + period*i for i in range(self.size)])
@@ -41,171 +47,294 @@ class DataGenerator():
         return data
 
     ### GEO DATA ###
-    def location(self, lat, long, radius=0.001):        
-        return np.array([ (Faker.coordinate(center=lat, radius=radius), Faker.coordinate(center=long, radius=radius)) for _ in range(self.size) ])
+    def geodata(self, lat, long, radius=0.001):
+        fake = Faker()
+        return np.array([ str(fake.coordinate(center=lat, radius=radius))+' '+str(fake.coordinate(center=long, radius=radius)) for _ in range(self.size) ])
         
     ### DISTRIBUTIONS ###
-    def beta(self, a, b):
+    def beta(self, a, b, outliers_n=0):
         '''
         Parameters:\n
         a: float. b: float.
         '''
         data = r.beta(a, b, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(0.8, 1, outliers_n)
+            data[indices] = outliers
         plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def binomial(self, n, p):
+    def binomial(self, n, p, outliers_n=0):
         '''
         Parameters:\n
         n: integer, >=0 . p: float, >=0.
         '''
         data = r.binomial(n, p, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.binomial(n*2, p+(1-p)/2, outliers_n)
+            data[indices] = outliers
         plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def exponential(self, scale):
+    def exponential(self, scale, outliers_n=0):
         '''
         Parameters:\n
         scale: float >=0.
         '''
-        return r.exponential(scale, self.size)
+        data = r.exponential(scale, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
+        return data
 
-    def gamma(self, k, theta):
+    def gamma(self, k, theta, outliers_n=0):
         '''
         Parameters:\n
         k: float, >=0 . theta: float, >=0.
         '''
         data = r.gamma(k, theta, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            data[indices] = outliers
         plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def geometric(self, p):
+    def geometric(self, p, outliers_n=0):
         '''
         Parameters:\n
         p: float, >=0.
         '''
-        return r.geometric(p, self.size)
+        data = r.geometric(p, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), 1, outliers_n)
+            f = lambda x: int(x)
+            outliers = f(outliers)
+            data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
+        return data
 
-    def hypergeometric(self, ngood, nbad, nall):
+    def hypergeometric(self, ngood, nbad, nall, outliers_n=0):
         '''Parameters:\n
         ngood: integer, >=0.\n
         nbad: integer, >=0.\n
         nall: integer, >=1 and <=ngood+nbad.
         '''
-        return r.hypergeometric(ngood, nbad, nall, self.size)
+        data = r.hypergeometric(ngood, nbad, nall, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data)*1.5, 1, outliers_n)
+            f = lambda x: int(x)
+            outliers = f(outliers)
+            data[indices] = outliers
+        plt.hist(data)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
+        return data
 
-    def laplace(self, mean, scale):
+    def laplace(self, mean, scale, outliers_n=0):
         '''Parameters:\n
         mean: float. scale: float, >=0.
         '''
         data = r.laplace(mean, scale, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            randmult = r.choice([1.5, -1.5], outliers_n)
+            outliers *= randmult
+            data[indices] = outliers
         plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def logistic(self, mean, scale):
+    def logistic(self, mean, scale, outliers_n=0):
         '''
         Parameters:\n
         mean: float. scale: float, >=0.
         '''
         data = r.logistic(mean, scale, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            randmult = r.choice([1, -1], outliers_n)
+            outliers *= randmult
+            data[indices] = outliers
         plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def lognormal(self, mean, std):
+    def lognormal(self, mean, std, outliers_n=0):
         '''
         Parameters:\n
         mean: float. std: float, >=0.
         '''
         data = r.lognormal(mean, std, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.lognormal(mean+mean/2, self.std_value, outliers_n)
+            data[indices] = outliers
         plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def logarithmic(self, p):
-        '''
-        Parameters:\n
-        p: float, must be in range (0, 1).
-        '''
-        return r.logseries(p, self.size)
+    # def logarithmic(self, p):
+    #     '''
+    #     Parameters:\n
+    #     p: float, must be in range (0, 1).
+    #     '''
+    #     return r.logseries(p, self.size)
 
-    def multinomial(self, n, pr_of_vals):
-        '''
-        Parameters:\n
-        n: int, >=0.\n
-        pr_of_vals: list of float probabilities, sum must be = 1.
-        '''
-        return r.multinomial(n, pr_of_vals, self.size)
+    # def multinomial(self, n, pr_of_vals):
+    #     '''
+    #     Parameters:\n
+    #     n: int, >=0.\n
+    #     pr_of_vals: list of float probabilities, sum must be = 1.
+    #     '''
+    #     return r.multinomial(n, pr_of_vals, self.size)
 
-    def negative_binomial(self, n, p):
+    def negative_binomial(self, n, p, outliers_n=0):
         '''
         Parameters:\n
         n: int, >0. p: float in range [0, 1].
         '''
         data = r.negative_binomial(n, p, self.size)
-        plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data)*1.5, 1, outliers_n)
+            f = lambda x: int(x)
+            outliers = f(outliers)
+            data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def normal(self, mean, std):
+    def normal(self, mean, std, outliers_n=0):
         '''
         Parameters:\n
         mean: float. std: float >=0.
         '''
         data = r.normal(mean, std, self.size)
-        plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            randmult = r.choice([1.5, -1.5], outliers_n)
+            outliers *= randmult
+            data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def poisson(self, lam):
+    def poisson(self, lam, outliers_n=0):
         '''
         Parameters:\n
-        lam: float, >0.
+        lam: float, >0. 
         '''
-        return r.poisson(lam, self.size)
+        data = r.poisson(lam, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data)*1.5, 1, outliers_n)
+            f = lambda x: int(x)
+            outliers = f(outliers)
+            data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
+        return data
 
-    def triangular(self, left, top, right):
+    def triangular(self, left, top, right, outliers_n=0):
         '''
         Parameters:\n
         left: float. \n
         top: float, must be >= left.\n
         right: float, must be >= top.
         '''
-        return r.triangular(left, top, right, self.size)
+        data = r.triangular(left, top, right, self.size)
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            randmult = r.choice([1.5, -1.5], outliers_n)
+            outliers *= randmult
+            data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
+        return data
 
-    def uniform(self, left, right):
+    def uniform(self, left, right, outliers_n=0):
         '''
         Parameters:\n
         left: float.\n
         right: float, must be >left.
         '''
         data = r.uniform(left, right, self.size)
-        plt.hist(data)
-        plt.savefig('/code/static/img/plot.png')
+        if outliers_n > self.size:
+            outliers_n = self.size
+        if outliers_n > 0:
+            indices = r.choice(np.arange(len(data)), outliers_n)
+            outliers = r.normal(np.max(data), self.std_value, outliers_n)
+            randmult = r.choice([1.5, -1.5], outliers_n)
+            outliers *= randmult
+            data[indices] = outliers
+        plt.hist(data, bins=100)
+        plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
-    def weibull(self, a):
-        '''
-        Parameters:\n
-        a: float, >=0.
-        '''
-        return r.weibull(a, self.size)
+    # def weibull(self, a):
+    #     '''
+    #     Parameters:\n
+    #     a: float, >=0.
+    #     '''
+    #     return r.weibull(a, self.size)
 
     ### ML-like DATA
-    def classification(self, n_features, n_informative, n_redundant, n_classes, labels=0, weights=0, noise=0.01, complexity=1.0, intervals=0):
+    def classification(self, n_features, n_informative, n_redundant, n_classes, labels=0, weights=0, noise=0.01, complexity=1.0, intervals=0, n_outliers=0):
         '''
         n_classes * n_clusters_per_class must be smaller or equal 2 ** n_informative \n
         n_inf + n_red <= n_features \n
@@ -262,9 +391,9 @@ class DataGenerator():
 
         #Makes outliers using spherical coordinates
         X_distance_max = np.max(np.ptp(X)/2) #radius of n-dim sphere which includes all X data
-        X_distances = r.random(n_outliers)  * X_distance_max * 1.5
-        alphas = r.random(n_outliers) * 2 * np.pi
-        betas = r.random((n_outliers, n_features-2)) * np.pi
+        X_distances = r.rand(n_outliers)  * X_distance_max * 1.5
+        alphas = r.rand(n_outliers) * 2 * np.pi
+        betas = r.rand((n_outliers, n_features-2)) * np.pi
         angles = np.concatenate((alphas.T, betas), axis=1)
 
         #Trasforms spherical coordinates into Euclidian
@@ -283,7 +412,7 @@ class DataGenerator():
         
         #Makes ouliers for y
         y_distance = np.ptp(y)/2 
-        y_outliers = (y_distance + (y_distance * r.random(n_outliers) * 2)) * r.choice((-1, 1), n_outliers) + bias
+        y_outliers = (y_distance + (y_distance * r.rand(n_outliers) * 2)) * r.choice((-1, 1), n_outliers) + bias
         
         #Adds outliers into existing data
         indices = r.choice(self.size, n_outliers)
@@ -351,4 +480,3 @@ class DataGenerator():
 
     def text_ru(self, chars):
         return np.array([self.ru.text(chars) for _ in range(self.size)])
-
