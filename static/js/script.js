@@ -110,29 +110,29 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('#project-sumbit').on("click", function() {
-        $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');
-        $('#project-header').append('<span class="span1 unselectable">' + $("#project-text").val() + '</span>');
-        $('#togglemodal1').modal('hide');
-        $('#togglemodal1').on('hidden.bs.modal', function () {
-            $(this).find("input,textarea").val('').end();
-        });
-        });
-});
+// $(document).ready(function() {
+//     $('#project-sumbit').on("click", function() {
+//         $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');
+//         $('#project-header').append('<span class="span1 unselectable">' + $("#project-text").val() + '</span>');
+//         $('#togglemodal1').modal('hide');
+//         $('#togglemodal1').on('hidden.bs.modal', function () {
+//             $(this).find("input,textarea").val('').end();
+//         });
+//         });
+// });
 
 /* + document.forms["deviceform"].elements["devicename"].value + */
 
-$(document).ready(function() {
-    $('#device-sumbit').on("click", function() {
-        $('.div-device').append('<h4 class="h4 mb-3 unselectable">' + $("#device-name").val() + '</h4><span class="span1 unselectable" style="display: block;">'  + $("#device-text").val() +  '</span>');
-        $('.div-device').append('<div class="text-right"><a href="#" style="text-decoration: none;"><i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i></a></div>');
-        $('#togglemodal2').modal('hide');
-        $('#togglemodal2').on('hidden.bs.modal', function () {
-            $(this).find("input,textarea").val('').end();
-        });
-        });
-});
+// $(document).ready(function() {
+//     $('#device-sumbit').on("click", function() {
+//         $('.div-device').append('<h4 class="h4 mb-3 unselectable">' + $("#device-name").val() + '</h4><span class="span1 unselectable" style="display: block;">'  + $("#device-text").val() +  '</span>');
+//         $('.div-device').append('<div class="text-right"><a href="#" style="text-decoration: none;"><i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i></a></div>');
+//         $('#togglemodal2').modal('hide');
+//         $('#togglemodal2').on('hidden.bs.modal', function () {
+//             $(this).find("input,textarea").val('').end();
+//         });
+//         });
+// });
 
 function getCookie(name) {
     var cookieValue = null;
@@ -226,9 +226,10 @@ function showSensors(device_id, device_name) {
         additionalHtml += "</div>";
         $('#sensors-box').append(additionalHtml);
 
-        $('#sensor-submit').on('click',function(){
-            addSensor(device_id, device_name);
-        });
+        // $('#sensor-submit').on('click',function(){
+        //     addSensor(device_id, device_name);
+        // });
+        $('#sensor-submit').unbind('click').click(function(){addSensor(device_id, device_name);});
     };
     xhr.send();
 
@@ -263,9 +264,10 @@ function generate(sensor_id) {
 }
 
 function closeModalSensor() {
+    console.log('a');
     $("#loader").fadeIn();
     $('#download-data-csv').addClass('disabled').attr('href', '#');
-    $('#modal-plot').attr('src', '...');
+    $('#modal-plot').css('display', 'none');
 }
 
 function addSensor(device_id, device_name) {
