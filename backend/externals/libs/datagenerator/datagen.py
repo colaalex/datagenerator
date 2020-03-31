@@ -47,8 +47,9 @@ class DataGenerator():
         return data
 
     ### GEO DATA ###
-    def location(self, lat, long, radius=0.001):        
-        return np.array([ (Faker.coordinate(center=lat, radius=radius), Faker.coordinate(center=long, radius=radius)) for _ in range(self.size) ])
+    def geodata(self, lat, long, radius=0.001):
+        fake = Faker()
+        return np.array([ str(fake.coordinate(center=lat, radius=radius))+' '+str(fake.coordinate(center=long, radius=radius)) for _ in range(self.size) ])
         
     ### DISTRIBUTIONS ###
     def beta(self, a, b, outliers_n=0):
