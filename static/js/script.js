@@ -114,15 +114,15 @@ $(document).ready(function() {
     $('input[name="Radio2"]').on('click', function() {
         $('#radioinput2').empty();
         if ($('input[name="Radio2"]:checked').val() == 3) {
-            $('#radioinput2').append("<div class='form-group mt-1'><label for='name' class='col-form-label text-muted unselectable'>Количество строк:</label><input type='text' class='form-control bg-white text-dark' id='name'></div>");
-            $('.datetime-picker').css('display', 'none');
+            $('#radioinput2').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' name='sensor-create-lines' id='sensor-create-lines'></div>");
+            $('.datetime-picker2').css('display', 'none');
             document.getElementById("sensor-create-time-start").required = false;
             document.getElementById("sensor-create-time-stop").required = false;
             document.getElementById("sensor-create-time-period-days").required = false;
             document.getElementById("sensor-create-time-period-time").required = false;
         }
         else if ($('input[name="Radio2"]:checked').val() == 4) {
-            $('.datetime-picker').css('display', 'flex');
+            $('.datetime-picker2').css('display', 'flex');
             document.getElementById("sensor-create-time-start").required = true;
             document.getElementById("sensor-create-time-stop").required = true;
             document.getElementById("sensor-create-time-period-days").required = true;
