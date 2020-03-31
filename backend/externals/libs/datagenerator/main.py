@@ -10,7 +10,7 @@ def mainf(filename, headers, types, params, rows=None, time_start=None, time_end
     ### CREATES FILE AND GENERATES DATA
 
     csvfile  = fm(filename)
-    if rows is None:
+    if time_start is not None:
         rows, start, period = time_to_rows(time_start, time_end, period)
         headers.insert(0, "Time")
         types.insert(0, "daterow")

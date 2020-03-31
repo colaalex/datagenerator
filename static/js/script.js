@@ -43,7 +43,30 @@ $(function () {
     $("#datetimepicker2").on("change.datetimepicker", function (e) {
         $('#datetimepicker1').datetimepicker('maxDate', e.date);
     });
-});         
+});
+
+$(function () {
+    $('#datetimepicker6').datetimepicker({
+        locale: 'ru',
+        format: 'HH mm ss'
+    });
+    $('#datetimepicker4').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru'
+    }
+    );
+    $('#datetimepicker5').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru',
+        useCurrent: false
+    });
+    $("#datetimepicker4").on("change.datetimepicker", function (e) {
+        $('#datetimepicker5').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker5").on("change.datetimepicker", function (e) {
+        $('#datetimepicker4').datetimepicker('maxDate', e.date);
+    });
+});
 
 /* beta(a: float, b: float)
 binomial(n: int >= 0, p: float >= 0)
@@ -90,10 +113,10 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $('input[name="Radio"]').on('click', function() {
-        $('.radioinput').empty();
+        $('#radioinput').empty();
         if ($('input[name="Radio"]:checked').val() == 1) {
-            $('.radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' name='sensor-create-lines' id='sensor-create-lines'></div>");
-            $('.datetime-picker').css('display', 'none');
+            $('#radioinput').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' name='sensor-create-lines' id='sensor-create-lines'></div>");
+            $('#datetime-picker').css('display', 'none');
             document.getElementById("sensor-create-time-start").required = false;
             document.getElementById("sensor-create-time-stop").required = false;
             document.getElementById("sensor-create-time-period-days").required = false;
@@ -101,7 +124,7 @@ $(document).ready(function() {
         }
         else if ($('input[name="Radio"]:checked').val() == 2) {
             // $('#radioinput').append('<div class="form-row mt-1"><div class="form-group col-md-4"><div class="form-group"><label class="col-form-label text-muted unselectable">Начало:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Конец:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div><div class="form-group col-md-4"><div class="form-group"><label for="name" class="col-form-label text-muted unselectable">Период:</label><input type="text" class="form-control bg-white text-dark" id="name"></div></div>');
-            $('.datetime-picker').css('display', 'flex');
+            $('#datetime-picker').css('display', 'flex');
             document.getElementById("sensor-create-time-start").required = true;
             document.getElementById("sensor-create-time-stop").required = true;
             document.getElementById("sensor-create-time-period-days").required = true;
@@ -115,14 +138,14 @@ $(document).ready(function() {
         $('#radioinput2').empty();
         if ($('input[name="Radio2"]:checked').val() == 3) {
             $('#radioinput2').append("<div class='form-group mt-1'><label class='col-form-label text-muted unselectable'>Количество строк:</label><input type='number' class='form-control bg-white text-dark' name='sensor-create-lines' id='sensor-create-lines'></div>");
-            $('.datetime-picker2').css('display', 'none');
+            $('#datetime-picker2').css('display', 'none');
             document.getElementById("sensor-create-time-start").required = false;
             document.getElementById("sensor-create-time-stop").required = false;
             document.getElementById("sensor-create-time-period-days").required = false;
             document.getElementById("sensor-create-time-period-time").required = false;
         }
         else if ($('input[name="Radio2"]:checked').val() == 4) {
-            $('.datetime-picker2').css('display', 'flex');
+            $('#datetime-picker2').css('display', 'flex');
             document.getElementById("sensor-create-time-start").required = true;
             document.getElementById("sensor-create-time-stop").required = true;
             document.getElementById("sensor-create-time-period-days").required = true;
@@ -309,6 +332,31 @@ function addSensor(device_id, device_name) {
     };
     xhr.send(JSON.stringify(values));
 
+}
+
+function modalGenerateDeviceData(device_id) {
+    $('#generate-device-data-csv').on('click', function () {
+        $("#download-device-csv").text("Ждите");
+        $("#generate-device-data-csv").addClass('disabled');
+
+        var xhr = new XMLHttpRequest();
+        var values = {};
+        $.each($('#generator-device-form').serializeArray(), function(i, field) {
+            values[field.name] = field.value;
+        });
+        console.log(values);
+        xhr.open('POST', '/api/generate_device/'+device_id+'/');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function () {
+            $("#download-device-csv").attr('href', '/static/userfiles/'+xhr.responseText+'.csv').removeClass('disabled').text('Загрузить файл');
+        };
+        xhr.send(JSON.stringify(values));
+    })
+}
+
+function closeModalGenerateDeviceData() {
+    $("#generate-device-data-csv").removeClass('disabled');
+    $("#download-device-csv").addClass('disabled');
 }
 
 /* $(document).ready(function() {

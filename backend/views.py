@@ -135,7 +135,7 @@ def create_sensor(request, d_id, *args):
     name = parameters.get('sensor-create-name')
     sensor_type = int(parameters.get('inputState', 0))
     sensor_distribution = Distribution.objects.filter(code=parameters.get('inputdistribution')).get()
-    sensor_outlier = parameters.get('sensor-create-outlier')
+    sensor_outlier = parameters.get('sensor-create-outlier', 0)
     sensor_lines = parameters.get('sensor-create-lines', None)
     sensor_time_start = parameters.get('sensor-create-time-start', None)
     sensor_time_start = None if sensor_time_start == "" else sensor_time_start
@@ -168,3 +168,40 @@ def delete_sensor(request, s_id, *args):
         return HttpResponseForbidden()
     sensor.delete()
     return HttpResponse('OK')
+
+
+def generate_device(request, d_id, *args):
+    sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
+    # filename, headers, types, params, rows = None, time_start = None, time_end = None, period = None, chunk_size = 10000
+    filename = f'data_d{d_id}_{uuid1()}'
+    logger.error(request.POST)
+    parameters = json.loads(list(request.POST.dict().keys())[0])
+    lines = parameters.get('sensor-create-lines', None)
+    lines = int(lines) if lines is not None else None
+    time_start = parameters.get('sensor-create-time-start', None)
+    time_start = None if time_start == "" else time_start
+    time_stop = parameters.get('sensor-create-time-stop', None)
+    time_stop = None if time_stop == "" else time_stop
+    time_period_days = parameters.get('sensor-create-time-period-days', None)
+    time_period_time = parameters.get('sensor-create-time-period-time', None)
+    try:
+        period = time_period_days + ' ' + time_period_time
+    except TypeError:
+        period = None
+    if period == "":
+        period = None
+
+    headers = []
+    types = []
+    dist_params = []
+    params = []
+    for s in sensors:
+        headers.append(s.sensor_name)
+        types.append(s.sensor_distribution.code)
+        dp = DistributionParameters.objects.filter(sensor=s).all()
+        dist_params.append(dp)
+        params.append([float(i.value) for i in dp])
+
+    dg.mainf(filename=filename, headers=headers, types=types, params=params, rows=lines, time_start=time_start, time_end=time_stop, period=period)
+
+    return HttpResponse(filename)

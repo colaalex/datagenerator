@@ -13,4 +13,5 @@ urlpatterns = [
     path('get_sensors/<int:d_id>/', get_sensors),
     path('create_sensor/<int:d_id>/', create_sensor),
     path('delete_sensor/<int:s_id>/', delete_sensor),
+    path('generate_device/<int:d_id>/', generate_device)
 ]
