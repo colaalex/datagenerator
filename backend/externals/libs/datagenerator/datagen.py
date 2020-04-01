@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import datetime
 
 class DataGenerator():
-    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None, filename=None):
+    def __init__(self, types, params, size=1000, filename=None):
         self.funcs = types
         self.args = params
         self.size = size        
@@ -37,6 +37,26 @@ class DataGenerator():
                     li.append(values)
                 li.append(y)
         return np.array(li).T.tolist()
+
+    def temperature(self, mean=18., std=0.01, outliers_n=0):
+        if outliers_n > self.size:
+            outliers_n = self.size
+        temp = r.normal(0, std, self.size)
+        curr = mean
+        data = []
+        for i in range(self.size):
+            data.append(curr)
+            curr += temp[i]
+        data = np.array(data)
+        m = 1+2*std
+        if outliers_n > 0:
+            indices = r.choice(np.arange(1,len(data)), outliers_n)
+            randmult = r.choice([m, 1/m], outliers_n)
+            data[indices] = data[indices] * randmult
+        plt.hist(data, bins=100)
+        # plt.savefig(f'/code/static/img/{self.filename}.png')
+        plt.clf()
+        return data
 
     ### DATE COLUMN ###
     def daterow(self, st_time, period, outliers_n=0):
@@ -262,7 +282,7 @@ class DataGenerator():
             outliers *= randmult
             data[indices] = outliers
         plt.hist(data, bins=100)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
+        # plt.savefig(f'/code/static/img/{self.filename}.png')
         plt.clf()
         return data
 
@@ -480,3 +500,15 @@ class DataGenerator():
 
     def text_ru(self, chars):
         return np.array([self.ru.text(chars) for _ in range(self.size)])
+
+
+
+
+# chunk_size = 10000
+# types = ["normal","temperature"]
+# params = [[0, 3, 50],[18, 0.001, 10]]
+
+# a = DataGenerator(types, params, 10000)
+# f= open("string.txt","w+")
+# f.write(str(np.array(a.count())[:,1].tolist()))
+# f.close()
