@@ -13,7 +13,7 @@ import logging
 from uuid import uuid1
 
 from .externals.libs.datagenerator import main as dg
-from .models import User, Project, Device, Sensor, DistributionParameters, Distribution
+from .models import User, Project, Device, Sensor, DistributionParameters, Distribution, Report
 from .forms import ProjectCreateForm
 
 
@@ -220,5 +220,25 @@ def edit_project(request, p_id, *args):
     project.project_name = name
     project.project_description = description
     project.save()
+
+    return HttpResponseRedirect(f'/project/{p_id}')
+
+
+def create_report(request, p_id, *args):
+    user = request.user
+    project = Project.objects.get(pk=p_id)
+    if user != project.project_owner:
+        return HttpResponseForbidden()
+    logger.error(request.POST)
+    name = request.POST.get('report-create-name')
+    devices = request.POST.get('report-select-devices')
+    time_start = request.POST.get('report-time-start')
+    time_end = request.POST.get('report-time-end')
+
+    report = Report(name=name, start_time=time_start, end_time=time_end, project=project)
+    report.save()
+
+    for d_id in devices:
+        report.devices.add(Device.objects.get(pk=d_id))
 
     return HttpResponseRedirect(f'/project/{p_id}')
