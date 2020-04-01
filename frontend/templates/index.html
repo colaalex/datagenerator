@@ -77,21 +77,32 @@
                         {#                  Проект 2#}
                         {#                </a>#}
                     </ul>
-
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable">
-                        <span>Сохраненные отчеты</span>
-                        <a class="d-flex align-items-center text-muted" role="button" data-toggle="modal" data-target="#togglemodal6" style="text-decoration: none;">
-                            <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
-                        </a>
-                    </h6>
-                    <ul class="nav flex-column mb-2">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-stream" style="margin-right: 5px;"></i>
-                                Шаблон
+                    {% if project %}
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable">
+                            <span>Сохраненные отчеты</span>
+                            <a class="d-flex align-items-center text-muted" role="button" data-toggle="modal" data-target="#togglemodal6" style="text-decoration: none;">
+                                <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
                             </a>
-                        </li>
-                    </ul>
+                        </h6>
+                        {% for report in reports %}
+                            <ul class="nav flex-column mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/report/{{ report.id }}">
+                                        <i class="fas fa-stream" style="margin-right: 5px;"></i>
+                                        {{ report.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+{#                    <ul class="nav flex-column mb-2">#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link" href="#">#}
+{#                                <i class="fas fa-stream" style="margin-right: 5px;"></i>#}
+{#                                Шаблон#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
                 {% else %}
                     <p>Войдите в аккаунт, чтобы управлять своими проектами и отчетами</p>
                 {% endif %}
@@ -497,7 +508,7 @@
 
 
 
-        
+
         </main>
 
 
@@ -520,19 +531,22 @@
                 </button>
               </div>
               <div class="modal-body py-0 mt-2">
-                <form id="report-form" method="post">
-                
-                  <label for="" class="col-form-label text-muted unselectable">Выберите устройство:</label>
-                  <select id="" class="custom-select form-control" multiple>
-                    <option value="">One</option>
-                    <option value="">Two</option>
-                    <option value="">Three</option>
+                <form id="report-form" method="post" action="/api/create_report/{{ project.id }}/">
+                <div class="form-group">
+                                <label class="col-form-label text-muted unselectable">Название отчета:</label>
+                                <input type="text" class="form-control bg-white text-dark" id="report-create-name" name="report-create-name" required>
+                            </div>
+                  <label for="" class="col-form-label text-muted unselectable">Выберите устройства (удерживайте Ctrl для выбора нескольких):</label>
+                  <select id="report-select-devices" name="report-select-devices" class="custom-select form-control" multiple required>
+                      {% for device in devices %}
+                        <option value="{{ device.id }}">{{ device.device_name }}</option>
+                      {% endfor %}
                   </select>
                   <div class="form-row mt-1">
                     <div class="form-group col-md-6">
                       <label class="col-form-label text-muted unselectable">Начало:</label>
                       <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker7" />
+                        <input type="text" id="report-time-start" name="report-time-start" class="form-control datetimepicker-input" data-target="#datetimepicker7" required/>
                         <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
@@ -541,13 +555,13 @@
                     <div class="form-group col-md-6">
                       <label class="col-form-label text-muted unselectable">Конец:</label>
                       <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker8" />
+                        <input type="text" id="report-time-end" name="report-time-end" class="form-control datetimepicker-input" data-target="#datetimepicker8" required/>
                         <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
                       <div class="modal-footer mt-3 py-0" style="border: none;">
-                        <button type="button" class="btn btn-warning" id="report-submit" style="min-width: 159px; min-height: 42px;">Создать</button>
+                        <button type="submit" class="btn btn-warning" id="report-submit" style="min-width: 159px; min-height: 42px;">Создать</button>
                     </div>
                     </div>
                   </div>

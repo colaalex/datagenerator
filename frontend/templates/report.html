@@ -84,12 +84,12 @@
                                 <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
                             </a>
                         </h6>
-                        {% for report in reports %}
+                        {% for r in reports %}
                             <ul class="nav flex-column mb-2">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#">
+                                    <a class="nav-link {% if r == report %}active{% endif %}" href="/report/{{ r.id }}">
                                         <i class="fas fa-stream" style="margin-right: 5px;"></i>
-                                        {{ report.name }}
+                                        {{ r.name }}
                                     </a>
                                 </li>
                             </ul>

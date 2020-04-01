@@ -24,3 +24,15 @@ def show_project(request, p_id, *args):
             'client': CLIENT_ID, 'projects': projects, 'project': project, 'devices': devices, 'reports': reports})
     else:
         return HttpResponseForbidden()
+
+
+def show_report(request, r_id, *args):
+    CLIENT_ID = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
+    report = Report.objects.get(pk=r_id)
+    if request.user != report.project.project_owner:
+        return HttpResponseForbidden()
+    project = report.project
+    reports = Report.objects.filter(project=project).all()
+    projects = Project.objects.filter(project_owner=request.user).all()
+    return render(request, 'report.html', {
+        'client': CLIENT_ID, 'projects': projects, 'project': project, 'report': report, 'reports': reports})
