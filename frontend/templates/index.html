@@ -80,7 +80,7 @@
 
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable">
                         <span>Сохраненные отчеты</span>
-                        <a class="d-flex align-items-center text-muted" href="#" style="text-decoration: none;">
+                        <a class="d-flex align-items-center text-muted" role="button" data-toggle="modal" data-target="#togglemodal6" style="text-decoration: none;">
                             <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
                         </a>
                     </h6>
@@ -545,6 +545,9 @@
                           <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                         </div>
                       </div>
+                      <div class="modal-footer mt-3 py-0" style="border: none;">
+                        <button type="button" class="btn btn-warning" id="report-submit" style="min-width: 159px; min-height: 42px;">Создать</button>
+                    </div>
                     </div>
                   </div>
                 </form>

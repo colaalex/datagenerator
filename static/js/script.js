@@ -69,9 +69,14 @@ $(function () {
 });
 
 $(function () {
-    $('#datetimepicker7').datetimepicker();
+    $('#datetimepicker7').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru'
+    });
     $('#datetimepicker8').datetimepicker({
-        useCurrent: false //Important! See issue #1075
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru',
+        useCurrent: false
     });
     $("#datetimepicker7").on("dp.change", function (e) {
         $('#datetimepicker8').data("DateTimePicker").minDate(e.date);
