@@ -172,6 +172,28 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function () {
+    $('[data-toggle="popover"]').popover()
+    $('#inputdistribution').change(function() {
+        if ($('#inputdistribution').val() == 'beta') { $('#distribution-popover').attr('data-content', 'a: float, b: float') }
+        else if ($('#inputdistribution').val() == 'binomial') { $('#distribution-popover').attr('data-content', 'n: int >= 0, p: float >= 0') }
+        else if ($('#inputdistribution').val() == 'exponential') { $('#distribution-popover').attr('data-content', 'scale: float >= 0') }
+        else if ($('#inputdistribution').val() == 'gamma') { $('#distribution-popover').attr('data-content', 'k: float >= 0, theta: float >= 0') }
+        else if ($('#inputdistribution').val() == 'geometric') { $('#distribution-popover').attr('data-content', 'p: float >= 0') }
+        else if ($('#inputdistribution').val() == 'hypergeometric') { $('#distribution-popover').attr('data-content', 'ngood: int >= 0, nbad: int >= 0, nall: int 1<=nall<=ngood+nbad') }
+        else if ($('#inputdistribution').val() == 'laplace') { $('#distribution-popover').attr('data-content', 'mean: float, scale: float >=0') }
+        else if ($('#inputdistribution').val() == 'logistic') { $('#distribution-popover').attr('data-content', 'mean: float, scale: float >= 0') }
+        else if ($('#inputdistribution').val() == 'lognormal') { $('#distribution-popover').attr('data-content', 'mean: float, std: float >= 0') }
+        else if ($('#inputdistribution').val() == 'negative_binomial') { $('#distribution-popover').attr('data-content', 'n: int > 0, p: float 0<=p<=1') }
+        else if ($('#inputdistribution').val() == 'normal') { $('#distribution-popover').attr('data-content', 'mean: float, std: float >= 0') }
+        else if ($('#inputdistribution').val() == 'poisson') { $('#distribution-popover').attr('data-content', 'lam: float > 0') }
+        else if ($('#inputdistribution').val() == 'triangular') { $('#distribution-popover').attr('data-content', 'left: float, top: float >= left, right: float >= top') }
+        else if ($('#inputdistribution').val() == 'uniform') { $('#distribution-popover').attr('data-content', 'left: float, right: float > left') }
+        else if ($('#inputdistribution').val() == 'geodata') { $('#distribution-popover').attr('data-content', 'lat: float -90≤lat≤90; long: float -180≤long≤180; radius: float radius≥0') }
+        else $('#distribution-popover').attr('data-content', 'Выберите распределение и снова наведите на меня :)')
+    });
+});
+
 // $(document).ready(function() {
 //     $('#project-sumbit').on("click", function() {
 //         $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');

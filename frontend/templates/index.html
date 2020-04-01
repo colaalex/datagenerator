@@ -313,7 +313,12 @@
                                         </select>
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label for="inputdistribution" class="col-form-label text-muted unselectable">Тип распределения:</label>
+                                        <label for="inputdistribution" class="col-form-label text-muted unselectable">Тип распределения
+                                            <a id="distribution-popover" data-container="body"  data-trigger="hover" data-toggle="popover" data-placement="top" data-content="Выберите распределение и снова наведите на меня :)" class="ml-1 mr-1" style="text-decoration: none;">
+                                                <i class="fas fa-question-circle" style="color: #6C757D; border: 0;"></i>
+                                            </a>
+                                            :
+                                          </label>
                                         <select id="inputdistribution" class="form-control" name="inputdistribution">
                                             <option selected>Выберите...</option>
                                             <option value="beta">Бета</option>
