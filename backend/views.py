@@ -130,6 +130,7 @@ def get_sensors(request, d_id, *args):
 
 @require_POST
 def create_sensor(request, d_id, *args):
+    # TODO проверка на юзера
     parameters = json.loads(list(request.POST.dict().keys())[0])
     logger.error(parameters)
     name = parameters.get('sensor-create-name')
@@ -171,6 +172,7 @@ def delete_sensor(request, s_id, *args):
 
 
 def generate_device(request, d_id, *args):
+    # TODO проверка на юзера
     sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
     # filename, headers, types, params, rows = None, time_start = None, time_end = None, period = None, chunk_size = 10000
     filename = f'data_d{d_id}_{uuid1()}'
@@ -205,3 +207,18 @@ def generate_device(request, d_id, *args):
     dg.mainf(filename=filename, headers=headers, types=types, params=params, rows=lines, time_start=time_start, time_end=time_stop, period=period)
 
     return HttpResponse(filename)
+
+
+@require_POST
+def edit_project(request, p_id, *args):
+    user = request.user
+    project = Project.objects.get(pk=p_id)
+    if user != project.project_owner:
+        return HttpResponseForbidden()
+    name = request.POST.get('project-name')
+    description = request.POST.get('project-text')
+    project.project_name = name
+    project.project_description = description
+    project.save()
+
+    return HttpResponseRedirect(f'/project/{p_id}')

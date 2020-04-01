@@ -105,14 +105,14 @@
                 <div class="modal-content px-3 py-3">
                     <div class="modal-header" style="border: none;">
                         <h5 class="title unselectable" id="staticBackdropLabel">Создать новый проект</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                        <button type="button" onclick="closeModalEditProject()" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
                             <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M23.75 8.0125L21.9875 6.25L15 13.2375L8.0125 6.25L6.25 8.0125L13.2375 15L6.25 21.9875L8.0125 23.75L15 16.7625L21.9875 23.75L23.75 21.9875L16.7625 15L23.75 8.0125Z" fill="#ced4da"/>
                             </svg>
                         </button>
                     </div>
                     <div class="modal-body py-0 mt-2">
-                        <form name="project-form" action="/api/create_project/" method="post">
+                        <form name="project-form" id="project-form" action="/api/create_project/" method="post">
                             <div class="form-group">
                                 <label for="project-name" class="col-form-label text-muted unselectable">Название проекта:</label>
                                 <input type="text" class="form-control bg-white text-dark" id="project-name" name="project-name">
@@ -136,9 +136,9 @@
             {% else %}
                 <div id="project-header">
                 <div class="project mt-5 mb-4">
-                    <h3 class="h3 unselectable" style="display: inline-block;">{{ project.project_name }}</h3>
+                    <h3 class="h3 unselectable" id="project-name-label" style="display: inline-block;">{{ project.project_name }}</h3>
                     <div style="float: right">
-                        <a class="mr-2" href="#" style="text-decoration: none;">
+                        <a class="mr-2" onclick="editProject({{ project.id }})" data-toggle="modal" data-target="#togglemodal1" style="text-decoration: none;">
                             <i class="far fa-edit" style="color: #C2CFE0; border: 0; font-size: 22px"></i>
                         </a>
                         <a href="/api/delete_project/{{ project.id }}" style="text-decoration: none;">
@@ -147,7 +147,7 @@
                     </div>
                 </div>
 
-                <span class="span1 unselectable">{{ project.project_description }}</span>
+                <span class="span1 unselectable" id="project-text-label">{{ project.project_description }}</span>
                 </div>
 
                 <div class="row ml-0 my-5 w-100">

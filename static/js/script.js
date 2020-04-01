@@ -359,6 +359,22 @@ function closeModalGenerateDeviceData() {
     $("#download-device-csv").addClass('disabled');
 }
 
+function editProject(project_id) {
+    $("#staticBackdropLabel").text('Изменить проект');
+    $("#project-name").val($("#project-name-label").text());
+    $("#project-text").val($("#project-text-label").text());
+    $("#project-sumbit").text("Изменить");
+    $("#project-form").attr('action', '/api/edit_project/'+project_id+'/');
+}
+
+function closeModalEditProject() {
+    $("#staticBackdropLabel").text('Создать новый проект');
+    $("#project-name").val("");
+    $("#project-text").val("");
+    $("#project-sumbit").text("Создать");
+    $("#project-form").attr('action', '/api/create_project/');
+}
+
 /* $(document).ready(function() {
     $('#project-edit, #device-edit').one("click", function() {; */
 
