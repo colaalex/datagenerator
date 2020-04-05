@@ -4,6 +4,7 @@ from .externals.libs.datagenerator import datagen
 from .externals.libs.datagenerator.main import time_to_rows
 
 import datetime as dt
+from numpy import mean, median
 
 
 def prepare_report(report_id):
@@ -43,14 +44,19 @@ def plotly_data(report_id, sensor_type_id):
     # sensors = Sensor.objects.filter(record__report_id=report_id, record__sensor_type_id=sensor_type_id).all()
     records = Record.objects.filter(report_id=report_id, sensor_type_id=sensor_type_id).all()
     traces = {}  # {s_id: {'x': x, 'y': [values], 'type': 'scatter', 'name': name, 'x': [time]}}
+    raw_values = []  # все подряд значения для статистики
     for r in records:
         if r.sensor.id not in traces:
             traces[r.sensor.id] = {'type': 'scatter', 'y': [r.value], 'name': r.sensor.sensor_device.device_name, 'x': [r.time.strftime('%H:%M')]}
         else:
             traces[r.sensor.id]['y'].append(r.value)
             traces[r.sensor.id]['x'].append(r.time.strftime('%H:%M'))
+        raw_values.append(r.value)
     data = []
     for t in traces:
         data.append(traces[t])
 
-    return data
+    report_text = f'Максимальное значение: {max(raw_values)}\nМинимальное значение: {min(raw_values)}\n' \
+                  f'Среднее значение: {mean(raw_values)}\nМедианное значение: {median(raw_values)}'
+
+    return {'data': data, 'text': report_text}

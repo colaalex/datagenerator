@@ -250,4 +250,4 @@ def create_report(request, p_id, *args):
 
 def plot_data(request, report_id, sensor_type_id, *args):
     data = plotly_data(report_id, sensor_type_id)
-    return JsonResponse(data, safe=False)
+    return JsonResponse(data)

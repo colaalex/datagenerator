@@ -166,8 +166,9 @@
                 </div>
             </div>
             <div class="form-group">
+                <input type="hidden" id="reportid" value="{{ report.id }}"/>
                 <label for="inputState" class="col-form-label text-muted unselectable">Тип датчика:</label>
-                <select id="inputState" class="form-control" name="inputState" onclick="buildPlot({{ report.id }})">
+                <select id="inputState" class="form-control" name="inputState" onchange="buildPlot({{ report.id }})">
                     {% for st in stypes %}
                         <option value="{{ st.sensor_type.id }}">{{ st.sensor_type.sensor_type }}</option>
                     {% endfor %}
@@ -199,7 +200,7 @@
                 <div class="mt-5 mb-4">
                     <h4 class="h4 unselectable" id="report-statistic-label-main" style="display: inline-block;">Статистика</h4>
                 </div>
-                <span class="span1 unselectable" id="report-statistic-label">Описание</span>
+                <span class="span1 unselectable" id="report-statistic-label" style="white-space: pre-line">Описание</span>
             </div>
 
         </main>
