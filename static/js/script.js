@@ -288,9 +288,9 @@ function showSensors(device_id, device_name) {
             additionalHtml += "<div>";
             additionalHtml += "<span class=\"col-form-label text-muted unselectable\">Датчик</span>";
             additionalHtml += "<div style=\"float: right\">";
-            additionalHtml += "<a class=\"mr-1\" href=\"#\" style=\"text-decoration: none;\">";
-            additionalHtml += "<i class=\"far fa-edit text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
-            additionalHtml += "</a>";
+            // additionalHtml += "<a class=\"mr-1\" href=\"#\" style=\"text-decoration: none;\">";
+            // additionalHtml += "<i class=\"far fa-edit text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
+            // additionalHtml += "</a>";
             additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\" onclick='deleteSensor(" + data[i]['pk'] + ", " + device_id + ", \"" + device_name + "\")'>";
             additionalHtml += "<i class=\"far fa-trash-alt text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
             additionalHtml += "</a>";
@@ -413,6 +413,22 @@ function closeModalEditProject() {
     $("#project-text").val("");
     $("#project-sumbit").text("Создать");
     $("#project-form").attr('action', '/api/create_project/');
+}
+
+function editDevice(device_id) {
+    $("#staticBackdropLabel2").text('Изменить устройство');
+    $('#device-name').val($("#device-name-label").text());
+    $('#device-text').val($('#device-text-label').text());
+    $('#device-sumbit').text('Изменить');
+    $('#device-form').attr('action', '/api/edit_device/'+device_id+'/');
+}
+
+function closeModalEditDevice(project_id) {
+    $("#staticBackdropLabel2").text('Создать новое устройство');
+    $('#device-name').val("");
+    $('#device-text').val("");
+    $('#device-sumbit').text('Создать');
+    $('#device-form').attr('action', '/api/create_device/'+project_id+'/');
 }
 
 /* $(document).ready(function() {

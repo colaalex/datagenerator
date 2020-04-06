@@ -225,6 +225,21 @@ def edit_project(request, p_id, *args):
     return HttpResponseRedirect(f'/project/{p_id}')
 
 
+@require_POST
+def edit_device(request, d_id, *args):
+    user = request.user
+    device = Device.objects.get(pk=d_id)
+    if user != device.device_project.project_owner:
+        return HttpResponseForbidden()
+    name = request.POST.get('device-name')
+    description = request.POST.get('device-text')
+    device.device_name = name
+    device.device_description = description
+    device.save()
+
+    return HttpResponseRedirect(f'/project/{device.device_project_id}')
+
+
 def create_report(request, p_id, *args):
     user = request.user
     project = Project.objects.get(pk=p_id)
