@@ -288,9 +288,6 @@ function showSensors(device_id, device_name) {
             additionalHtml += "<div>";
             additionalHtml += "<span class=\"col-form-label text-muted unselectable\">Датчик</span>";
             additionalHtml += "<div style=\"float: right\">";
-            // additionalHtml += "<a class=\"mr-1\" href=\"#\" style=\"text-decoration: none;\">";
-            // additionalHtml += "<i class=\"far fa-edit text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
-            // additionalHtml += "</a>";
             additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\" onclick='deleteSensor(" + data[i]['pk'] + ", " + device_id + ", \"" + device_name + "\")'>";
             additionalHtml += "<i class=\"far fa-trash-alt text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
             additionalHtml += "</a>";
@@ -332,6 +329,28 @@ function deleteSensor(sensor_id, device_id, device_name) {
     xhr.send();
 }
 
+function plotGeneratedData(data) {
+    console.log(data);
+    var x = [];
+    for (var i = 0; i < data.length; i++) {
+        for (let [key, value] of Object.entries(data[i])) {
+            if (!(key === 'Time')) {
+                x.push(value);
+            }
+        }
+    }
+    // for (var i = 0; i < data.length; i++) {
+    //     x.push(Object.entries(data)[i][1]);
+    // }
+    var trace = {
+        x: x,
+        type: 'histogram',
+    };
+    console.log(trace);
+    Plotly.newPlot('modal-plot', [trace]);
+    $('#modal-plot').css('display', 'block');
+}
+
 function generate(sensor_id) {
     // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
@@ -340,7 +359,8 @@ function generate(sensor_id) {
         $("#modal-plot").css('display', 'none');
         $("#loader").fadeOut(1000, function () {
             $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
-            $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
+            Plotly.d3.csv('/static/userfiles/'+xhr.responseText+'.csv', function (data) {plotGeneratedData(data)});
+            // $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
         });
         // $('#download-data-csv').href(xhr.responseText);
     };
