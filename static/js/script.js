@@ -385,6 +385,7 @@ function modalGenerateDeviceData(device_id) {
             values[field.name] = field.value;
         });
         console.log(values);
+        console.log(device_id);
         xhr.open('POST', '/api/generate_device/'+device_id+'/');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
@@ -397,6 +398,7 @@ function modalGenerateDeviceData(device_id) {
 function closeModalGenerateDeviceData() {
     $("#generate-device-data-csv").removeClass('disabled');
     $("#download-device-csv").addClass('disabled');
+    $('#generate-device-data-csv').unbind('click');
 }
 
 function editProject(project_id) {
