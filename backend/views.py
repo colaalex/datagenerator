@@ -13,7 +13,8 @@ import logging
 from uuid import uuid1
 
 from .externals.libs.datagenerator import main as dg
-from .models import User, Project, Device, Sensor, DistributionParameters, Distribution
+from .models import User, Project, Device, Sensor, DistributionParameters, Distribution, Report
+from .reportutils import prepare_report, plotly_data
 from .forms import ProjectCreateForm
 
 
@@ -130,6 +131,7 @@ def get_sensors(request, d_id, *args):
 
 @require_POST
 def create_sensor(request, d_id, *args):
+    # TODO проверка на юзера
     parameters = json.loads(list(request.POST.dict().keys())[0])
     logger.error(parameters)
     name = parameters.get('sensor-create-name')
@@ -171,6 +173,7 @@ def delete_sensor(request, s_id, *args):
 
 
 def generate_device(request, d_id, *args):
+    # TODO проверка на юзера
     sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
     # filename, headers, types, params, rows = None, time_start = None, time_end = None, period = None, chunk_size = 10000
     filename = f'data_d{d_id}_{uuid1()}'
@@ -205,3 +208,61 @@ def generate_device(request, d_id, *args):
     dg.mainf(filename=filename, headers=headers, types=types, params=params, rows=lines, time_start=time_start, time_end=time_stop, period=period)
 
     return HttpResponse(filename)
+
+
+@require_POST
+def edit_project(request, p_id, *args):
+    user = request.user
+    project = Project.objects.get(pk=p_id)
+    if user != project.project_owner:
+        return HttpResponseForbidden()
+    name = request.POST.get('project-name')
+    description = request.POST.get('project-text')
+    project.project_name = name
+    project.project_description = description
+    project.save()
+
+    return HttpResponseRedirect(f'/project/{p_id}')
+
+
+@require_POST
+def edit_device(request, d_id, *args):
+    user = request.user
+    device = Device.objects.get(pk=d_id)
+    if user != device.device_project.project_owner:
+        return HttpResponseForbidden()
+    name = request.POST.get('device-name')
+    description = request.POST.get('device-text')
+    device.device_name = name
+    device.device_description = description
+    device.save()
+
+    return HttpResponseRedirect(f'/project/{device.device_project_id}')
+
+
+def create_report(request, p_id, *args):
+    user = request.user
+    project = Project.objects.get(pk=p_id)
+    if user != project.project_owner:
+        return HttpResponseForbidden()
+    logger.error(request.POST)
+    name = request.POST.get('report-create-name')
+    devices = request.POST.getlist('report-select-devices')
+    time_start = request.POST.get('report-time-start')
+    time_end = request.POST.get('report-time-end')
+
+    report = Report(name=name, start_time=time_start, end_time=time_end, project=project)
+    report.save()
+
+    for d_id in devices:
+        report.devices.add(Device.objects.get(pk=d_id))
+
+    # TODO вынести в фон
+    prepare_report(report.id)
+
+    return HttpResponseRedirect(f'/project/{p_id}')
+
+
+def plot_data(request, report_id, sensor_type_id, *args):
+    data = plotly_data(report_id, sensor_type_id)
+    return JsonResponse(data)

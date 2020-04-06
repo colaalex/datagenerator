@@ -49,3 +49,26 @@ class Sensor(models.Model):
 class DistributionParameters(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     value = models.CharField(max_length=10)
+
+
+class Report(models.Model):
+    name = models.CharField(max_length=50)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    devices = models.ManyToManyField(Device)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    is_ready = models.BooleanField(default=False)
+
+
+class ReportSensorType(models.Model):
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    sensor_type = models.ForeignKey(SensorType, on_delete=models.CASCADE)
+
+
+class Record(models.Model):
+    # запись в таблице, используется для построения отчета
+    report = models.ForeignKey(Report, on_delete=models.CASCADE)
+    sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
+    time = models.DateTimeField()
+    value = models.FloatField()
+    sensor_type = models.ForeignKey(SensorType, on_delete=models.CASCADE)

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" href="">
+
+    <title>Система генерации отчетов</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/css/tempusdominus-bootstrap-4.min.css" />
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/static/fonts/awesome/css/all.css" type="text/css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" />
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.0-alpha14/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/report.js"></script>
+
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <meta name="google-signin-client_id" content={{ client }}>
+
+</head>
+<body>
+
+
+
+
+<nav class="navbar navbar-light fixed-top flex-md p-0" style="background-color: white; min-height: 48px; box-shadow: 0 1px 0px 0px rgba(0, 0, 0, .2);">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">
+        <img src="/static/img/Supreme-logo-newyork.png" style="width: 300px; height: 40px;">
+    </a>
+    <ul class="navbar-nav px-4">
+        <li class="nav-item text-nowrap">
+            {% if user.is_authenticated %}
+                <span class="span1">Logged as {{ user.first_name }} {{ user.last_name }}</span>
+                <a onclick="signOut();" class="btn btn-outline-warning" role="button" style="width: 90px; height: 36px;">Выйти</a>
+            {% else %}
+                <div class="g-signin2 btn-outline-warning" onclick="ClickLogin()" data-onsuccess="onSignIn"></div>
+                {#                <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="btn btn-outline-warning" role="button" style="width: 90px; height: 36px;">Войти</a>#}
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+
+<div class="container-fluid">
+    <p class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                {% if user.is_authenticated %}
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable">
+                        <span>Сохраненные проекты</span>
+                        <a class="d-flex align-items-center text-muted" data-toggle="modal" data-target="#togglemodal1" style="cursor: pointer; text-decoration: none;">
+                            <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
+                        </a>
+                    </h6>
+                    <ul class="nav flex-column">
+                        {% for p in projects %}
+                            <li class="nav-item">
+                                <a class="nav-link {% if p == project %}active{% endif %}" href="/project/{{ p.id }}">
+                                    <i class="fas fa-project-diagram" style="margin-right: 5px;"></i>
+                                    {{ p.project_name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        {#              <li class="nav-item">#}
+                        {#                <a class="nav-link active" href="#">#}
+                        {#                  <i class="fas fa-project-diagram" style="margin-right: 5px;"></i>#}
+                        {#                  Проект 1#}
+                        {#                </a>#}
+                        {#              </li>#}
+                        {#              <li class="nav-item">#}
+                        {#                <a class="nav-link" href="#">#}
+                        {#                  <i class="fas fa-project-diagram" style="margin-right: 5px;"></i>#}
+                        {#                  Проект 2#}
+                        {#                </a>#}
+                    </ul>
+                    {% if project %}
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable">
+                            <span>Сохраненные отчеты</span>
+                            <a class="d-flex align-items-center text-muted" role="button" data-toggle="modal" data-target="#togglemodal6" style="text-decoration: none;">
+                                <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
+                            </a>
+                        </h6>
+                        {% for r in reports %}
+                            <ul class="nav flex-column mb-2">
+                                <li class="nav-item">
+                                    <a class="nav-link {% if r == report %}active{% endif %}" href="/report/{{ r.id }}">
+                                        <i class="fas fa-stream" style="margin-right: 5px;"></i>
+                                        {{ r.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endfor %}
+                    {% endif %}
+{#                    <ul class="nav flex-column mb-2">#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link" href="#">#}
+{#                                <i class="fas fa-stream" style="margin-right: 5px;"></i>#}
+{#                                Шаблон#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+                {% else %}
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable"><span>Войдите в аккаунт, чтобы управлять своими проектами и отчетами</span></h6>
+                {% endif %}
+            </div>
+        </nav>
+
+
+        <!-- Модальное окно для создания проекта -->
+        <div class="modal fade" id="togglemodal1" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content px-3 py-3">
+                    <div class="modal-header" style="border: none;">
+                        <h5 class="title unselectable" id="staticBackdropLabel">Создать новый проект</h5>
+                        <button type="button" onclick="closeModalEditProject()" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                            <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23.75 8.0125L21.9875 6.25L15 13.2375L8.0125 6.25L6.25 8.0125L13.2375 15L6.25 21.9875L8.0125 23.75L15 16.7625L21.9875 23.75L23.75 21.9875L16.7625 15L23.75 8.0125Z" fill="#ced4da"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body py-0 mt-2">
+                        <form name="project-form" id="project-form" action="/api/create_project/" method="post">
+                            <div class="form-group">
+                                <label for="project-name" class="col-form-label text-muted unselectable">Название проекта:</label>
+                                <input type="text" class="form-control bg-white text-dark" id="project-name" name="project-name">
+                            </div>
+                            <div class="form-group">
+                                <label for="project-text" class="col-form-label text-muted unselectable">Описание:</label>
+                                <textarea class="form-control" id="project-text" name="project-text"></textarea>
+                            </div>
+                            <div class="modal-footer mt-3 py-0" style="border: none;">
+                                <button id="project-sumbit" type="submit" class="btn btn-warning" style="min-width: 159px; min-height: 42px;">Создать</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <main role="main" class="main col-md-9 ml-sm-auto col-lg-10 px-5">
+            <div class="mt-5" id="loader-bg">
+                <div class="mx-auto" id="loader" style="position: fixed; top: 50%; left: 50%"></div>
+            </div>
+
+            <div id="report-header">
+                <div class="mt-5 mb-4">
+                    <h3 class="h3 unselectable" id="report-name-label" style="display: inline-block;">{{ report.name }}</h3>
+                    <div style="float: right">
+                        <a class="mr-2" onclick="" style="text-decoration: none;">
+                            <i class="far fa-edit" style="color: #C2CFE0; border: 0; font-size: 22px"></i>
+                        </a>
+                        <a href="" style="text-decoration: none;">
+                            <i class="far fa-trash-alt" style="color: #C2CFE0; border: 0; font-size: 22px"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="hidden" id="reportid" value="{{ report.id }}"/>
+                <label for="inputState" class="col-form-label text-muted unselectable">Тип датчика:</label>
+                <select id="inputState" class="form-control" name="inputState" onchange="buildPlot({{ report.id }})">
+                    {% for st in stypes %}
+                        <option value="{{ st.sensor_type.id }}">{{ st.sensor_type.sensor_type }}</option>
+                    {% endfor %}
+{#                    <option selected>Выберите...</option>#}
+{#                    <option value="1">Термометр</option>#}
+{#                    <option value="2">Датчик влажности воздуха</option>#}
+{#                    <option value="3">Люксометр</option>#}
+{#                    <option value="4">Датчик влажности почвы</option>#}
+{#                    <option value="5">Датчик кислотности почвы</option>#}
+{#                    <option value="6">Датчик плотности почвы</option>#}
+{#                    <option value="7">Датчик определения доз азота почвы</option>#}
+{#                    <option value="8">Датчики для определения засоренности почвы</option>#}
+{#                    <option value="9">Датчик определения поражения болезнями и вредителями</option>#}
+{#                    <option value="10">Датчик температуры почвы</option>#}
+{#                    <option value="11">Счетчик гейгера</option>#}
+{#                    <option value="12">Барометр</option>#}
+{#                    <option value="13">Шумомер</option>#}
+{#                    <option value="14">Измеритель CO2</option>#}
+{#                    <option value="15">Высотомер</option>#}
+{#                    <option value="16">Вольтметр</option>#}
+{#                    <option value="17">Амперметр</option>#}
+{#                    <option value="18">Омметр</option>#}
+{#                    <option value="19">Тахометр</option>#}
+                </select>
+            </div>
+            <div id="report-plot"></div>
+
+            <div id="report-header">
+                <div class="mt-5 mb-4">
+                    <h4 class="h4 unselectable" id="report-statistic-label-main" style="display: inline-block;">Статистика</h4>
+                </div>
+                <span class="span1 unselectable" id="report-statistic-label" style="white-space: pre-line">Описание</span>
+            </div>
+
+        </main>
+
+
+
+
+
+        <!-- Модальное окно для добавления отчета -->
+        <div class="modal fade" id="togglemodal6" data-backdrop="static" tabindex="-1" role="dialog"
+          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content px-3 py-3">
+              <div class="modal-header" style="border: none;">
+                <h5 class="title unselectable" id="staticBackdropLabel">Создать отчет</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M23.75 8.0125L21.9875 6.25L15 13.2375L8.0125 6.25L6.25 8.0125L13.2375 15L6.25 21.9875L8.0125 23.75L15 16.7625L21.9875 23.75L23.75 21.9875L16.7625 15L23.75 8.0125Z"
+                      fill="#ced4da" />
+                  </svg>
+                </button>
+              </div>
+              <div class="modal-body py-0 mt-2">
+                <form id="report-form" method="post" action="/api/create_report/{{ project.id }}/">
+                <div class="form-group">
+                                <label class="col-form-label text-muted unselectable">Название отчета:</label>
+                                <input type="text" class="form-control bg-white text-dark" id="report-create-name" name="report-create-name" required>
+                            </div>
+                  <label for="" class="col-form-label text-muted unselectable">Выберите устройства (удерживайте Ctrl для выбора нескольких):</label>
+                  <select id="report-select-devices" name="report-select-devices" class="custom-select form-control" multiple required>
+                      {% for device in devices %}
+                        <option value="{{ device.id }}">{{ device.device_name }}</option>
+                      {% endfor %}
+                  </select>
+                  <div class="form-row mt-1">
+                    <div class="form-group col-md-6">
+                      <label class="col-form-label text-muted unselectable">Начало:</label>
+                      <div class="input-group date" id="datetimepicker7" data-target-input="nearest">
+                        <input type="text" id="report-time-start" name="report-time-start" class="form-control datetimepicker-input" data-target="#datetimepicker7" required/>
+                        <div class="input-group-append" data-target="#datetimepicker7" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label class="col-form-label text-muted unselectable">Конец:</label>
+                      <div class="input-group date" id="datetimepicker8" data-target-input="nearest">
+                        <input type="text" id="report-time-end" name="report-time-end" class="form-control datetimepicker-input" data-target="#datetimepicker8" required/>
+                        <div class="input-group-append" data-target="#datetimepicker8" data-toggle="datetimepicker">
+                          <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                        </div>
+                      </div>
+                      <div class="modal-footer mt-3 py-0" style="border: none;">
+                        <button type="submit" class="btn btn-warning" id="report-submit" style="min-width: 159px; min-height: 42px;">Создать</button>
+                    </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+    </div>
+</div>
+
+</body>
+</html>

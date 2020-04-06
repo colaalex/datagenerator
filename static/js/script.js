@@ -68,6 +68,24 @@ $(function () {
     });
 });
 
+$(function () {
+    $('#datetimepicker7').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru'
+    });
+    $('#datetimepicker8').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss',
+        locale: 'ru',
+        useCurrent: false
+    });
+    $("#datetimepicker7").on("dp.change", function (e) {
+        $('#datetimepicker8').data("DateTimePicker").minDate(e.date);
+    });
+    $("#datetimepicker8").on("dp.change", function (e) {
+        $('#datetimepicker7').data("DateTimePicker").maxDate(e.date);
+    });
+});
+
 /* beta(a: float, b: float)
 binomial(n: int >= 0, p: float >= 0)
 exponential(scale: float >= 0)
@@ -151,6 +169,28 @@ $(document).ready(function() {
             document.getElementById("sensor-create-time-period-days").required = true;
             document.getElementById("sensor-create-time-period-time").required = true;
         }
+    });
+});
+
+$(document).ready(function () {
+    $('[data-toggle="popover"]').popover()
+    $('#inputdistribution').change(function() {
+        if ($('#inputdistribution').val() == 'beta') { $('#distribution-popover').attr('data-content', 'a: float, b: float') }
+        else if ($('#inputdistribution').val() == 'binomial') { $('#distribution-popover').attr('data-content', 'n: int >= 0, p: float >= 0') }
+        else if ($('#inputdistribution').val() == 'exponential') { $('#distribution-popover').attr('data-content', 'scale: float >= 0') }
+        else if ($('#inputdistribution').val() == 'gamma') { $('#distribution-popover').attr('data-content', 'k: float >= 0, theta: float >= 0') }
+        else if ($('#inputdistribution').val() == 'geometric') { $('#distribution-popover').attr('data-content', 'p: float >= 0') }
+        else if ($('#inputdistribution').val() == 'hypergeometric') { $('#distribution-popover').attr('data-content', 'ngood: int >= 0, nbad: int >= 0, nall: int 1<=nall<=ngood+nbad') }
+        else if ($('#inputdistribution').val() == 'laplace') { $('#distribution-popover').attr('data-content', 'mean: float, scale: float >=0') }
+        else if ($('#inputdistribution').val() == 'logistic') { $('#distribution-popover').attr('data-content', 'mean: float, scale: float >= 0') }
+        else if ($('#inputdistribution').val() == 'lognormal') { $('#distribution-popover').attr('data-content', 'mean: float, std: float >= 0') }
+        else if ($('#inputdistribution').val() == 'negative_binomial') { $('#distribution-popover').attr('data-content', 'n: int > 0, p: float 0<=p<=1') }
+        else if ($('#inputdistribution').val() == 'normal') { $('#distribution-popover').attr('data-content', 'mean: float, std: float >= 0') }
+        else if ($('#inputdistribution').val() == 'poisson') { $('#distribution-popover').attr('data-content', 'lam: float > 0') }
+        else if ($('#inputdistribution').val() == 'triangular') { $('#distribution-popover').attr('data-content', 'left: float, top: float >= left, right: float >= top') }
+        else if ($('#inputdistribution').val() == 'uniform') { $('#distribution-popover').attr('data-content', 'left: float, right: float > left') }
+        else if ($('#inputdistribution').val() == 'geodata') { $('#distribution-popover').attr('data-content', 'lat: float -90≤lat≤90; long: float -180≤long≤180; radius: float radius≥0') }
+        else $('#distribution-popover').attr('data-content', 'Выберите распределение и снова наведите на меня :)')
     });
 });
 
@@ -248,9 +288,6 @@ function showSensors(device_id, device_name) {
             additionalHtml += "<div>";
             additionalHtml += "<span class=\"col-form-label text-muted unselectable\">Датчик</span>";
             additionalHtml += "<div style=\"float: right\">";
-            additionalHtml += "<a class=\"mr-1\" href=\"#\" style=\"text-decoration: none;\">";
-            additionalHtml += "<i class=\"far fa-edit text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
-            additionalHtml += "</a>";
             additionalHtml += "<a href=\"#\" style=\"text-decoration: none;\" onclick='deleteSensor(" + data[i]['pk'] + ", " + device_id + ", \"" + device_name + "\")'>";
             additionalHtml += "<i class=\"far fa-trash-alt text-muted\" style=\"color: #6C757D; border: 0;\"></i>";
             additionalHtml += "</a>";
@@ -292,6 +329,28 @@ function deleteSensor(sensor_id, device_id, device_name) {
     xhr.send();
 }
 
+function plotGeneratedData(data) {
+    console.log(data);
+    var x = [];
+    for (var i = 0; i < data.length; i++) {
+        for (let [key, value] of Object.entries(data[i])) {
+            if (!(key === 'Time')) {
+                x.push(value);
+            }
+        }
+    }
+    // for (var i = 0; i < data.length; i++) {
+    //     x.push(Object.entries(data)[i][1]);
+    // }
+    var trace = {
+        x: x,
+        type: 'histogram',
+    };
+    console.log(trace);
+    Plotly.newPlot('modal-plot', [trace]);
+    $('#modal-plot').css('display', 'block');
+}
+
 function generate(sensor_id) {
     // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
@@ -300,7 +359,8 @@ function generate(sensor_id) {
         $("#modal-plot").css('display', 'none');
         $("#loader").fadeOut(1000, function () {
             $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
-            $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
+            Plotly.d3.csv('/static/userfiles/'+xhr.responseText+'.csv', function (data) {plotGeneratedData(data)});
+            // $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
         });
         // $('#download-data-csv').href(xhr.responseText);
     };
@@ -345,6 +405,7 @@ function modalGenerateDeviceData(device_id) {
             values[field.name] = field.value;
         });
         console.log(values);
+        console.log(device_id);
         xhr.open('POST', '/api/generate_device/'+device_id+'/');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function () {
@@ -357,6 +418,39 @@ function modalGenerateDeviceData(device_id) {
 function closeModalGenerateDeviceData() {
     $("#generate-device-data-csv").removeClass('disabled');
     $("#download-device-csv").addClass('disabled');
+    $('#generate-device-data-csv').unbind('click');
+}
+
+function editProject(project_id) {
+    $("#staticBackdropLabel").text('Изменить проект');
+    $("#project-name").val($("#project-name-label").text());
+    $("#project-text").val($("#project-text-label").text());
+    $("#project-sumbit").text("Изменить");
+    $("#project-form").attr('action', '/api/edit_project/'+project_id+'/');
+}
+
+function closeModalEditProject() {
+    $("#staticBackdropLabel").text('Создать новый проект');
+    $("#project-name").val("");
+    $("#project-text").val("");
+    $("#project-sumbit").text("Создать");
+    $("#project-form").attr('action', '/api/create_project/');
+}
+
+function editDevice(device_id) {
+    $("#staticBackdropLabel2").text('Изменить устройство');
+    $('#device-name').val($("#device-name-label").text());
+    $('#device-text').val($('#device-text-label').text());
+    $('#device-sumbit').text('Изменить');
+    $('#device-form').attr('action', '/api/edit_device/'+device_id+'/');
+}
+
+function closeModalEditDevice(project_id) {
+    $("#staticBackdropLabel2").text('Создать новое устройство');
+    $('#device-name').val("");
+    $('#device-text').val("");
+    $('#device-sumbit').text('Создать');
+    $('#device-form').attr('action', '/api/create_device/'+project_id+'/');
 }
 
 /* $(document).ready(function() {

@@ -2,11 +2,10 @@ from numpy import random as r
 import numpy as np
 from faker import Faker
 from sklearn.datasets import make_classification, make_regression
-import matplotlib.pyplot as plt
 import datetime
 
 class DataGenerator():
-    def __init__(self, types, params, size=1000, time_start=None, time_end=None, period_str=None, filename=None):
+    def __init__(self, types, params, size=1000, filename=None):
         self.funcs = types
         self.args = params
         self.size = size        
@@ -38,6 +37,23 @@ class DataGenerator():
                 li.append(y)
         return np.array(li).T.tolist()
 
+    def temperature(self, mean=18., std=0.01, outliers_n=0):
+        if outliers_n > self.size:
+            outliers_n = self.size
+        temp = r.normal(0, std, self.size)
+        curr = mean
+        data = []
+        for i in range(self.size):
+            data.append(curr)
+            curr += temp[i]
+        data = np.array(data)
+        m = 1+2*std
+        if outliers_n > 0:
+            indices = r.choice(np.arange(1,len(data)), outliers_n)
+            randmult = r.choice([m, 1/m], outliers_n)
+            data[indices] = data[indices] * randmult
+        return data
+
     ### DATE COLUMN ###
     def daterow(self, st_time, period, outliers_n=0):
         if self.curr_time is None:
@@ -64,9 +80,6 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.normal(0.8, 1, outliers_n)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def binomial(self, n, p, outliers_n=0):
@@ -81,9 +94,6 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.binomial(n*2, p+(1-p)/2, outliers_n)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def exponential(self, scale, outliers_n=0):
@@ -98,9 +108,6 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.normal(np.max(data), self.std_value, outliers_n)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def gamma(self, k, theta, outliers_n=0):
@@ -115,9 +122,6 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.normal(np.max(data), self.std_value, outliers_n)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def geometric(self, p, outliers_n=0):
@@ -134,9 +138,6 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def hypergeometric(self, ngood, nbad, nall, outliers_n=0):
@@ -154,9 +155,6 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def laplace(self, mean, scale, outliers_n=0):
@@ -172,9 +170,6 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def logistic(self, mean, scale, outliers_n=0):
@@ -191,9 +186,6 @@ class DataGenerator():
             randmult = r.choice([1, -1], outliers_n)
             outliers *= randmult
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def lognormal(self, mean, std, outliers_n=0):
@@ -208,9 +200,6 @@ class DataGenerator():
             indices = r.choice(np.arange(len(data)), outliers_n)
             outliers = r.lognormal(mean+mean/2, self.std_value, outliers_n)
             data[indices] = outliers
-        plt.hist(data)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     # def logarithmic(self, p):
@@ -242,9 +231,6 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
-        plt.hist(data, bins=100)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def normal(self, mean, std, outliers_n=0):
@@ -261,9 +247,6 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
-        plt.hist(data, bins=100)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def poisson(self, lam, outliers_n=0):
@@ -280,9 +263,6 @@ class DataGenerator():
             f = lambda x: int(x)
             outliers = f(outliers)
             data[indices] = outliers
-        plt.hist(data, bins=100)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def triangular(self, left, top, right, outliers_n=0):
@@ -301,9 +281,6 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
-        plt.hist(data, bins=100)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     def uniform(self, left, right, outliers_n=0):
@@ -321,9 +298,6 @@ class DataGenerator():
             randmult = r.choice([1.5, -1.5], outliers_n)
             outliers *= randmult
             data[indices] = outliers
-        plt.hist(data, bins=100)
-        plt.savefig(f'/code/static/img/{self.filename}.png')
-        plt.clf()
         return data
 
     # def weibull(self, a):
@@ -480,3 +454,15 @@ class DataGenerator():
 
     def text_ru(self, chars):
         return np.array([self.ru.text(chars) for _ in range(self.size)])
+
+
+
+
+# chunk_size = 10000
+# types = ["normal","temperature"]
+# params = [[0, 3, 50],[18, 0.001, 10]]
+
+# a = DataGenerator(types, params, 10000)
+# f= open("string.txt","w+")
+# f.write(str(np.array(a.count())[:,1].tolist()))
+# f.close()
