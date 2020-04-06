@@ -14,6 +14,7 @@ from uuid import uuid1
 
 from .externals.libs.datagenerator import main as dg
 from .models import User, Project, Device, Sensor, DistributionParameters, Distribution, Report
+from .reportutils import prepare_report, plotly_data
 from .forms import ProjectCreateForm
 
 
@@ -231,7 +232,7 @@ def create_report(request, p_id, *args):
         return HttpResponseForbidden()
     logger.error(request.POST)
     name = request.POST.get('report-create-name')
-    devices = request.POST.get('report-select-devices')
+    devices = request.POST.getlist('report-select-devices')
     time_start = request.POST.get('report-time-start')
     time_end = request.POST.get('report-time-end')
 
@@ -241,4 +242,12 @@ def create_report(request, p_id, *args):
     for d_id in devices:
         report.devices.add(Device.objects.get(pk=d_id))
 
+    # TODO вынести в фон
+    prepare_report(report.id)
+
     return HttpResponseRedirect(f'/project/{p_id}')
+
+
+def plot_data(request, report_id, sensor_type_id, *args):
+    data = plotly_data(report_id, sensor_type_id)
+    return JsonResponse(data)

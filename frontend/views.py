@@ -2,7 +2,7 @@ from django.conf import settings
 from django.http import HttpResponseForbidden
 from django.shortcuts import render
 
-from backend.models import Project, Device, Report
+from backend.models import Project, Device, Report, ReportSensorType
 
 
 def start(request, *args):
@@ -34,5 +34,6 @@ def show_report(request, r_id, *args):
     project = report.project
     reports = Report.objects.filter(project=project).all()
     projects = Project.objects.filter(project_owner=request.user).all()
+    stypes = ReportSensorType.objects.filter(report=report).all()
     return render(request, 'report.html', {
-        'client': CLIENT_ID, 'projects': projects, 'project': project, 'report': report, 'reports': reports})
+        'client': CLIENT_ID, 'projects': projects, 'project': project, 'report': report, 'reports': reports, 'stypes': stypes})

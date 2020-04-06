@@ -13,6 +13,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="/static/fonts/awesome/css/all.css" type="text/css">
     <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="shortcut icon" href="/static/favicon.ico" />
 
 
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -30,12 +31,12 @@
 
 <nav class="navbar navbar-light fixed-top flex-md p-0" style="background-color: white; min-height: 48px; box-shadow: 0 1px 0px 0px rgba(0, 0, 0, .2);">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">
-        <img src="/static/img/Supreme-logo-newyork.png" style="width: 100px; height: 34px;">
+        <img src="/static/img/Supreme-logo-newyork.png" style="width: 300px; height: 40px;">
     </a>
     <ul class="navbar-nav px-4">
         <li class="nav-item text-nowrap">
             {% if user.is_authenticated %}
-                Logged as {{ user.first_name }} {{ user.last_name }}
+                <span class="span1">Logged as {{ user.first_name }} {{ user.last_name }}</span>
                 <a onclick="signOut();" class="btn btn-outline-warning" role="button" style="width: 90px; height: 36px;">Выйти</a>
             {% else %}
                 <div class="g-signin2 btn-outline-warning" onclick="ClickLogin()" data-onsuccess="onSignIn"></div>
@@ -104,7 +105,7 @@
 {#                        </li>#}
 {#                    </ul>#}
                 {% else %}
-                    <p>Войдите в аккаунт, чтобы управлять своими проектами и отчетами</p>
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable"><span>Войдите в аккаунт, чтобы управлять своими проектами и отчетами</span></h6>
                 {% endif %}
             </div>
         </nav>
@@ -143,7 +144,7 @@
 
         <main role="main" class="main col-md-9 ml-sm-auto col-lg-10 px-5">
             {% if not project %}
-                <p>Выберите или создайте проект в меню слева</p>
+                <h4 class="h3 unselectable mt-5">Выберите или создайте проект в меню слева</h4>
             {% else %}
                 <div id="project-header">
                 <div class="project mt-5 mb-4">
