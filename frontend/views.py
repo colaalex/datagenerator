@@ -5,7 +5,11 @@ from django.shortcuts import render
 from backend.models import Project, Device, Report, ReportSensorType
 
 
+# данные для CLIENT_ID хранятся в secret.py
+
+
 def start(request, *args):
+    # главная стрница
     CLIENT_ID = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
     projects = None
     if request.user.is_authenticated:
@@ -14,6 +18,7 @@ def start(request, *args):
 
 
 def show_project(request, p_id, *args):
+    # страница проекта
     CLIENT_ID = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
     project = Project.objects.get(pk=p_id)
     reports = Report.objects.filter(project_id=p_id).all()
@@ -27,6 +32,7 @@ def show_project(request, p_id, *args):
 
 
 def show_report(request, r_id, *args):
+    # страница отчета
     CLIENT_ID = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
     report = Report.objects.get(pk=r_id)
     if request.user != report.project.project_owner:

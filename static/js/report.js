@@ -1,9 +1,13 @@
+/*
+    иконка-спиннер, которая крутится, пока загружается ваша страница
+*/
 $(window).on('load', function () {
     $("#loader-bg").fadeOut("200");
     buildPlot($('#reportid').val());
     // $("#loader").fadeOut("slow");
 });
 
+/* запрашивает записи отчета из БД и отрисовывает их в div report-plot */
 function buildPlot(report_id) {
     var sid = $('#inputState').val();
     var xhr = new XMLHttpRequest();

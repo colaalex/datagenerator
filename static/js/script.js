@@ -1,5 +1,7 @@
+// инициализация moment.js для datetimepicker'a
 moment().format();
 
+// иконки для datetimepicker'a
 $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
             icons: {
                 time: 'fas fa-clock',
@@ -13,7 +15,8 @@ $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Const
                 close: 'fas fa-times'
             } });
 
-$(document).ready(function(){
+// show-sensors-box, вызывает и скрывает окно датчиков
+$(document).ready(function (){
     $('.show-sensors').on('click', function(){
         $('.box').addClass('open');
     });
@@ -22,6 +25,7 @@ $(document).ready(function(){
     });
 });
 
+// формат отображения даты и времени и зависимость между началом отсчета и его концом
 $(function () {
     $('#datetimepicker3').datetimepicker({
         locale: 'ru',
@@ -86,24 +90,7 @@ $(function () {
     });
 });
 
-/* beta(a: float, b: float)
-binomial(n: int >= 0, p: float >= 0)
-exponential(scale: float >= 0)
-gamma(k: float >= 0, theta: float >= 0)
-geometric(p: float >= 0)
-hypergeometric(ngood: int >= 0, nbad: int >= 0, nall: int 1<=nall<=ngood+nbad)
-laplace(mean: float, scale: float >=0)
-logistic(mean: float, scale: float >= 0)
-lognormal(mean: float, std: float >= 0)
-logarithmic(p: float 0<p<1)
-multinomial(n: int >= 0, pr_of_vals: list of float (sum of them must be 1))
-negative_binomial(n: int > 0, p: float 0<=p<=1)
-normal(mean: float, std: float >= 0)
-poisson(lam: float > 0)
-triangular(left: float, top: float >= left, right: float >= top)
-uniform(left: float, right: float > left)
-weibull(a: float >= 0) */
-
+// Отображение правильного количества вводимых полей при выборе определенного типа распределения
 $(document).ready(function() {
     $('#inputdistribution').change(function() {
         $('#numberinput').empty();
@@ -151,6 +138,7 @@ $(document).ready(function() {
     });
 });
 
+// отображение в зависимости от выбора пользователя в радиокнопке
 $(document).ready(function() {
     $('input[name="Radio2"]').on('click', function() {
         $('#radioinput2').empty();
@@ -172,6 +160,7 @@ $(document).ready(function() {
     });
 });
 
+// Контент, который находится в знаке «popover», который меняется в зависимости от выбора пользователя
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover()
     $('#inputdistribution').change(function() {
@@ -194,30 +183,7 @@ $(document).ready(function () {
     });
 });
 
-// $(document).ready(function() {
-//     $('#project-sumbit').on("click", function() {
-//         $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');
-//         $('#project-header').append('<span class="span1 unselectable">' + $("#project-text").val() + '</span>');
-//         $('#togglemodal1').modal('hide');
-//         $('#togglemodal1').on('hidden.bs.modal', function () {
-//             $(this).find("input,textarea").val('').end();
-//         });
-//         });
-// });
-
-/* + document.forms["deviceform"].elements["devicename"].value + */
-
-// $(document).ready(function() {
-//     $('#device-sumbit').on("click", function() {
-//         $('.div-device').append('<h4 class="h4 mb-3 unselectable">' + $("#device-name").val() + '</h4><span class="span1 unselectable" style="display: block;">'  + $("#device-text").val() +  '</span>');
-//         $('.div-device').append('<div class="text-right"><a href="#" style="text-decoration: none;"><i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i></a></div>');
-//         $('#togglemodal2').modal('hide');
-//         $('#togglemodal2').on('hidden.bs.modal', function () {
-//             $(this).find("input,textarea").val('').end();
-//         });
-//         });
-// });
-
+// получение куки
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -234,6 +200,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// Авторизация при помощи Google-сервисов
 var clicked=false;//Global Variable
 
 function ClickLogin()
@@ -274,6 +241,7 @@ function signOut() {
     window.location.replace("/logout/");
 }
 
+// При помощи GET-запроса получает данные об определенном устройстве (полученную строку переводит в объекты) для того, чтобы отображать датчики для этого устройства
 function showSensors(device_id, device_name) {
     var xhr = new XMLHttpRequest();
     $('#sensors-box').empty();
@@ -320,6 +288,7 @@ function showSensors(device_id, device_name) {
 
 }
 
+// При нажатии на кнопку удаления, отправляет GET-запрос для удаления датчика (из базы данных в том числе)
 function deleteSensor(sensor_id, device_id, device_name) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/delete_sensor/'+sensor_id);
@@ -329,6 +298,7 @@ function deleteSensor(sensor_id, device_id, device_name) {
     xhr.send();
 }
 
+// процедура отрисовки графика
 function plotGeneratedData(data) {
     console.log(data);
     var x = [];
@@ -339,9 +309,6 @@ function plotGeneratedData(data) {
             }
         }
     }
-    // for (var i = 0; i < data.length; i++) {
-    //     x.push(Object.entries(data)[i][1]);
-    // }
     var trace = {
         x: x,
         type: 'histogram',
@@ -351,6 +318,7 @@ function plotGeneratedData(data) {
     $('#modal-plot').css('display', 'block');
 }
 
+// При нажатии на кнопку просмотра данных, отправляет GET-запрос для получения сгенерированных данных для датчика (график, возможность загрузить .csv-файл и пр.)
 function generate(sensor_id) {
     // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
@@ -360,13 +328,12 @@ function generate(sensor_id) {
         $("#loader").fadeOut(1000, function () {
             $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
             Plotly.d3.csv('/static/userfiles/'+xhr.responseText+'.csv', function (data) {plotGeneratedData(data)});
-            // $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
         });
-        // $('#download-data-csv').href(xhr.responseText);
     };
     xhr.send();
 }
 
+// Сброс форм до начального состояния
 function closeModalSensor() {
     console.log('a');
     $("#loader").fadeIn();
@@ -374,6 +341,7 @@ function closeModalSensor() {
     $('#modal-plot').css('display', 'none');
 }
 
+// Отправляет POST-запрос с целью добавления датчика в базу данных, а также последующее отображение всех датчиков, привязанных к этому устройству
 function addSensor(device_id, device_name) {
     var xhr = new XMLHttpRequest();
 
@@ -394,6 +362,7 @@ function addSensor(device_id, device_name) {
 
 }
 
+// Запрашивает с помощью POST-запроса генерацию данных для всего устройства, с последующей загрузкой
 function modalGenerateDeviceData(device_id) {
     $('#generate-device-data-csv').on('click', function () {
         $("#download-device-csv").text("Ждите");
@@ -415,12 +384,14 @@ function modalGenerateDeviceData(device_id) {
     })
 }
 
+// сброс формы
 function closeModalGenerateDeviceData() {
     $("#generate-device-data-csv").removeClass('disabled');
     $("#download-device-csv").addClass('disabled');
     $('#generate-device-data-csv').unbind('click');
 }
 
+// Функции, реализующие изменение данные о проектах
 function editProject(project_id) {
     $("#staticBackdropLabel").text('Изменить проект');
     $("#project-name").val($("#project-name-label").text());
@@ -429,6 +400,7 @@ function editProject(project_id) {
     $("#project-form").attr('action', '/api/edit_project/'+project_id+'/');
 }
 
+// сброс формы
 function closeModalEditProject() {
     $("#staticBackdropLabel").text('Создать новый проект');
     $("#project-name").val("");
@@ -437,6 +409,7 @@ function closeModalEditProject() {
     $("#project-form").attr('action', '/api/create_project/');
 }
 
+// Функции, реализующие изменение данные об устройствах
 function editDevice(device_id) {
     $("#staticBackdropLabel2").text('Изменить устройство');
     $('#device-name').val($("#device-name-label").text());
@@ -445,6 +418,7 @@ function editDevice(device_id) {
     $('#device-form').attr('action', '/api/edit_device/'+device_id+'/');
 }
 
+// сброс формы
 function closeModalEditDevice(project_id) {
     $("#staticBackdropLabel2").text('Создать новое устройство');
     $('#device-name').val("");
@@ -452,7 +426,3 @@ function closeModalEditDevice(project_id) {
     $('#device-sumbit').text('Создать');
     $('#device-form').attr('action', '/api/create_device/'+project_id+'/');
 }
-
-/* $(document).ready(function() {
-    $('#project-edit, #device-edit').one("click", function() {; */
-

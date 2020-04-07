@@ -7,7 +7,14 @@ import datetime as dt
 from numpy import mean, median
 
 
-def prepare_report(report_id):
+def prepare_report(report_id: int):
+    """
+    Определяет типы датчиков, используемые в устройствах, для каждого 
+    устройства генерирует объекты типа Record и сохраняет их в БД.
+
+    report_id: int - номер отчета, для которого необходимо 
+    сгенерировать данные
+    """
     report = Report.objects.get(pk=report_id)
     time_start = report.start_time.strftime('%Y-%m-%d %H:%M:%S')
     time_end = report.end_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -41,6 +48,15 @@ def prepare_report(report_id):
 
 
 def plotly_data(report_id, sensor_type_id):
+    """
+    Получает данные из таблицы Record, формирует на их основе словарь 
+    возвращает этот словарь и текст отчета по данному типу датчиков.
+
+    report_id: int — номер отчета, по которому требуются данные;
+
+    sensor_type_id: int — идентификатор типа датчика, по которому 
+    необходимы записи в БД.
+    """
     # sensors = Sensor.objects.filter(record__report_id=report_id, record__sensor_type_id=sensor_type_id).all()
     records = Record.objects.filter(report_id=report_id, sensor_type_id=sensor_type_id).all()
     traces = {}  # {s_id: {'x': x, 'y': [values], 'type': 'scatter', 'name': name, 'x': [time]}}

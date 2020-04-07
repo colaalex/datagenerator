@@ -6,7 +6,6 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_protect
 from google.oauth2 import id_token
 from google.auth.transport import requests
-# import requests
 
 import json
 import logging
@@ -21,14 +20,13 @@ from .forms import ProjectCreateForm
 logger = logging.getLogger(__name__)
 
 
-def test(request, *args, **kwargs):
-    dg.mainf('test', 10, ['h1', 'h2', 'h3'], ["normal", "triangular", "beta"], [[0, 12], [5, 10, 15], [10, 20]], 10)
-    return HttpResponse('OK')
-
-
+# TODO починить csrf_protect
 # @csrf_protect
 @require_POST
 def tokensign(request, *args):
+    # код взят с документации по аутентификации google
+    # https://developers.google.com/identity/sign-in/web/backend-auth
+
     token = request.POST.get('idtoken', None)
     CLIENT_ID = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY
     try:
@@ -58,6 +56,13 @@ def tokensign(request, *args):
 
 @require_GET
 def generate(request, s_id, *args):
+    """
+    Генерирует данные для датчика с идентификатором sensor_id, если 
+    пользователь, отправивший запрос, является владельцем проекта, с 
+    которым связан данный датчик, иначе возвращается ошибка 403. При 
+    успешном выполнении возвращается название файла с данными, который 
+    можно загрузить по адресу /static/userfiles/{responseText}.csv.
+    """
     filename = f'data_{s_id}_{uuid1()}'
     sensor = Sensor.objects.get(pk=s_id)
     headers = [sensor.sensor_name]
@@ -79,8 +84,11 @@ def generate(request, s_id, *args):
 
 @require_POST
 def create_project(request, *args):
-    # form = ProjectCreateForm(request.POST)
-    # if form.is_valid():
+    """
+    Создает проект, закрепляет его за пользователем. При успешном 
+    выполнении перенаправляет на страницу нового проекта.
+    """
+    # TODO валидация формой
     user = request.user
     name = request.POST.get('project-name')
     description = request.POST.get('project-text')
@@ -88,11 +96,14 @@ def create_project(request, *args):
     project.save()
 
     return HttpResponseRedirect('/')
-    # else:
-    #     return HttpResponseBadRequest()
 
 
 def delete_project(request, p_id, *args):
+    """
+    Удаляет проект с идентификатором project_id, если пользователь, 
+    отправивший запрос, является владельцем, иначе вернется ошибка 403. 
+    При успешном выполнении перенаправляет на домашнюю страницу.
+    """
     user = request.user
     project = Project.objects.get(pk=p_id)
     if project.project_owner == user:
@@ -104,6 +115,12 @@ def delete_project(request, p_id, *args):
 
 @require_POST
 def create_device(request, p_id, *args):
+    """
+    Создает устройство и связывает его с проектом с идентификатором 
+    project_id, если пользователь, отправивший запрос, является владельцем 
+    проекта, иначе вернется ошибка 403. При успешном выполнении 
+    перенаправляет на страницу проекта с обновленной информацией.
+    """
     project = Project.objects.get(pk=p_id)
     if request.user != project.project_owner:
         return HttpResponseForbidden()
@@ -114,7 +131,14 @@ def create_device(request, p_id, *args):
     return HttpResponseRedirect(f'/project/{p_id}')
 
 
+@require_GET
 def delete_device(request, d_id, *args):
+    """
+    Удаляет устройство с идентификатором device_id, если пользователь, 
+    отправивший запрос, является владельцем проекта, с которым связано 
+    устройство, иначе возвращается ошибка 403. При успешном выполнении 
+    перенаправляет на страницу проекта с обновленной информацией.
+    """
     device = Device.objects.get(pk=d_id)
     project = device.device_project
     if request.user != project.project_owner:
@@ -123,7 +147,15 @@ def delete_device(request, d_id, *args):
     return HttpResponseRedirect(f'/project/{project.id}')
 
 
+@require_GET
 def get_sensors(request, d_id, *args):
+    """
+    Получает список датчиков, принадлежащих устройству, если пользователь, 
+    отправивший запрос, является владельцем проекта, с которым связано 
+    устройство, иначе возвращается ошибка 403. При успешном выполнении 
+    возвращается JSON-объект с описанием датчиков. Объект представляет 
+    собой список объектов
+    """
     sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
     data = serializers.serialize('json', sensors)
     return JsonResponse(data, safe=False)
@@ -131,7 +163,16 @@ def get_sensors(request, d_id, *args):
 
 @require_POST
 def create_sensor(request, d_id, *args):
-    # TODO проверка на юзера
+    """
+    Создает датчик и связывает его с устройством с идентификатором 
+    device_id, если пользователь, отправивший запрос, является 
+    владельцем проекта, связанным с данным устройством, иначе 
+    возвращается ошибка 403. При успешном выполнении возвращается 
+    JSON-обхект в виде списка всех созданных для данного устройства объектов. 
+    """
+    if request.user != Device.objects.get(pk=d_id).device_project.project_owner:
+        return HttpResponseForbidden()
+
     parameters = json.loads(list(request.POST.dict().keys())[0])
     logger.error(parameters)
     name = parameters.get('sensor-create-name')
@@ -164,7 +205,14 @@ def create_sensor(request, d_id, *args):
     return get_sensors(request, d_id)
 
 
+@require_GET
 def delete_sensor(request, s_id, *args):
+    """
+    Удаляет датчик с идентификатором sensor_id, если пользователь, 
+    отправивший запрос, является владельцем проекта, с которым связано 
+    устройство и датчик, иначе возвращается ошибка 403. При успешном 
+    выполнении возвращает сообщение 'OK'
+    """
     sensor = Sensor.objects.get(pk=s_id)
     if sensor.sensor_device.device_project.project_owner != request.user:
         return HttpResponseForbidden()
@@ -172,9 +220,24 @@ def delete_sensor(request, s_id, *args):
     return HttpResponse('OK')
 
 
+@require_GET
 def generate_device(request, d_id, *args):
-    # TODO проверка на юзера
+    """
+    Генерирует данные для всего устройства (объединяются все датчики), 
+    если пользователь, отправивший запрос, является владельцем проекта, 
+    с которым связано устройство, иначе возвращается ошибка 403. Так как 
+    у каждого датчика могут быть свои параметры количества строк или 
+    временные рамки, для данного запроса необходимо также передать 
+    информацию о желаемом типе генерации (по количеству строк или с 
+    временными рамками), формат аналогичен этим параметрам для датчика. 
+    При успешном выполнении возвращается название файла с данными, 
+    который можно загрузить по адресу /static/userfiles/{responseText}.csv.
+    """
     sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
+    if request.user != sensors.sensor_device.device_project.project_owner:
+        return HttpResponseForbidden()
+
+    # формат принимаемых mainf данных    
     # filename, headers, types, params, rows = None, time_start = None, time_end = None, period = None, chunk_size = 10000
     filename = f'data_d{d_id}_{uuid1()}'
     logger.error(request.POST)
@@ -212,6 +275,13 @@ def generate_device(request, d_id, *args):
 
 @require_POST
 def edit_project(request, p_id, *args):
+    """
+    Изменяет название и описание проекта, если пользователь, отправивший 
+    запрос, является владельцем проекта, иначе возвращается ошибка 403. 
+    При успешном выполнении перенаправляет на страницу проекта с 
+    обновленными данными. Если значение поля не меняется, необходимо 
+    прислать старое значение.
+    """
     user = request.user
     project = Project.objects.get(pk=p_id)
     if user != project.project_owner:
@@ -227,6 +297,13 @@ def edit_project(request, p_id, *args):
 
 @require_POST
 def edit_device(request, d_id, *args):
+    """
+    Изменяет название и описание устройства, если пользователь, 
+    отправивший запрос, является владельцем проекта, иначе возвращается 
+    ошибка 403. При успешном выполнении перенаправляет на страницу 
+    проекта с обновленными данными. Если значение поля не меняется, 
+    необходимо прислать старое значение.
+    """
     user = request.user
     device = Device.objects.get(pk=d_id)
     if user != device.device_project.project_owner:
@@ -240,7 +317,13 @@ def edit_device(request, d_id, *args):
     return HttpResponseRedirect(f'/project/{device.device_project_id}')
 
 
+@require_POST
 def create_report(request, p_id, *args):
+    """
+    Создает отчет в данном проекте, если пользователь, отправивший 
+    запрос, является владельцем проекта, иначе возвращается ошибка 403. 
+    При успешном выполнении перенаправляет на страницу проекта.
+    """
     user = request.user
     project = Project.objects.get(pk=p_id)
     if user != project.project_owner:
@@ -264,5 +347,9 @@ def create_report(request, p_id, *args):
 
 
 def plot_data(request, report_id, sensor_type_id, *args):
+    """
+    Возвращает данные, необходимые для построения графика. 
+    Фактически происходит вызов функции plotly_data из reportutils
+    """
     data = plotly_data(report_id, sensor_type_id)
     return JsonResponse(data)
