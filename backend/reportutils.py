@@ -37,7 +37,7 @@ def prepare_report(report_id: int):
     for st in sensor_types:
         for s in sensor_types[st]:
             dist_params = DistributionParameters.objects.filter(sensor_id=s).all()
-            types = ['daterow', 'temperature']
+            types = ['daterow', s.sensor_distribution.code]
             params = [[start, period], [float(i.value) for i in dist_params]]
             dg = datagen.DataGenerator(types=types, params=params, size=rows)
             data = dg.count()

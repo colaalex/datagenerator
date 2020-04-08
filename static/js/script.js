@@ -97,7 +97,7 @@ $(document).ready(function() {
         if ($('#inputdistribution').val() == 'exponential' || $('#inputdistribution').val() == 'geometric' || $('#inputdistribution').val() == 'poisson') {
             $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
             }
-        else if  ($('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
+        else if  ($('#inputdistribution').val() == 'temperature' || $('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
             for (let i = 0; i < 2; i++) {
                 $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
                 }
@@ -179,6 +179,7 @@ $(document).ready(function () {
         else if ($('#inputdistribution').val() == 'triangular') { $('#distribution-popover').attr('data-content', 'left: float, top: float >= left, right: float >= top') }
         else if ($('#inputdistribution').val() == 'uniform') { $('#distribution-popover').attr('data-content', 'left: float, right: float > left') }
         else if ($('#inputdistribution').val() == 'geodata') { $('#distribution-popover').attr('data-content', 'lat: float -90≤lat≤90; long: float -180≤long≤180; radius: float radius≥0') }
+        else if ($('#inputdistribution').val() == 'temperature') { $('#distribution-popover').attr('data-content', 'mean: float, scale: float >=0') }
         else $('#distribution-popover').attr('data-content', 'Выберите распределение и снова наведите на меня :)')
     });
 });
@@ -300,7 +301,6 @@ function deleteSensor(sensor_id, device_id, device_name) {
 
 // процедура отрисовки графика
 function plotGeneratedData(data) {
-    console.log(data);
     var x = [];
     for (var i = 0; i < data.length; i++) {
         for (let [key, value] of Object.entries(data[i])) {
@@ -313,7 +313,6 @@ function plotGeneratedData(data) {
         x: x,
         type: 'histogram',
     };
-    console.log(trace);
     Plotly.newPlot('modal-plot', [trace]);
     $('#modal-plot').css('display', 'block');
 }
