@@ -346,6 +346,27 @@ def create_report(request, p_id, *args):
     return HttpResponseRedirect(f'/project/{p_id}')
 
 
+@require_GET
+def delete_report(request, r_id, *args):
+    """
+    Удаление отчета по id, если пользователь, отправивший отчет,
+    является владельцем проекта, к которому относится проект, иначе
+    возвращается ошибка 403. При успешном выполнении происходит
+    перенапрвление на страницу проекта
+
+    :param r_id: идентификатор отчета
+    :return:
+    """
+    report = Report.objects.get(pk=r_id)
+    if request.user != report.project.project_owner:
+        return HttpResponseForbidden()
+
+    p_id = report.project_id
+    report.delete()
+
+    return HttpResponseRedirect(f'/project/{p_id}')
+
+
 def plot_data(request, report_id, sensor_type_id, *args):
     """
     Возвращает данные, необходимые для построения графика. 
