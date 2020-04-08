@@ -220,7 +220,7 @@ def delete_sensor(request, s_id, *args):
     return HttpResponse('OK')
 
 
-@require_GET
+@require_POST
 def generate_device(request, d_id, *args):
     """
     Генерирует данные для всего устройства (объединяются все датчики), 
@@ -234,7 +234,7 @@ def generate_device(request, d_id, *args):
     который можно загрузить по адресу /static/userfiles/{responseText}.csv.
     """
     sensors = Sensor.objects.filter(sensor_device_id=d_id).all()
-    if request.user != sensors.sensor_device.device_project.project_owner:
+    if request.user != sensors.first().sensor_device.device_project.project_owner:
         return HttpResponseForbidden()
 
     # формат принимаемых mainf данных    
