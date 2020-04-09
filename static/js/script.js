@@ -1,21 +1,29 @@
-// инициализация moment.js для datetimepicker'a
+/*
+ * Инициализация moment.js для datetimepicker'a
+ */
 moment().format();
 
-// иконки для datetimepicker'a
+/* То, что видит пользователь */
+/*
+ * Иконки для datetimepicker'a
+ */
 $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-            icons: {
-                time: 'fas fa-clock',
-                date: 'fas fa-calendar',
-                up: 'fas fa-arrow-up',
-                down: 'fas fa-arrow-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'fas fa-calendar-check-o',
-                clear: 'fas fa-trash',
-                close: 'fas fa-times'
-            } });
+    icons: {
+        time: 'fas fa-clock',
+        date: 'fas fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check-o',
+        clear: 'fas fa-trash',
+        close: 'fas fa-times'
+    } 
+});
 
-// show-sensors-box, вызывает и скрывает окно датчиков
+/*
+ * Show-sensors-box, вызывает и скрывает окно датчиков
+ */
 $(document).ready(function (){
     $('.show-sensors').on('click', function(){
         $('.box').addClass('open');
@@ -25,7 +33,9 @@ $(document).ready(function (){
     });
 });
 
-// формат отображения даты и времени и зависимость между началом отсчета и его концом
+/*
+ * datetimepicker-sensor: формат отображения даты и времени и зависимость между началом отсчета и его концом
+ */
 $(function () {
     $('#datetimepicker3').datetimepicker({
         locale: 'ru',
@@ -49,6 +59,9 @@ $(function () {
     });
 });
 
+/*
+ * Аналогичное, но уже datetimepicker-device
+ */
 $(function () {
     $('#datetimepicker6').datetimepicker({
         locale: 'ru',
@@ -72,6 +85,9 @@ $(function () {
     });
 });
 
+/*
+ * Аналогичное, но уже datetimepicker-report
+ */
 $(function () {
     $('#datetimepicker7').datetimepicker({
         format: 'YYYY-MM-DD HH:mm:ss',
@@ -90,7 +106,9 @@ $(function () {
     });
 });
 
-// Отображение правильного количества вводимых полей при выборе определенного типа распределения
+/*
+ * inputdistribution-picker: отображение правильного количества вводимых полей при выборе определенного типа распределения
+ */
 $(document).ready(function() {
     $('#inputdistribution').change(function() {
         $('#numberinput').empty();
@@ -116,6 +134,9 @@ $(document).ready(function() {
         });
 });
 
+/*
+ * radioinput-picker: отображание определенных полей в зависимости от выбора пользователя в радиокнопке
+ */
 $(document).ready(function() {
     $('input[name="Radio"]').on('click', function() {
         $('#radioinput').empty();
@@ -138,7 +159,9 @@ $(document).ready(function() {
     });
 });
 
-// отображение в зависимости от выбора пользователя в радиокнопке
+/*
+ * radio2input-picker: аналогично верхнему
+ */
 $(document).ready(function() {
     $('input[name="Radio2"]').on('click', function() {
         $('#radioinput2').empty();
@@ -160,7 +183,9 @@ $(document).ready(function() {
     });
 });
 
-// Контент, который находится в знаке «popover», который меняется в зависимости от выбора пользователя
+/*
+ * toggle-popover: контент, который находится в знаке «popover», который меняется в зависимости от выбора пользователя
+ */
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover()
     $('#inputdistribution').change(function() {
@@ -184,7 +209,10 @@ $(document).ready(function () {
     });
 });
 
-// получение куки
+/* Авторизация через Google-аккаунт */
+/*
+ * getCookie: получает куки-файлы
+ */
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -201,7 +229,9 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// Авторизация при помощи Google-сервисов
+/*
+ * Авторизация при помощи Google-сервисов
+ */
 var clicked=false;//Global Variable
 
 function ClickLogin()
@@ -242,7 +272,10 @@ function signOut() {
     window.location.replace("/logout/");
 }
 
-// При помощи GET-запроса получает данные об определенном устройстве (полученную строку переводит в объекты) для того, чтобы отображать датчики для этого устройства
+/* Взаимодействие с бэкендом */
+/*
+ * showSensors: при помощи GET-запроса получает данные об определенном устройстве (полученную строку переводит в объекты) для того, чтобы отображать датчики для этого устройства
+ */
 function showSensors(device_id, device_name) {
     var xhr = new XMLHttpRequest();
     $('#sensors-box').empty();
@@ -269,16 +302,11 @@ function showSensors(device_id, device_name) {
             additionalHtml += "</a>";
             additionalHtml += "</div>";
             additionalHtml += "</div>";
-            // additionalHtml += "";
         }
 
         additionalHtml += "</div>";
         additionalHtml += "</div>";
         $('#sensors-box').append(additionalHtml);
-
-        // $('#sensor-submit').on('click',function(){
-        //     addSensor(device_id, device_name);
-        // });
         $('#sensor-submit').unbind('click').click(function(){addSensor(device_id, device_name);});
     };
     xhr.send();
@@ -289,7 +317,9 @@ function showSensors(device_id, device_name) {
 
 }
 
-// При нажатии на кнопку удаления, отправляет GET-запрос для удаления датчика (из базы данных в том числе)
+/*
+ * deleteSensor: при нажатии на кнопку удаления, отправляет GET-запрос для удаления датчика (из базы данных в том числе)
+ */
 function deleteSensor(sensor_id, device_id, device_name) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/delete_sensor/'+sensor_id);
@@ -299,7 +329,9 @@ function deleteSensor(sensor_id, device_id, device_name) {
     xhr.send();
 }
 
-// процедура отрисовки графика
+/*
+ * plotGeneratedData: процедура отрисовки графика
+ */
 function plotGeneratedData(data) {
     var x = [];
     for (var i = 0; i < data.length; i++) {
@@ -317,9 +349,10 @@ function plotGeneratedData(data) {
     $('#modal-plot').css('display', 'block');
 }
 
-// При нажатии на кнопку просмотра данных, отправляет GET-запрос для получения сгенерированных данных для датчика (график, возможность загрузить .csv-файл и пр.)
+/*
+ * generate: при нажатии на кнопку просмотра данных, отправляет GET-запрос для получения сгенерированных данных для датчика (график, возможность загрузить .csv-файл и пр.)
+ */
 function generate(sensor_id) {
-    // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/generate/' + sensor_id);
     xhr.onload = function () {
@@ -332,7 +365,9 @@ function generate(sensor_id) {
     xhr.send();
 }
 
-// Сброс форм до начального состояния
+/*
+ * closeModalSensor: сброс форм до начального состояния
+ */
 function closeModalSensor() {
     console.log('a');
     $("#loader").fadeIn();
@@ -340,7 +375,9 @@ function closeModalSensor() {
     $('#modal-plot').css('display', 'none');
 }
 
-// Отправляет POST-запрос с целью добавления датчика в базу данных, а также последующее отображение всех датчиков, привязанных к этому устройству
+/*
+ * addSensor: отправляет POST-запрос с целью добавления датчика в базу данных, а также последующее отображение всех датчиков, привязанных к этому устройству
+ */ 
 function addSensor(device_id, device_name) {
     var xhr = new XMLHttpRequest();
 
@@ -361,7 +398,9 @@ function addSensor(device_id, device_name) {
 
 }
 
-// Запрашивает с помощью POST-запроса генерацию данных для всего устройства, с последующей загрузкой
+/*
+ * modalGenerateDeviceData: запрашивает с помощью POST-запроса генерацию данных для всего устройства, с последующей загрузкой
+ */
 function modalGenerateDeviceData(device_id) {
     $('#generate-device-data-csv').on('click', function () {
         $("#download-device-csv").text("Ждите");
@@ -383,14 +422,18 @@ function modalGenerateDeviceData(device_id) {
     })
 }
 
-// сброс формы
+/*
+ * closeModalGenerateDeviceData: сброс форм до начального состояния
+ */
 function closeModalGenerateDeviceData() {
     $("#generate-device-data-csv").removeClass('disabled');
     $("#download-device-csv").addClass('disabled');
     $('#generate-device-data-csv').unbind('click');
 }
 
-// Функции, реализующие изменение данные о проектах
+/*
+ * editProject: функция, реализующие изменение данных о проектах
+ */
 function editProject(project_id) {
     $("#staticBackdropLabel").text('Изменить проект');
     $("#project-name").val($("#project-name-label").text());
@@ -399,7 +442,9 @@ function editProject(project_id) {
     $("#project-form").attr('action', '/api/edit_project/'+project_id+'/');
 }
 
-// сброс формы
+/*
+ * closeModalEditProject: сброс форм до начального состояния
+ */
 function closeModalEditProject() {
     $("#staticBackdropLabel").text('Создать новый проект');
     $("#project-name").val("");
@@ -408,7 +453,9 @@ function closeModalEditProject() {
     $("#project-form").attr('action', '/api/create_project/');
 }
 
-// Функции, реализующие изменение данные об устройствах
+/*
+ * editDevice: функция, реализующие изменение данных об устройствах
+ */
 function editDevice(device_id) {
     $("#staticBackdropLabel2").text('Изменить устройство');
     $('#device-name').val($("#device-name-label").text());
@@ -417,7 +464,9 @@ function editDevice(device_id) {
     $('#device-form').attr('action', '/api/edit_device/'+device_id+'/');
 }
 
-// сброс формы
+/*
+ * closeModalEditDevice: сброс форм до начального состояния
+ */
 function closeModalEditDevice(project_id) {
     $("#staticBackdropLabel2").text('Создать новое устройство');
     $('#device-name').val("");
