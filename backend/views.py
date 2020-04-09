@@ -90,6 +90,8 @@ def create_project(request, *args):
     """
     # TODO валидация формой
     user = request.user
+    if not user.is_authenticated:
+        return HttpResponse('Unauthorized', status=401)
     name = request.POST.get('project-name')
     description = request.POST.get('project-text')
     project = Project(project_name=name, project_description=description, project_owner=user)
