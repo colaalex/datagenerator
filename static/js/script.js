@@ -298,7 +298,7 @@ function showSensors(device_id, device_name) {
             additionalHtml += "<h4 style='word-wrap: break-word;' class=\"h4 mt-1 mb-5 unselectable\"'>" + data[i]['fields']['sensor_name'] +"</h4>";
             additionalHtml += "<div class=\"text-right mt-5\">";
             additionalHtml += "<a onclick=\"generate(" + data[i]['pk'] + ")\" role=\"button\" data-toggle=\"modal\" data-target=\"#togglemodal4\" style=\"text-decoration: none;\">";
-            additionalHtml += "<i class=\"fas fa-arrow-circle-right\" style=\"color: rgb(255, 255, 255); border: 0; font-size: 32px;\"></i>";
+            additionalHtml += "<i class=\"fas fa-arrow-circle-right\" style=\"color: #000000; border: 0; font-size: 32px;\"></i>";
             additionalHtml += "</a>";
             additionalHtml += "</div>";
             additionalHtml += "</div>";
