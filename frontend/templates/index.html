@@ -30,9 +30,10 @@
 </head>
 <body>
 
+<!-- Верхний навигационный бар -->
 <nav class="navbar navbar-light fixed-top flex-md p-0" style="background-color: white; min-height: 48px; box-shadow: 0 1px 0px 0px rgba(0, 0, 0, .2);">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">
-        <img src="/static/img/Supreme-logo-newyork.png" style="width: 300px; height: 40px;">
+        <img src="/static/img/logo.png" style="width: 300px; height: 40px;">
     </a>
     <ul class="navbar-nav px-4">
         <li class="nav-item text-nowrap">
@@ -47,6 +48,7 @@
     </ul>
 </nav>
 
+<!-- Боковое меню -->
 <div class="container-fluid">
     <p class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -143,6 +145,7 @@
             </div>
         </div>
 
+        <!-- Главное окно -->
         <main role="main" class="main col-md-9 ml-sm-auto col-lg-10 px-5">
             {% if not project %}
                 <h4 class="h3 unselectable mt-5">Выберите или создайте проект в меню слева</h4>
@@ -171,6 +174,7 @@
                     <span>Добавить устройство</span>
                 </a>
 
+                <!-- Устройства -->
                 {% for device in devices %}
                     <div class="div-device mr-4 mb-4 px-3 pt-4 pb-3">
                         <div>
@@ -230,6 +234,7 @@
                 </div>
             </div>
 
+            <!-- Выдвигающийся блок -->
             <div class="box px-4 py-4">
                 <div>
                     <h3 class="title unselectable mb-4" style="display: inline-block;" id="sensors-device-name">Устройство 1</h3>
@@ -249,25 +254,6 @@
                     <div id="sensors-box">
                     </div>
                 </div>
-{#                <div class="div-sensor mr-mb-5 px-3 pt-4 pb-3">#}
-{#                    <div>#}
-{#                        <span class="col-form-label text-muted unselectable">Датчик</span>#}
-{#                        <div style="float: right">#}
-{#                            <a class="mr-1" href="#" style="text-decoration: none;">#}
-{#                                <i class="far fa-edit text-muted" style="color: #6C757D; border: 0;"></i>#}
-{#                            </a>#}
-{#                            <a href="#" style="text-decoration: none;">#}
-{#                                <i class="far fa-trash-alt text-muted" style="color: #6C757D; border: 0;"></i>#}
-{#                            </a>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                    <h4 class="h4 mt-1 mb-5 unselectable">Датчик 1</h4>#}
-{#                    <div class="text-right mt-5">#}
-{#                        <a href="#" style="text-decoration: none;">#}
-{#                            <i class="fas fa-arrow-circle-right" style="color: rgb(255, 255, 255); border: 0; font-size: 32px;"></i>#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
             </div>
 
             <!-- Модальное окно для добавления датчика -->
@@ -338,6 +324,7 @@
                                             <option value="triangular">Треугольное</option>
                                             <option value="uniform">Непрерывное равномерное</option>
                                             <option value="geodata">Геолокация</option>
+                                            <option value="temperature">Температурное распределение</option>
                                         </select>
                                     </div>
                                 </div>
@@ -429,7 +416,7 @@
                             <div id="modal-plot"></div>
 {#                            <img id="modal-plot" style="display: block; margin:0 auto;"/>#}
                             <div class="modal-footer mt-3 py-0" style="border: none;">
-                                <a id="download-data-csv" class="btn btn-warning disabled" href="" style="min-width: 159px; min-height: 42px;" download>Загрузить файл</a>
+                                <a id="download-data-csv" class="btn btn-warning disabled" type="button" style="min-width: 159px; min-height: 42px;" download>Загрузить файл</a>
                             </div>
                         </div>
                     </div>
@@ -505,7 +492,7 @@
                                 </div>
                                 </div>
                                 <div class="modal-footer mt-3 py-0" style="border: none;">
-                                    <a id="generate-device-data-csv" class="btn btn-warning" style="min-width: 159px; min-height: 42px;">Создать файл</a>
+                                    <a id="generate-device-data-csv" class="btn btn-warning" type="button" style="min-width: 159px; min-height: 42px;">Создать файл</a>
                                     <a id="download-device-csv" class="btn btn-warning disabled" style="min-width: 159px; min-height: 42px;" download>Загрузить файл</a>
                                 </div>
                             </form>
@@ -518,10 +505,6 @@
 
 
         </main>
-
-
-
-
 
         <!-- Модальное окно для добавления отчета -->
         <div class="modal fade" id="togglemodal6" data-backdrop="static" tabindex="-1" role="dialog"
@@ -578,12 +561,6 @@
             </div>
           </div>
         </div>
-
-
-
-
-
-
 
     </div>
 </div>

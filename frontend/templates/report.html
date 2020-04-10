@@ -36,7 +36,7 @@
 
 <nav class="navbar navbar-light fixed-top flex-md p-0" style="background-color: white; min-height: 48px; box-shadow: 0 1px 0px 0px rgba(0, 0, 0, .2);">
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/">
-        <img src="/static/img/Supreme-logo-newyork.png" style="width: 300px; height: 40px;">
+        <img src="/static/img/logo.png" style="width: 300px; height: 40px;">
     </a>
     <ul class="navbar-nav px-4">
         <li class="nav-item text-nowrap">
@@ -71,24 +71,10 @@
                                 </a>
                             </li>
                         {% endfor %}
-                        {#              <li class="nav-item">#}
-                        {#                <a class="nav-link active" href="#">#}
-                        {#                  <i class="fas fa-project-diagram" style="margin-right: 5px;"></i>#}
-                        {#                  Проект 1#}
-                        {#                </a>#}
-                        {#              </li>#}
-                        {#              <li class="nav-item">#}
-                        {#                <a class="nav-link" href="#">#}
-                        {#                  <i class="fas fa-project-diagram" style="margin-right: 5px;"></i>#}
-                        {#                  Проект 2#}
-                        {#                </a>#}
                     </ul>
                     {% if project %}
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable">
                             <span>Сохраненные отчеты</span>
-                            <a class="d-flex align-items-center text-muted" role="button" data-toggle="modal" data-target="#togglemodal6" style="text-decoration: none;">
-                                <i class="fas fa-plus" style="color: #FFC107; border: 0;"></i>
-                            </a>
                         </h6>
                         {% for r in reports %}
                             <ul class="nav flex-column mb-2">
@@ -101,14 +87,6 @@
                             </ul>
                         {% endfor %}
                     {% endif %}
-{#                    <ul class="nav flex-column mb-2">#}
-{#                        <li class="nav-item">#}
-{#                            <a class="nav-link" href="#">#}
-{#                                <i class="fas fa-stream" style="margin-right: 5px;"></i>#}
-{#                                Шаблон#}
-{#                            </a>#}
-{#                        </li>#}
-{#                    </ul>#}
                 {% else %}
                     <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-2 text-muted unselectable"><span>Войдите в аккаунт, чтобы управлять своими проектами и отчетами</span></h6>
                 {% endif %}
@@ -156,10 +134,7 @@
                 <div class="mt-5 mb-4">
                     <h3 class="h3 unselectable" id="report-name-label" style="display: inline-block;">{{ report.name }}</h3>
                     <div style="float: right">
-                        <a class="mr-2" onclick="" style="text-decoration: none;">
-                            <i class="far fa-edit" style="color: #C2CFE0; border: 0; font-size: 22px"></i>
-                        </a>
-                        <a href="" style="text-decoration: none;">
+                        <a href="/api/delete_report/{{ report.id }}/" style="text-decoration: none;">
                             <i class="far fa-trash-alt" style="color: #C2CFE0; border: 0; font-size: 22px"></i>
                         </a>
                     </div>
@@ -172,26 +147,6 @@
                     {% for st in stypes %}
                         <option value="{{ st.sensor_type.id }}">{{ st.sensor_type.sensor_type }}</option>
                     {% endfor %}
-{#                    <option selected>Выберите...</option>#}
-{#                    <option value="1">Термометр</option>#}
-{#                    <option value="2">Датчик влажности воздуха</option>#}
-{#                    <option value="3">Люксометр</option>#}
-{#                    <option value="4">Датчик влажности почвы</option>#}
-{#                    <option value="5">Датчик кислотности почвы</option>#}
-{#                    <option value="6">Датчик плотности почвы</option>#}
-{#                    <option value="7">Датчик определения доз азота почвы</option>#}
-{#                    <option value="8">Датчики для определения засоренности почвы</option>#}
-{#                    <option value="9">Датчик определения поражения болезнями и вредителями</option>#}
-{#                    <option value="10">Датчик температуры почвы</option>#}
-{#                    <option value="11">Счетчик гейгера</option>#}
-{#                    <option value="12">Барометр</option>#}
-{#                    <option value="13">Шумомер</option>#}
-{#                    <option value="14">Измеритель CO2</option>#}
-{#                    <option value="15">Высотомер</option>#}
-{#                    <option value="16">Вольтметр</option>#}
-{#                    <option value="17">Амперметр</option>#}
-{#                    <option value="18">Омметр</option>#}
-{#                    <option value="19">Тахометр</option>#}
                 </select>
             </div>
             <div id="report-plot"></div>

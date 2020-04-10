@@ -1,19 +1,30 @@
+/*
+ * Инициализация moment.js для datetimepicker'a
+ */
 moment().format();
 
+/* То, что видит пользователь */
+/*
+ * Иконки для datetimepicker'a
+ */
 $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-            icons: {
-                time: 'fas fa-clock',
-                date: 'fas fa-calendar',
-                up: 'fas fa-arrow-up',
-                down: 'fas fa-arrow-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'fas fa-calendar-check-o',
-                clear: 'fas fa-trash',
-                close: 'fas fa-times'
-            } });
+    icons: {
+        time: 'fas fa-clock',
+        date: 'fas fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check-o',
+        clear: 'fas fa-trash',
+        close: 'fas fa-times'
+    } 
+});
 
-$(document).ready(function(){
+/*
+ * Show-sensors-box, вызывает и скрывает окно датчиков
+ */
+$(document).ready(function (){
     $('.show-sensors').on('click', function(){
         $('.box').addClass('open');
     });
@@ -22,6 +33,9 @@ $(document).ready(function(){
     });
 });
 
+/*
+ * datetimepicker-sensor: формат отображения даты и времени и зависимость между началом отсчета и его концом
+ */
 $(function () {
     $('#datetimepicker3').datetimepicker({
         locale: 'ru',
@@ -45,6 +59,9 @@ $(function () {
     });
 });
 
+/*
+ * Аналогичное, но уже datetimepicker-device
+ */
 $(function () {
     $('#datetimepicker6').datetimepicker({
         locale: 'ru',
@@ -68,6 +85,9 @@ $(function () {
     });
 });
 
+/*
+ * Аналогичное, но уже datetimepicker-report
+ */
 $(function () {
     $('#datetimepicker7').datetimepicker({
         format: 'YYYY-MM-DD HH:mm:ss',
@@ -86,31 +106,16 @@ $(function () {
     });
 });
 
-/* beta(a: float, b: float)
-binomial(n: int >= 0, p: float >= 0)
-exponential(scale: float >= 0)
-gamma(k: float >= 0, theta: float >= 0)
-geometric(p: float >= 0)
-hypergeometric(ngood: int >= 0, nbad: int >= 0, nall: int 1<=nall<=ngood+nbad)
-laplace(mean: float, scale: float >=0)
-logistic(mean: float, scale: float >= 0)
-lognormal(mean: float, std: float >= 0)
-logarithmic(p: float 0<p<1)
-multinomial(n: int >= 0, pr_of_vals: list of float (sum of them must be 1))
-negative_binomial(n: int > 0, p: float 0<=p<=1)
-normal(mean: float, std: float >= 0)
-poisson(lam: float > 0)
-triangular(left: float, top: float >= left, right: float >= top)
-uniform(left: float, right: float > left)
-weibull(a: float >= 0) */
-
+/*
+ * inputdistribution-picker: отображение правильного количества вводимых полей при выборе определенного типа распределения
+ */
 $(document).ready(function() {
     $('#inputdistribution').change(function() {
         $('#numberinput').empty();
         if ($('#inputdistribution').val() == 'exponential' || $('#inputdistribution').val() == 'geometric' || $('#inputdistribution').val() == 'poisson') {
             $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-1' name='distribution-param-1'></div>");
             }
-        else if  ($('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
+        else if  ($('#inputdistribution').val() == 'temperature' || $('#inputdistribution').val() == 'beta' || $('#inputdistribution').val() == 'binomial' || $('#inputdistribution').val() == 'gamma' || $('#inputdistribution').val() == 'laplace' || $('#inputdistribution').val() == 'logistic' || $('#inputdistribution').val() == 'lognormal' || $('#inputdistribution').val() == 'negative_binomial' || $('#inputdistribution').val() == 'normal' || $('#inputdistribution').val() == 'uniform') {
             for (let i = 0; i < 2; i++) {
                 $('#numberinput').append("<div class='form-group'><label class='col-form-label text-muted unselectable'>Введите " + (i+1) + " число:</label><input type='number' class='form-control bg-white text-dark' id='distribution-param-" + (i+1) + "' name='distribution-param-" + (i+1) + "'></div>");
                 }
@@ -129,6 +134,9 @@ $(document).ready(function() {
         });
 });
 
+/*
+ * radioinput-picker: отображание определенных полей в зависимости от выбора пользователя в радиокнопке
+ */
 $(document).ready(function() {
     $('input[name="Radio"]').on('click', function() {
         $('#radioinput').empty();
@@ -151,6 +159,9 @@ $(document).ready(function() {
     });
 });
 
+/*
+ * radio2input-picker: аналогично верхнему
+ */
 $(document).ready(function() {
     $('input[name="Radio2"]').on('click', function() {
         $('#radioinput2').empty();
@@ -172,6 +183,9 @@ $(document).ready(function() {
     });
 });
 
+/*
+ * toggle-popover: контент, который находится в знаке «popover», который меняется в зависимости от выбора пользователя
+ */
 $(document).ready(function () {
     $('[data-toggle="popover"]').popover()
     $('#inputdistribution').change(function() {
@@ -190,34 +204,15 @@ $(document).ready(function () {
         else if ($('#inputdistribution').val() == 'triangular') { $('#distribution-popover').attr('data-content', 'left: float, top: float >= left, right: float >= top') }
         else if ($('#inputdistribution').val() == 'uniform') { $('#distribution-popover').attr('data-content', 'left: float, right: float > left') }
         else if ($('#inputdistribution').val() == 'geodata') { $('#distribution-popover').attr('data-content', 'lat: float -90≤lat≤90; long: float -180≤long≤180; radius: float radius≥0') }
+        else if ($('#inputdistribution').val() == 'temperature') { $('#distribution-popover').attr('data-content', 'mean: float, scale: float >=0') }
         else $('#distribution-popover').attr('data-content', 'Выберите распределение и снова наведите на меня :)')
     });
 });
 
-// $(document).ready(function() {
-//     $('#project-sumbit').on("click", function() {
-//         $('.project').append('<h3 class="h3 unselectable" style="display: inline-block;">' + $("#project-name").val() + '</h3>');
-//         $('#project-header').append('<span class="span1 unselectable">' + $("#project-text").val() + '</span>');
-//         $('#togglemodal1').modal('hide');
-//         $('#togglemodal1').on('hidden.bs.modal', function () {
-//             $(this).find("input,textarea").val('').end();
-//         });
-//         });
-// });
-
-/* + document.forms["deviceform"].elements["devicename"].value + */
-
-// $(document).ready(function() {
-//     $('#device-sumbit').on("click", function() {
-//         $('.div-device').append('<h4 class="h4 mb-3 unselectable">' + $("#device-name").val() + '</h4><span class="span1 unselectable" style="display: block;">'  + $("#device-text").val() +  '</span>');
-//         $('.div-device').append('<div class="text-right"><a href="#" style="text-decoration: none;"><i class="fas fa-arrow-circle-right" style="color: #FFC107; border: 0; font-size: 32px; line-height: 38px;"></i></a></div>');
-//         $('#togglemodal2').modal('hide');
-//         $('#togglemodal2').on('hidden.bs.modal', function () {
-//             $(this).find("input,textarea").val('').end();
-//         });
-//         });
-// });
-
+/* Авторизация через Google-аккаунт */
+/*
+ * getCookie: получает куки-файлы
+ */
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
@@ -234,6 +229,9 @@ function getCookie(name) {
     return cookieValue;
 }
 
+/*
+ * Авторизация при помощи Google-сервисов
+ */
 var clicked=false;//Global Variable
 
 function ClickLogin()
@@ -274,6 +272,10 @@ function signOut() {
     window.location.replace("/logout/");
 }
 
+/* Взаимодействие с бэкендом */
+/*
+ * showSensors: при помощи GET-запроса получает данные об определенном устройстве (полученную строку переводит в объекты) для того, чтобы отображать датчики для этого устройства
+ */
 function showSensors(device_id, device_name) {
     var xhr = new XMLHttpRequest();
     $('#sensors-box').empty();
@@ -284,7 +286,7 @@ function showSensors(device_id, device_name) {
         var additionalHtml = "";
 
         for (var i = 0; i < data.length; i++) {
-            additionalHtml += "<div class=\"div-sensor mr-3 mb-3 px-3 pt-4 pb-3\">";
+            additionalHtml += "<div class=\"div-sensor mr-3 mb-3 px-3 pt-4 pb-3\" style=\"overflow-y: auto;\">";
             additionalHtml += "<div>";
             additionalHtml += "<span class=\"col-form-label text-muted unselectable\">Датчик</span>";
             additionalHtml += "<div style=\"float: right\">";
@@ -293,23 +295,18 @@ function showSensors(device_id, device_name) {
             additionalHtml += "</a>";
             additionalHtml += "</div>";
             additionalHtml += "</div>";
-            additionalHtml += "<h4 class=\"h4 mt-1 mb-5 unselectable\">" + data[i]['fields']['sensor_name'] +"</h4>";
+            additionalHtml += "<h4 style='word-wrap: break-word;' class=\"h4 mt-1 mb-5 unselectable\"'>" + data[i]['fields']['sensor_name'] +"</h4>";
             additionalHtml += "<div class=\"text-right mt-5\">";
             additionalHtml += "<a onclick=\"generate(" + data[i]['pk'] + ")\" role=\"button\" data-toggle=\"modal\" data-target=\"#togglemodal4\" style=\"text-decoration: none;\">";
-            additionalHtml += "<i class=\"fas fa-arrow-circle-right\" style=\"color: rgb(255, 255, 255); border: 0; font-size: 32px;\"></i>";
+            additionalHtml += "<i class=\"fas fa-arrow-circle-right\" style=\"color: #000000; border: 0; font-size: 32px;\"></i>";
             additionalHtml += "</a>";
             additionalHtml += "</div>";
             additionalHtml += "</div>";
-            // additionalHtml += "";
         }
 
         additionalHtml += "</div>";
         additionalHtml += "</div>";
         $('#sensors-box').append(additionalHtml);
-
-        // $('#sensor-submit').on('click',function(){
-        //     addSensor(device_id, device_name);
-        // });
         $('#sensor-submit').unbind('click').click(function(){addSensor(device_id, device_name);});
     };
     xhr.send();
@@ -320,6 +317,9 @@ function showSensors(device_id, device_name) {
 
 }
 
+/*
+ * deleteSensor: при нажатии на кнопку удаления, отправляет GET-запрос для удаления датчика (из базы данных в том числе)
+ */
 function deleteSensor(sensor_id, device_id, device_name) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/delete_sensor/'+sensor_id);
@@ -329,8 +329,10 @@ function deleteSensor(sensor_id, device_id, device_name) {
     xhr.send();
 }
 
+/*
+ * plotGeneratedData: процедура отрисовки графика
+ */
 function plotGeneratedData(data) {
-    console.log(data);
     var x = [];
     for (var i = 0; i < data.length; i++) {
         for (let [key, value] of Object.entries(data[i])) {
@@ -339,20 +341,18 @@ function plotGeneratedData(data) {
             }
         }
     }
-    // for (var i = 0; i < data.length; i++) {
-    //     x.push(Object.entries(data)[i][1]);
-    // }
     var trace = {
         x: x,
         type: 'histogram',
     };
-    console.log(trace);
     Plotly.newPlot('modal-plot', [trace]);
     $('#modal-plot').css('display', 'block');
 }
 
+/*
+ * generate: при нажатии на кнопку просмотра данных, отправляет GET-запрос для получения сгенерированных данных для датчика (график, возможность загрузить .csv-файл и пр.)
+ */
 function generate(sensor_id) {
-    // $(".loader_inner").fadeIn();
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/generate/' + sensor_id);
     xhr.onload = function () {
@@ -360,13 +360,14 @@ function generate(sensor_id) {
         $("#loader").fadeOut(1000, function () {
             $('#download-data-csv').removeClass('disabled').attr('href', '/static/userfiles/'+xhr.responseText+'.csv');
             Plotly.d3.csv('/static/userfiles/'+xhr.responseText+'.csv', function (data) {plotGeneratedData(data)});
-            // $('#modal-plot').attr('src', '/static/img/'+xhr.responseText+'.png').css('display', 'block');
         });
-        // $('#download-data-csv').href(xhr.responseText);
     };
     xhr.send();
 }
 
+/*
+ * closeModalSensor: сброс форм до начального состояния
+ */
 function closeModalSensor() {
     console.log('a');
     $("#loader").fadeIn();
@@ -374,6 +375,9 @@ function closeModalSensor() {
     $('#modal-plot').css('display', 'none');
 }
 
+/*
+ * addSensor: отправляет POST-запрос с целью добавления датчика в базу данных, а также последующее отображение всех датчиков, привязанных к этому устройству
+ */ 
 function addSensor(device_id, device_name) {
     var xhr = new XMLHttpRequest();
 
@@ -394,6 +398,9 @@ function addSensor(device_id, device_name) {
 
 }
 
+/*
+ * modalGenerateDeviceData: запрашивает с помощью POST-запроса генерацию данных для всего устройства, с последующей загрузкой
+ */
 function modalGenerateDeviceData(device_id) {
     $('#generate-device-data-csv').on('click', function () {
         $("#download-device-csv").text("Ждите");
@@ -415,12 +422,18 @@ function modalGenerateDeviceData(device_id) {
     })
 }
 
+/*
+ * closeModalGenerateDeviceData: сброс форм до начального состояния
+ */
 function closeModalGenerateDeviceData() {
     $("#generate-device-data-csv").removeClass('disabled');
     $("#download-device-csv").addClass('disabled');
     $('#generate-device-data-csv').unbind('click');
 }
 
+/*
+ * editProject: функция, реализующие изменение данных о проектах
+ */
 function editProject(project_id) {
     $("#staticBackdropLabel").text('Изменить проект');
     $("#project-name").val($("#project-name-label").text());
@@ -429,6 +442,9 @@ function editProject(project_id) {
     $("#project-form").attr('action', '/api/edit_project/'+project_id+'/');
 }
 
+/*
+ * closeModalEditProject: сброс форм до начального состояния
+ */
 function closeModalEditProject() {
     $("#staticBackdropLabel").text('Создать новый проект');
     $("#project-name").val("");
@@ -437,6 +453,9 @@ function closeModalEditProject() {
     $("#project-form").attr('action', '/api/create_project/');
 }
 
+/*
+ * editDevice: функция, реализующие изменение данных об устройствах
+ */
 function editDevice(device_id) {
     $("#staticBackdropLabel2").text('Изменить устройство');
     $('#device-name').val($("#device-name-label").text());
@@ -445,6 +464,9 @@ function editDevice(device_id) {
     $('#device-form').attr('action', '/api/edit_device/'+device_id+'/');
 }
 
+/*
+ * closeModalEditDevice: сброс форм до начального состояния
+ */
 function closeModalEditDevice(project_id) {
     $("#staticBackdropLabel2").text('Создать новое устройство');
     $('#device-name').val("");
@@ -452,7 +474,3 @@ function closeModalEditDevice(project_id) {
     $('#device-sumbit').text('Создать');
     $('#device-form').attr('action', '/api/create_device/'+project_id+'/');
 }
-
-/* $(document).ready(function() {
-    $('#project-edit, #device-edit').one("click", function() {; */
-
